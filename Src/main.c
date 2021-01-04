@@ -504,7 +504,7 @@ int main(void)
     }
 
     LCD_Rect_Fill(0, 0, 800, 480, BLACK);
-    LCD_Rect(1, 0, 799, 479, 1, BLUE);
+    LCD_Rect(1, 0, 798, 479, 1, BLUE);
 //						LCD_Font(0, 200, "1234567890", _32_Segment_7_Num_Plus, 1, RED);
 
 //    for (uint16_t i = 0; i < 4096; i++) {
