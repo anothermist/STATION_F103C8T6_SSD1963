@@ -4,7 +4,7 @@
 #include "stm32f1xx_hal.h"
 #include <stdbool.h>
 
-#define        AT24XX_I2C           hi2c1
+#define        AT24XX_I2C           hi2c2
 #define        AT24XX_ADDRESS       0x57 // 0x50 0x57
 #define        AT24XX_SIZE_KBIT     32
 #define        FREERTOS_IS_ENABLE   0

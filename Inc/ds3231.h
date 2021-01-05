@@ -4,7 +4,7 @@
 #include "stm32f1xx_hal.h"
 #include "math.h"
 
-#define DS3231_I2C                hi2c1
+#define DS3231_I2C                hi2c2
 #define DS3231_I2C_TIMEOUT    100
 #define DS3231_ADDRESS     0xD0
 

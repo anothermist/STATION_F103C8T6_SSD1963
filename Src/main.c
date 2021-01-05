@@ -174,13 +174,13 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c2;
 
 SPI_HandleTypeDef hspi1;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
-DMA_HandleTypeDef hdma_usart1_tx;
-DMA_HandleTypeDef hdma_usart1_rx;
 
 PCD_HandleTypeDef hpcd_USB_FS;
 
@@ -208,11 +208,11 @@ uint8_t barographYearly = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USB_PCD_Init(void);
+static void MX_I2C2_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -479,11 +479,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_I2C1_Init();
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   MX_USB_PCD_Init();
+  MX_I2C2_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start(&htim1);
 //    HAL_TIM_Base_Start_IT(&htim1);
@@ -494,12 +494,12 @@ int main(void)
 
     if (!rtcSet) {
         DS3231_setSec(0);
-        DS3231_setMin(45);
-        DS3231_setHrs(7);
-        DS3231_setDay(1);
-        DS3231_setDate(28);
-        DS3231_setMonth(12);
-        DS3231_setYear(20);
+        DS3231_setMin(58);
+        DS3231_setHrs(22);
+        DS3231_setDay(2);
+        DS3231_setDate(5);
+        DS3231_setMonth(1);
+        DS3231_setYear(21);
         rtcSet = 1;
     }
 
@@ -511,13 +511,13 @@ int main(void)
 //        AT24XX_Update(i, 0);
 //    }
 
-    HAL_UART_Receive_IT(&huart1, &rx_data, 1);
+//    HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
-	uint8_t uartTransmit[] = "UART OK\r\n";
-	HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
-	
-	uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
-  HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
+//		uint8_t uartTransmit[] = "UART OK\r\n";
+//		HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
+//		
+//		uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
+//		HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
 //    LCD_Rect_Fill(2, 349, 368, 130, BLUE);
 		LCD_Rect(0, 349, 369, 130, 1, BLUE);
@@ -733,15 +733,15 @@ int main(void)
                 if (rtcSec % 2 == 0) LCD_Font(106, 70, ":", _24_Sans, 2, WHITE);
                 else LCD_Font(106, 70, ":", _24_Sans, 2, BLACK);
 
-                if (rtcSec == 58 && controlTemperature >= temperature)
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-                else if (rtcSec == 1 && controlTemperature < temperature)
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+//                if (rtcSec == 58 && controlTemperature >= temperature)
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+//                else if (rtcSec == 1 && controlTemperature < temperature)
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
 
-                if (rtcSec == 59) {
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-                }
+//                if (rtcSec == 59) {
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+//                }
 
                 if (rtcMinLast != rtcMin) {
 
@@ -817,25 +817,25 @@ int main(void)
                     }
                     barograph();
 
-                    char sendHrs[2];
-                    char sendMin[2];
-                    char sendSec[2];
-                    char sendDate[2];
-                    char sendMonth[2];
-                    char sendYear[2];
-										char sendDay[1];
+//                    char sendHrs[2];
+//                    char sendMin[2];
+//                    char sendSec[2];
+//                    char sendDate[2];
+//                    char sendMonth[2];
+//                    char sendYear[2];
+//										char sendDay[1];
 
-                    if (rtcHrs < 10) sprintf(sendHrs, "0%d", rtcHrs); else sprintf(sendHrs, "%d", rtcHrs);
-                    if (rtcMin < 10) sprintf(sendMin, "0%d", rtcMin); else sprintf(sendMin, "%d", rtcMin);
-                    if (rtcSec < 10) sprintf(sendSec, "0%d", rtcSec); else sprintf(sendSec, "%d", rtcSec);
-                    if (rtcDate < 10) sprintf(sendDate, "0%d", rtcDate); else sprintf(sendDate, "%d", rtcDate);
-                    if (rtcMonth < 10) sprintf(sendMonth, "0%d", rtcMonth); else sprintf(sendMonth, "%d", rtcMonth);
-                    sprintf(sendYear, "%d", rtcYear);
-										sprintf(sendDay, "%d", rtcDay);
+//                    if (rtcHrs < 10) sprintf(sendHrs, "0%d", rtcHrs); else sprintf(sendHrs, "%d", rtcHrs);
+//                    if (rtcMin < 10) sprintf(sendMin, "0%d", rtcMin); else sprintf(sendMin, "%d", rtcMin);
+//                    if (rtcSec < 10) sprintf(sendSec, "0%d", rtcSec); else sprintf(sendSec, "%d", rtcSec);
+//                    if (rtcDate < 10) sprintf(sendDate, "0%d", rtcDate); else sprintf(sendDate, "%d", rtcDate);
+//                    if (rtcMonth < 10) sprintf(sendMonth, "0%d", rtcMonth); else sprintf(sendMonth, "%d", rtcMonth);
+//                    sprintf(sendYear, "%d", rtcYear);
+//										sprintf(sendDay, "%d", rtcDay);
 
-                    uint8_t uartTransmitTime[16] = {0};
-                    snprintf((char *) uartTransmitTime, sizeof uartTransmitTime, "RT%s%s%s%s%s%s%s\r\n", sendHrs, sendMin,
-                             sendSec, sendDate, sendMonth, sendYear, sendDay);
+//                    uint8_t uartTransmitTime[16] = {0};
+//                    snprintf((char *) uartTransmitTime, sizeof uartTransmitTime, "RT%s%s%s%s%s%s%s\r\n", sendHrs, sendMin,
+//                             sendSec, sendDate, sendMonth, sendYear, sendDay);
 //                    HAL_UART_Transmit_DMA(&huart1, uartTransmitTime, sizeof(uartTransmitTime));
                 }
             }
@@ -843,56 +843,71 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-        if (touchIRQ) {
-            touchX = getX();
-            touchY = getY();
+						if ((HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)) {
+//			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+				
+			uint16_t touchXr = getX();	
+			uint16_t touchYr = getY();
+				
+			if (touchXr && touchYr && touchXr != 0x2F5 && touchYr != 0x0DB) {
+			touchX = touchXr;
+			touchY = touchYr;
+			LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
+			}
+		}  /* else HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); */
+  }
 
-            if (touchX > 2 && touchX < 368 && touchY > 350 && touchY < 478) {
 
-                if (barographYearly) barographYearly = 0;
-                else barographYearly = 1;
+//        if (touchIRQ) {
+//            touchX = getX();
+//            touchY = getY();
 
-                barograph();
-            }
+//            if (touchX > 2 && touchX < 368 && touchY > 350 && touchY < 478) {
 
-            if (touchX > 700 && touchX < 800 && touchY > 70 && touchY < 472) {
-                controlTemperature = map(touchY, 71, 471, 40, 0);
-                if (controlTemperature - (uint8_t) controlTemperature >= 0.5)
-                    controlTemperature = (uint8_t) controlTemperature;
-                else controlTemperature = (uint8_t) controlTemperature + 0.5;
+//                if (barographYearly) barographYearly = 0;
+//                else barographYearly = 1;
 
-                uint8_t controlTemperaturePart1 = (uint8_t) controlTemperature;
-                uint8_t controlTemperaturePart2 = (controlTemperature - controlTemperaturePart1) * 10;
-                AT24XX_Update(0, controlTemperaturePart1);
-                AT24XX_Update(1, controlTemperaturePart2);
+//                barograph();
+//            }
 
-            }
+//            if (touchX > 700 && touchX < 800 && touchY > 70 && touchY < 472) {
+//                controlTemperature = map(touchY, 71, 471, 40, 0);
+//                if (controlTemperature - (uint8_t) controlTemperature >= 0.5)
+//                    controlTemperature = (uint8_t) controlTemperature;
+//                else controlTemperature = (uint8_t) controlTemperature + 0.5;
 
-            if (touchX > 600 && touchX < 700 && touchY > 70 && touchY < 472) {
-                controlHumidity = (uint8_t) map(touchY, 71, 471, 100, 0);
+//                uint8_t controlTemperaturePart1 = (uint8_t) controlTemperature;
+//                uint8_t controlTemperaturePart2 = (controlTemperature - controlTemperaturePart1) * 10;
+//                AT24XX_Update(0, controlTemperaturePart1);
+//                AT24XX_Update(1, controlTemperaturePart2);
 
-                if (controlHumidity % 10 > 5) {
-                    controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10) + 5;
-                } else controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10);
+//            }
 
-                AT24XX_Update(2, controlHumidity);
-            }
+//            if (touchX > 600 && touchX < 700 && touchY > 70 && touchY < 472) {
+//                controlHumidity = (uint8_t) map(touchY, 71, 471, 100, 0);
 
-            if (touchX && touchY) {
-                LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
-            }
-            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+//                if (controlHumidity % 10 > 5) {
+//                    controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10) + 5;
+//                } else controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10);
 
-            touchX = 0;
-            touchY = 0;
-            touchIRQ = 0;
-        } else {
-            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
-        }
+//                AT24XX_Update(2, controlHumidity);
+//            }
 
-        if (upSec % 2 == 0) HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
-        else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
-    }
+//            if (touchX && touchY) {
+//                LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
+//            }
+//            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+
+//            touchX = 0;
+//            touchY = 0;
+//            touchIRQ = 0;
+//        } else {
+//            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+//        }
+
+//        if (upSec % 2 == 0) HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
+//        else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
+//    }
   /* USER CODE END 3 */
 }
 
@@ -942,36 +957,36 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief I2C1 Initialization Function
+  * @brief I2C2 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_I2C1_Init(void)
+static void MX_I2C2_Init(void)
 {
 
-  /* USER CODE BEGIN I2C1_Init 0 */
+  /* USER CODE BEGIN I2C2_Init 0 */
 
-  /* USER CODE END I2C1_Init 0 */
+  /* USER CODE END I2C2_Init 0 */
 
-  /* USER CODE BEGIN I2C1_Init 1 */
+  /* USER CODE BEGIN I2C2_Init 1 */
 
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
-  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 0;
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c1.Init.OwnAddress2 = 0;
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.ClockSpeed = 100000;
+  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN I2C1_Init 2 */
+  /* USER CODE BEGIN I2C2_Init 2 */
 
-  /* USER CODE END I2C1_Init 2 */
+  /* USER CODE END I2C2_Init 2 */
 
 }
 
@@ -1014,6 +1029,71 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_SlaveConfigTypeDef sSlaveConfig = {0};
+  TIM_IC_InitTypeDef sConfigIC = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_IC_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_RESET;
+  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.TriggerPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sSlaveConfig.TriggerPrescaler = TIM_ICPSC_DIV1;
+  sSlaveConfig.TriggerFilter = 0;
+  if (HAL_TIM_SlaveConfigSynchro(&htim1, &sSlaveConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
+  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -1029,7 +1109,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
+  huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -1078,25 +1158,6 @@ static void MX_USB_PCD_Init(void)
 }
 
 /**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
-  /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -1112,39 +1173,45 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LED_Pin|LCD_DB14_Pin|LCD_DB15_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LCD_DB14_Pin|LCD_DB15_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, LCD_DB00_Pin|LCD_DB01_Pin|LCD_DB02_Pin|LCD_DB03_Pin
-                          |LCD_DB04_Pin|LCD_DB05_Pin|LCD_DB06_Pin|LCD_DB07_Pin
-                          |LCD_DB11_Pin|LCD_DB12_Pin|LCD_DB13_Pin, GPIO_PIN_RESET);
+                          |LCD_DB04_Pin|LCD_DB05_Pin|LCD_DB06_Pin|LCD_DB07_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LCD_CS_Pin|LCD_WR_Pin|LCD_RS_Pin|LSD_RD_Pin
-                          |LCD_DB08_Pin|LCD_DB09_Pin|LCD_DB10_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LCD_DB08_Pin|LCD_DB09_Pin|LCD_DB10_Pin|LCD_DB11_Pin
+                          |LCD_DB12_Pin|LCD_DB13_Pin|LCD_CS_Pin|LCD_RD_Pin
+                          |LCD_WR_Pin|LCD_RS_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : LED_Pin LCD_DB14_Pin LCD_DB15_Pin */
-  GPIO_InitStruct.Pin = LED_Pin|LCD_DB14_Pin|LCD_DB15_Pin;
+  /*Configure GPIO pin : XPT2046_IRQ_Pin */
+  GPIO_InitStruct.Pin = XPT2046_IRQ_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(XPT2046_IRQ_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LCD_DB14_Pin LCD_DB15_Pin */
+  GPIO_InitStruct.Pin = LCD_DB14_Pin|LCD_DB15_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LCD_DB00_Pin LCD_DB01_Pin LCD_DB02_Pin LCD_DB03_Pin
-                           LCD_DB04_Pin LCD_DB05_Pin LCD_DB06_Pin LCD_DB07_Pin
-                           LCD_DB11_Pin LCD_DB12_Pin LCD_DB13_Pin */
+                           LCD_DB04_Pin LCD_DB05_Pin LCD_DB06_Pin LCD_DB07_Pin */
   GPIO_InitStruct.Pin = LCD_DB00_Pin|LCD_DB01_Pin|LCD_DB02_Pin|LCD_DB03_Pin
-                          |LCD_DB04_Pin|LCD_DB05_Pin|LCD_DB06_Pin|LCD_DB07_Pin
-                          |LCD_DB11_Pin|LCD_DB12_Pin|LCD_DB13_Pin;
+                          |LCD_DB04_Pin|LCD_DB05_Pin|LCD_DB06_Pin|LCD_DB07_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LCD_CS_Pin LCD_WR_Pin LCD_RS_Pin LSD_RD_Pin
-                           LCD_DB08_Pin LCD_DB09_Pin LCD_DB10_Pin */
-  GPIO_InitStruct.Pin = LCD_CS_Pin|LCD_WR_Pin|LCD_RS_Pin|LSD_RD_Pin
-                          |LCD_DB08_Pin|LCD_DB09_Pin|LCD_DB10_Pin;
+  /*Configure GPIO pins : LCD_DB08_Pin LCD_DB09_Pin LCD_DB10_Pin LCD_DB11_Pin
+                           LCD_DB12_Pin LCD_DB13_Pin LCD_CS_Pin LCD_RD_Pin
+                           LCD_WR_Pin LCD_RS_Pin */
+  GPIO_InitStruct.Pin = LCD_DB08_Pin|LCD_DB09_Pin|LCD_DB10_Pin|LCD_DB11_Pin
+                          |LCD_DB12_Pin|LCD_DB13_Pin|LCD_CS_Pin|LCD_RD_Pin
+                          |LCD_WR_Pin|LCD_RS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

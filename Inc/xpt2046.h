@@ -12,8 +12,8 @@
 
 #define	XPT2046_ACCURACY 	1
 #define	XPT2046_REVERSED 	0
-#define	XPT2046_MIRROR_X 	0
-#define	XPT2046_MIRROR_Y 	1
+#define	XPT2046_MIRROR_X 	1
+#define	XPT2046_MIRROR_Y 	0
 
 #define RAW_MIN_X	200
 #define RAW_MAX_X	4000
