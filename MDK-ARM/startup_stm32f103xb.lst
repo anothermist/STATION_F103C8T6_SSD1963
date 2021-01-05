@@ -463,12 +463,12 @@ ARM Macro Assembler    Page 8
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=station_ssd1963_f103c8t6\startup_stm32f103xb.d -ostation_ssd1963_f
-103c8t6\startup_stm32f103xb.o -I..\Inc -I.\RTE\_STATION_SSD1963_F103C8T6 -IC:\U
-sers\USER\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Users
-\USER\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include --predefi
-ne="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 533" --predefine="_R
-TE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --predefine="_RTE_ SETA 1" --list
-=startup_stm32f103xb.lst startup_stm32f103xb.s
+103c8t6\startup_stm32f103xb.o -I.\RTE\_STATION_SSD1963_F103C8T6 -IC:\Users\USER
+\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include -IC:\Users\USER\App
+Data\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include --predefine="__MIC
+ROLIB SETA 1" --predefine="__UVISION_VERSION SETA 533" --predefine="_RTE_ SETA 
+1" --predefine="STM32F10X_MD SETA 1" --predefine="_RTE_ SETA 1" --list=startup_
+stm32f103xb.lst startup_stm32f103xb.s
 
 
 

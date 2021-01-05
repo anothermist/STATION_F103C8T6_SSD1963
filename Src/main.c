@@ -39,7 +39,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -185,46 +184,15 @@ UART_HandleTypeDef huart1;
 
 PCD_HandleTypeDef hpcd_USB_FS;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-/* Definitions for myTask02 */
-osThreadId_t myTask02Handle;
-const osThreadAttr_t myTask02_attributes = {
-  .name = "myTask02",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
-/* Definitions for myTask03 */
-osThreadId_t myTask03Handle;
-const osThreadAttr_t myTask03_attributes = {
-  .name = "myTask03",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
-/* Definitions for myTask04 */
-osThreadId_t myTask04Handle;
-const osThreadAttr_t myTask04_attributes = {
-  .name = "myTask04",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
 /* USER CODE BEGIN PV */
 uint8_t rtcSet = 1, once = 0;
-uint64_t millis, upSec, upSecLast;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
         rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
-uint8_t touchIRQ;
 uint16_t touchX, touchY;
-uint8_t rtcSecLast, rtcMinLast = 61, rtcHrsLast = 25, rtcLastDay, rtcDateLast, rtcMonthLast, rtcYearLast;
+uint8_t rtcSecLast = 61, rtcMinLast = 61, rtcHrsLast = 25, rtcLastDay, rtcDateLast, rtcMonthLast, rtcYearLast;
 char rtcDateLastChar[5];
-int8_t controlHumidity, controlHumidityLast;
-uint16_t pressure;
-double temperature, humidity, controlTemperature, controlTemperatureLast,
+uint16_t pressure, pressureLast;
+double temperatureLast, humidityLast, temperature, humidity,
         temperatureRemote, temperatureRemoteLast, humidityRemote, humidityRemoteLast, rtcMoon;
 uint64_t startHistory;
 
@@ -242,11 +210,6 @@ static void MX_SPI1_Init(void);
 static void MX_USB_PCD_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM1_Init(void);
-void StartDefaultTask(void *argument);
-void StartTask02(void *argument);
-void StartTask03(void *argument);
-void StartTask04(void *argument);
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -526,20 +489,38 @@ int main(void)
     XPT2046_Init();
     BME280_Init();
 
-    if (!rtcSet) {
-        DS3231_setSec(0);
-        DS3231_setMin(58);
-        DS3231_setHrs(22);
-        DS3231_setDay(2);
-        DS3231_setDate(5);
-        DS3231_setMonth(1);
-        DS3231_setYear(21);
-        rtcSet = 1;
-    }
+	if (!rtcSet) {
+			DS3231_setSec(0);
+			DS3231_setMin(58);
+			DS3231_setHrs(22);
+			DS3231_setDay(2);
+			DS3231_setDate(5);
+			DS3231_setMonth(1);
+			DS3231_setYear(21);
+			rtcSet = 1;
+	}
+	
+			DS3231_Update();
+			rtcSec = DS3231_getSec();
+			rtcMin = DS3231_getMin();
+			rtcHrs = DS3231_getHrs();
+			rtcDay = DS3231_getDay();
+			rtcDate = DS3231_getDate();
+			rtcMonth = DS3231_getMonth();
+			rtcYear = DS3231_getYear();
+			rtcSecA1 = DS3231_getAlarm1Sec();
+			rtcMinA1 = DS3231_getAlarm1Min();
+			rtcHrsA1 = DS3231_getAlarm1Hour();
+			rtcDayA1 = DS3231_getAlarm1Day();
+			rtcDateA1 = DS3231_getAlarm1Date();
+			rtcMinA2 = DS3231_getAlarm2Min();
+			rtcHrsA2 = DS3231_getAlarm2Hour();
+			rtcDayA2 = DS3231_getAlarm2Day();
+			rtcDateA2 = DS3231_getAlarm2Date();
+
 
     LCD_Rect_Fill(0, 0, 800, 480, BLACK);
     LCD_Rect(1, 0, 798, 479, 1, BLUE);
-//						LCD_Font(0, 200, "1234567890", _32_Segment_7_Num_Plus, 1, RED);
 
 //    for (uint16_t i = 0; i < 4096; i++) {
 //        AT24XX_Update(i, 0);
@@ -558,8 +539,7 @@ int main(void)
 
     double floatPart1 = AT24XX_Read(0);
     double floatPart2 = AT24XX_Read(1);
-    controlTemperature = floatPart1 + floatPart2 / 10;
-    controlHumidity = AT24XX_Read(2);
+
 
     LCD_Line(400, 2, 400, 478, 1, BLUE);
     LCD_Rect(445, 70, 20, 402, 1, CYAN);
@@ -572,18 +552,8 @@ int main(void)
 				if (i % 5 == 0) LCD_Font(711, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
 				if (i % 5 == 0 && i > 30) LCD_Font(711, 77 + i * 10, "0", _9_Sans, 1, BLACK);
 
-				if (controlTemperatureLast >= 40 - i) {
-
-						if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, YELLOW);
-						char numbers[2];
-						sprintf(numbers, "%02d", 40 - i);
-						if (i % 5 == 0) LCD_Font(711, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
-						if (i % 5 == 0 && i > 30) LCD_Font(711, 77 + i * 10, "0", _9_Sans, 1, BLACK);
-						else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, YELLOW);
-				} else {
-						if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
-						else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
-				}
+				if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
+				else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
 		}
 
 		LCD_Rect(645, 70, 20, 402, 1, CYAN);
@@ -591,24 +561,17 @@ int main(void)
 		for (uint8_t i = 0; i < 41; i++) {
 				float n = (uint16_t) 100.0 - i * 2.5;
 				if ((uint8_t) n % 10 == 0) {
-						char numbers[2];
-						sprintf(numbers, "%02d", (uint8_t) n);
-						if (n < 100) LCD_Font(611, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
-						else LCD_Font(602, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
+					char numbers[2];
+					sprintf(numbers, "%02d", (uint8_t) n);
+					if (n < 100) LCD_Font(611, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
+					else LCD_Font(602, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
 
-						if (controlHumidityLast >= 100 - i * 2.5)
-								LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, YELLOW);
-						else LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
+					LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
 
-
-				} else if ((uint8_t) n % 5 == 0 && i < 40) {
-
-
-						if (controlHumidityLast >= 100 - i * 2.5)
-								LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, YELLOW);
-						else LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
-				}
+				} else if ((uint8_t) n % 5 == 0 && i < 40)
+					LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
 		}
+		
 		LCD_Font(611, 477, "0", _9_Sans, 1, BLACK);
 
     for (uint8_t i = 0; i < 41; i++) {
@@ -620,9 +583,9 @@ int main(void)
             else LCD_Font(402, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
             LCD_Line(435, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
         } else if ((uint8_t) n % 5 == 0 && i < 40)
-            LCD_Line(440, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
-
+          LCD_Line(440, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
     }
+		
     LCD_Font(411, 477, "0", _9_Sans, 1, BLACK);
 
     LCD_Rect(545, 70, 20, 402, 1, CYAN);
@@ -641,339 +604,219 @@ int main(void)
     LCD_Line(500, 2, 500, 478, 1, BLUE);
     LCD_Line(600, 2, 600, 478, 1, BLUE);
     LCD_Line(700, 2, 700, 478, 1, BLUE);
+		
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* creation of myTask02 */
-  myTask02Handle = osThreadNew(StartTask02, NULL, &myTask02_attributes);
-
-  /* creation of myTask03 */
-  myTask03Handle = osThreadNew(StartTask03, NULL, &myTask03_attributes);
-
-  /* creation of myTask04 */
-  myTask04Handle = osThreadNew(StartTask04, NULL, &myTask04_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
-
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//    while (1) {
-//        if (rx_index != 0) {
-//            HAL_Delay(200);
-//            rx_index = 0;
+    while (1) {
+			
+			if (rx_index != 0) {
+			HAL_Delay(200);
+			rx_index = 0;
+			uartDecode();
+			}
+			
+			if ((HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)) {				
+			uint16_t touchXr = getX();	
+			uint16_t touchYr = getY();
+				
+			if (touchXr && touchYr && touchXr != 0x2F5 && touchYr != 0x0DB) {
+			touchX = touchXr;
+			touchY = touchYr;
+			LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
+			}
+		}
+			
+		DS3231_Update();
+		rtcSec = DS3231_getSec();
+		rtcMin = DS3231_getMin();
+		rtcHrs = DS3231_getHrs();
+		rtcDay = DS3231_getDay();
+		rtcDate = DS3231_getDate();
+		rtcMonth = DS3231_getMonth();
+		rtcYear = DS3231_getYear();
+		rtcSecA1 = DS3231_getAlarm1Sec();
+		rtcMinA1 = DS3231_getAlarm1Min();
+		rtcHrsA1 = DS3231_getAlarm1Hour();
+		rtcDayA1 = DS3231_getAlarm1Day();
+		rtcDateA1 = DS3231_getAlarm1Date();
+		rtcMinA2 = DS3231_getAlarm2Min();
+		rtcHrsA2 = DS3231_getAlarm2Hour();
+		rtcDayA2 = DS3231_getAlarm2Day();
+		rtcDateA2 = DS3231_getAlarm2Date();
+		
+		char clockPrint[5];
 
-//            uartDecode();
-//        }
+			if (rtcSecLast != rtcSec) {
+					rtcSecLast = rtcSec;
 
-//        if (upSec != upSecLast) {
-//            upSec = upSecLast;
-//            DS3231_Update();
-//            rtcSec = DS3231_getSec();
-//            rtcMin = DS3231_getMin();
-//            rtcHrs = DS3231_getHrs();
-//            rtcDay = DS3231_getDay();
-//            rtcDate = DS3231_getDate();
-//            rtcMonth = DS3231_getMonth();
-//            rtcYear = DS3231_getYear();
-//            rtcSecA1 = DS3231_getAlarm1Sec();
-//            rtcMinA1 = DS3231_getAlarm1Min();
-//            rtcHrsA1 = DS3231_getAlarm1Hour();
-//            rtcDayA1 = DS3231_getAlarm1Day();
-//            rtcDateA1 = DS3231_getAlarm1Date();
-//            rtcMinA2 = DS3231_getAlarm2Min();
-//            rtcHrsA2 = DS3231_getAlarm2Hour();
-//            rtcDayA2 = DS3231_getAlarm2Day();
-//            rtcDateA2 = DS3231_getAlarm2Date();
+			if (rtcSec % 2 == 0) LCD_Font(106, 70, ":", _24_Sans, 2, WHITE);
+			else LCD_Font(106, 70, ":", _24_Sans, 2, BLACK);
 
-//            if (!once) {
-//                rtcDateLast = rtcDate;
-//                rtcMonthLast = rtcMonth;
-//                rtcYearLast = rtcYear;
-//                once = 1;
-//            }
+						
+			if (rtcMinLast != rtcMin) {
 
-//            char weatherPrint[4];
+			sprintf(clockPrint, "%02d", rtcMinLast);
+			LCD_Font(130, 75, clockPrint, _24_Sans, 2, BLACK);
+			sprintf(clockPrint, "%02d", rtcMin);
+			LCD_Font(130, 75, clockPrint, _24_Sans, 2, WHITE);
 
-//            if (temperature != BME280_getTemperature(-1)) {
+			if (rtcHrsLast != rtcHrs) {
+			sprintf(clockPrint, "%02d", rtcHrsLast);
+			LCD_Font(2, 75, clockPrint, _24_Sans, 2, BLACK);
+			sprintf(clockPrint, "%02d", rtcHrs);
+			LCD_Font(2, 75, clockPrint, _24_Sans, 2, WHITE);
 
-//                if (temperature >= -40 && temperature <= 40) {
+			if (rtcLastDay != rtcDay) {
+			LCD_Font(2, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
 
-//                    char weatherPrint[4];
+			sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
+			LCD_Font(90, 130, clockPrint, _18_Sans, 1, BLACK);
 
-//                    if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
-//                        sprintf(weatherPrint, "%.1f", temperature);
-//                        LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-//                    } else if (temperature < 10 && temperature > 0) {
-//                        sprintf(weatherPrint, "%.1f", temperature);
-//                        LCD_Font(731, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-//                    } else if (temperature <= -10) {
-//                        sprintf(weatherPrint, "%2d", (int8_t) temperature);
-//                        LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-//                    }
+			sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
+			LCD_Font(90, 130, clockPrint, _18_Sans, 1, MAGENTA);
 
-//                    temperature = BME280_getTemperature(-1);
+			for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
 
-//                    if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
-//                        sprintf(weatherPrint, "%.1f", temperature);
-//                        LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-//                    } else if (temperature < 10 && temperature > 0) {
-//                        sprintf(weatherPrint, "%.1f", temperature);
-//                        LCD_Font(731, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-//                    } else if (temperature <= -10) {
-//                        sprintf(weatherPrint, "%2d", (int8_t) temperature);
-//                        LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-//                    }
+				switch (rtcDay) {
+						case 1:
+								LCD_Font(2, 130, "SU' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "MO' ", _18_Sans, 1, MAGENTA);
+								break;
+
+						case 2:
+								LCD_Font(2, 130, "MO' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLUE);
+								break;
+
+						case 3:
+								LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "WE' ", _18_Sans, 1, CYAN);
+								break;
+
+						case 4:
+								LCD_Font(2, 130, "WE' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "TH' ", _18_Sans, 1, GREEN);
+								break;
+
+						case 5:
+								LCD_Font(2, 130, "TH' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "FR' ", _18_Sans, 1, YELLOW);
+								break;
+
+						case 6:
+								LCD_Font(2, 130, "FR' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "SA' ", _18_Sans, 1, ORANGE);
+								break;
+
+						case 7:
+								LCD_Font(2, 130, "SA' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 130, "SU' ", _18_Sans, 1, RED);
+								break;
+				}
+				rtcLastDay = rtcDay;
+			}
+
+			rtcDateLast = rtcDate;
+			rtcMonthLast = rtcMonth;
+			rtcYearLast = rtcYear;
+
+	//	rtcMoon = DS3231_getMoonDay();
+			barograph();
+			rtcHrsLast = rtcHrs;
+			}
+			temperature =  BME280_getTemperature(-1);
+			humidity = BME280_getHumidity(-1);
+			pressure = (uint16_t) BME280_getPressure();
+			
+						if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
+
+				char weatherPrintT[4];
+
+				if (temperatureLast >= 10 || (temperatureLast < 0 && temperatureLast > -10)) {
+						sprintf(weatherPrintT, "%.1f", temperatureLast);
+						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+				} else if (temperatureLast < 10 && temperatureLast > 0) {
+						sprintf(weatherPrintT, "%.1f", temperatureLast);
+						LCD_Font(731, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+				} else if (temperatureLast <= -10) {
+						sprintf(weatherPrintT, "%2d", (int8_t) temperatureLast);
+						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+				}
+
+				if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
+						sprintf(weatherPrintT, "%.1f", temperature);
+						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+				} else if (temperature < 10 && temperature > 0) {
+						sprintf(weatherPrintT, "%.1f", temperature);
+						LCD_Font(731, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+				} else if (temperature <= -10) {
+						sprintf(weatherPrintT, "%2d", (int8_t) temperature);
+						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+				}
+
+				for (double i = 0.0; i < 400; i++) {
+						if (temperature > i / 10) LCD_Line(747, 470 - i, 763, 470 - i, 1, GRAY);
+						else LCD_Line(747, 470 - i, 763, 470 - i, 1, 0x101010);
+				}
+				
+				temperatureLast = temperature;
+		}
+		
+			char weatherPrintH[4];
+			
+			if (humidity != humidityLast && humidity >= 0 && humidity < 100) {
+				
+					sprintf(weatherPrintH, "%.1f", humidityLast);
+					if (humidityLast >= 10)
+							LCD_Font(605, 40, weatherPrintH, _24_Sans_Bold, 1, BLACK);
+					else LCD_Font(631, 40, weatherPrintH, _24_Sans_Bold, 1, BLACK);
 
 
-//                    for (double i = 0.0; i < 400; i++) {
-//                        if (temperature > i / 10) LCD_Line(747, 470 - i, 763, 470 - i, 1, GRAY);
-//                        else LCD_Line(747, 470 - i, 763, 470 - i, 1, 0x101010);
-//                    }
-//                }
-//            }
+					sprintf(weatherPrintH, "%.1f", humidity);
+					if (humidity >= 10)
+							LCD_Font(605, 40, weatherPrintH, _24_Sans_Bold, 1, CYAN);
+					else LCD_Font(631, 40, weatherPrintH, _24_Sans_Bold, 1, CYAN);
 
-//            if (humidity != BME280_getHumidity(-1)) {
-//                sprintf(weatherPrint, "%.1f", humidity);
-//                if (humidity >= 10)
-//                    LCD_Font(605, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-//                else LCD_Font(631, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
+					for (double i = 0.0; i < 400; i++) {
+							if (humidity > i / 4) LCD_Line(647, 470 - i, 663, 470 - i, 1, GRAY);
+							else LCD_Line(647, 470 - i, 663, 470 - i, 1, 0x101010);
+					}
+					
+					humidityLast = humidity;
+			}
+			
+			char weatherPrintP[4];
 
-//                humidity = BME280_getHumidity(-1);
+			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
+				
+					if (pressure >= 1000) {
+							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
+							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, BLACK);
+					} else {
+							sprintf(weatherPrintP, "PRESSURE:  %02d hPa", pressureLast);
+							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, BLACK);
+					}
 
-//                sprintf(weatherPrint, "%.1f", humidity);
-//                if (humidity >= 10)
-//                    LCD_Font(605, 40, weatherPrint, _24_Sans_Bold, 1, CYAN);
-//                else LCD_Font(631, 40, weatherPrint, _24_Sans_Bold, 1, CYAN);
-
-//                for (double i = 0.0; i < 400; i++) {
-//                    if (humidity > i / 4) LCD_Line(647, 470 - i, 663, 470 - i, 1, GRAY);
-//                    else LCD_Line(647, 470 - i, 663, 470 - i, 1, 0x101010);
-//                }
-//            }
-
-//            if (pressure != (uint16_t) BME280_getPressure()) {
-//                if (pressure >= 1000) {
-//                    sprintf(weatherPrint, "PRESSURE: %02d hPa", pressure);
-//                    LCD_Font(2, 343, weatherPrint, _12_Sans, 1, BLACK);
-//                } else {
-//                    sprintf(weatherPrint, "PRESSURE:  %02d hPa", pressure);
-//                    LCD_Font(2, 343, weatherPrint, _12_Sans, 1, BLACK);
-//                }
-
-//                pressure = (uint16_t) BME280_getPressure();
-
-//                if (pressure >= 1000) {
-//                    sprintf(weatherPrint, "PRESSURE: %02d hPa", pressure);
-//                    LCD_Font(2, 343, weatherPrint, _12_Sans, 1, RED);
-//                } else {
-//                    sprintf(weatherPrint, "PRESSURE:  %02d hPa", pressure);
-//                    LCD_Font(2, 343, weatherPrint, _12_Sans, 1, RED);
-//                }
-//            }
-
-//            char clockPrint[5];
-
-//            if (rtcSecLast != rtcSec) {
-//                rtcSecLast = rtcSec;
-
-//                if (rtcSec % 2 == 0) LCD_Font(106, 70, ":", _24_Sans, 2, WHITE);
-//                else LCD_Font(106, 70, ":", _24_Sans, 2, BLACK);
-
-////                if (rtcSec == 58 && controlTemperature >= temperature)
-////                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-////                else if (rtcSec == 1 && controlTemperature < temperature)
-////                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-
-////                if (rtcSec == 59) {
-////                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-////                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-////                }
-
-//                if (rtcMinLast != rtcMin) {
-
-//                    sprintf(clockPrint, "%02d", rtcMinLast);
-//                    LCD_Font(130, 75, clockPrint, _24_Sans, 2, BLACK);
-//                    sprintf(clockPrint, "%02d", rtcMin);
-//                    LCD_Font(130, 75, clockPrint, _24_Sans, 2, WHITE);
-//                    rtcMinLast = rtcMin;
-
-//                    if (rtcHrsLast != rtcHrs) {
-//                        sprintf(clockPrint, "%02d", rtcHrsLast);
-//                        LCD_Font(2, 75, clockPrint, _24_Sans, 2, BLACK);
-//                        sprintf(clockPrint, "%02d", rtcHrs);
-//                        LCD_Font(2, 75, clockPrint, _24_Sans, 2, WHITE);
-//                        rtcHrsLast = rtcHrs;
-
-//                        if (rtcLastDay != rtcDay) {
-//                            LCD_Font(2, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
-
-//                            sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-//                            LCD_Font(90, 130, clockPrint, _18_Sans, 1, BLACK);
-
-//                            sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-//                            LCD_Font(90, 130, clockPrint, _18_Sans, 1, MAGENTA);
-
-//                            for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
-
-//                            switch (rtcDay) {
-//                                case 1:
-//                                    LCD_Font(2, 130, "SU' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "MO' ", _18_Sans, 1, MAGENTA);
-//                                    break;
-
-//                                case 2:
-//                                    LCD_Font(2, 130, "MO' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLUE);
-//                                    break;
-
-//                                case 3:
-//                                    LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "WE' ", _18_Sans, 1, CYAN);
-//                                    break;
-
-//                                case 4:
-//                                    LCD_Font(2, 130, "WE' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "TH' ", _18_Sans, 1, GREEN);
-//                                    break;
-
-//                                case 5:
-//                                    LCD_Font(2, 130, "TH' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "FR' ", _18_Sans, 1, YELLOW);
-//                                    break;
-
-//                                case 6:
-//                                    LCD_Font(2, 130, "FR' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "SA' ", _18_Sans, 1, ORANGE);
-//                                    break;
-
-//                                case 7:
-//                                    LCD_Font(2, 130, "SA' ", _18_Sans, 1, BLACK);
-//                                    LCD_Font(2, 130, "SU' ", _18_Sans, 1, RED);
-//                                    break;
-//                            }
-//                            rtcLastDay = rtcDay;
-//                        }
-
-//                        rtcDateLast = rtcDate;
-//                        rtcMonthLast = rtcMonth;
-//                        rtcYearLast = rtcYear;
-
-//                        //	rtcMoon = DS3231_getMoonDay();
-
-//                    }
-//                    barograph();
-
-////                    char sendHrs[2];
-////                    char sendMin[2];
-////                    char sendSec[2];
-////                    char sendDate[2];
-////                    char sendMonth[2];
-////                    char sendYear[2];
-////										char sendDay[1];
-
-////                    if (rtcHrs < 10) sprintf(sendHrs, "0%d", rtcHrs); else sprintf(sendHrs, "%d", rtcHrs);
-////                    if (rtcMin < 10) sprintf(sendMin, "0%d", rtcMin); else sprintf(sendMin, "%d", rtcMin);
-////                    if (rtcSec < 10) sprintf(sendSec, "0%d", rtcSec); else sprintf(sendSec, "%d", rtcSec);
-////                    if (rtcDate < 10) sprintf(sendDate, "0%d", rtcDate); else sprintf(sendDate, "%d", rtcDate);
-////                    if (rtcMonth < 10) sprintf(sendMonth, "0%d", rtcMonth); else sprintf(sendMonth, "%d", rtcMonth);
-////                    sprintf(sendYear, "%d", rtcYear);
-////										sprintf(sendDay, "%d", rtcDay);
-
-////                    uint8_t uartTransmitTime[16] = {0};
-////                    snprintf((char *) uartTransmitTime, sizeof uartTransmitTime, "RT%s%s%s%s%s%s%s\r\n", sendHrs, sendMin,
-////                             sendSec, sendDate, sendMonth, sendYear, sendDay);
-////                    HAL_UART_Transmit_DMA(&huart1, uartTransmitTime, sizeof(uartTransmitTime));
-//                }
-//            }
-//        }
+					if (pressure >= 1000) {
+							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);
+							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, RED);
+					} else {
+							sprintf(weatherPrintP, "PRESSURE:  %02d hPa", pressure);
+							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, RED);
+					}
+					
+					pressureLast = pressure;
+			}
+			rtcMinLast = rtcMin;
+		}
+	}
+}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//  }
 
-
-//        if (touchIRQ) {
-//            touchX = getX();
-//            touchY = getY();
-
-//            if (touchX > 2 && touchX < 368 && touchY > 350 && touchY < 478) {
-
-//                if (barographYearly) barographYearly = 0;
-//                else barographYearly = 1;
-
-//                barograph();
-//            }
-
-//            if (touchX > 700 && touchX < 800 && touchY > 70 && touchY < 472) {
-//                controlTemperature = map(touchY, 71, 471, 40, 0);
-//                if (controlTemperature - (uint8_t) controlTemperature >= 0.5)
-//                    controlTemperature = (uint8_t) controlTemperature;
-//                else controlTemperature = (uint8_t) controlTemperature + 0.5;
-
-//                uint8_t controlTemperaturePart1 = (uint8_t) controlTemperature;
-//                uint8_t controlTemperaturePart2 = (controlTemperature - controlTemperaturePart1) * 10;
-//                AT24XX_Update(0, controlTemperaturePart1);
-//                AT24XX_Update(1, controlTemperaturePart2);
-
-//            }
-
-//            if (touchX > 600 && touchX < 700 && touchY > 70 && touchY < 472) {
-//                controlHumidity = (uint8_t) map(touchY, 71, 471, 100, 0);
-
-//                if (controlHumidity % 10 > 5) {
-//                    controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10) + 5;
-//                } else controlHumidity = (((uint8_t)(controlHumidity / 10)) * 10);
-
-//                AT24XX_Update(2, controlHumidity);
-//            }
-
-//            if (touchX && touchY) {
-//                LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
-//            }
-//            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
-
-//            touchX = 0;
-//            touchY = 0;
-//            touchIRQ = 0;
-//        } else {
-//            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
-//        }
-
-//        if (upSec % 2 == 0) HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
-//        else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
-//    }
   /* USER CODE END 3 */
 }
 
@@ -1288,320 +1131,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-		
-		if (rx_index != 0) {
-		HAL_Delay(200);
-		rx_index = 0;
-		uartDecode();
-		}
-						
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_StartTask02 */
-/**
-* @brief Function implementing the myTask02 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
-{
-  /* USER CODE BEGIN StartTask02 */
-  /* Infinite loop */
-  for(;;)
-  {
-			if ((HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)) {
-				
-			uint16_t touchXr = getX();	
-			uint16_t touchYr = getY();
-				
-			if (touchXr && touchYr && touchXr != 0x2F5 && touchYr != 0x0DB) {
-			touchX = touchXr;
-			touchY = touchYr;
-			LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
-			}
-		}
-		
-    osDelay(1);
-  }
-  /* USER CODE END StartTask02 */
-}
-
-/* USER CODE BEGIN Header_StartTask03 */
-/**
-* @brief Function implementing the myTask03 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask03 */
-void StartTask03(void *argument)
-{
-  /* USER CODE BEGIN StartTask03 */
-  /* Infinite loop */
-  for(;;)
-  {
-//				if (upSec != upSecLast) {
-				upSec = upSecLast;
-				DS3231_Update();
-				rtcSec = DS3231_getSec();
-				rtcMin = DS3231_getMin();
-				rtcHrs = DS3231_getHrs();
-				rtcDay = DS3231_getDay();
-				rtcDate = DS3231_getDate();
-				rtcMonth = DS3231_getMonth();
-				rtcYear = DS3231_getYear();
-				rtcSecA1 = DS3231_getAlarm1Sec();
-				rtcMinA1 = DS3231_getAlarm1Min();
-				rtcHrsA1 = DS3231_getAlarm1Hour();
-				rtcDayA1 = DS3231_getAlarm1Day();
-				rtcDateA1 = DS3231_getAlarm1Date();
-				rtcMinA2 = DS3231_getAlarm2Min();
-				rtcHrsA2 = DS3231_getAlarm2Hour();
-				rtcDayA2 = DS3231_getAlarm2Day();
-				rtcDateA2 = DS3231_getAlarm2Date();
-
-				if (!once) {
-						rtcDateLast = rtcDate;
-						rtcMonthLast = rtcMonth;
-						rtcYearLast = rtcYear;
-						once = 1;
-				}
-
-				char weatherPrint[4];
-
-				if (temperature != BME280_getTemperature(-1)) {
-
-						if (temperature >= -40 && temperature <= 40) {
-
-								char weatherPrint[4];
-
-								if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
-										sprintf(weatherPrint, "%.1f", temperature);
-										LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-								} else if (temperature < 10 && temperature > 0) {
-										sprintf(weatherPrint, "%.1f", temperature);
-										LCD_Font(731, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-								} else if (temperature <= -10) {
-										sprintf(weatherPrint, "%2d", (int8_t) temperature);
-										LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-								}
-
-								temperature = BME280_getTemperature(-1);
-
-								if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
-										sprintf(weatherPrint, "%.1f", temperature);
-										LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-								} else if (temperature < 10 && temperature > 0) {
-										sprintf(weatherPrint, "%.1f", temperature);
-										LCD_Font(731, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-								} else if (temperature <= -10) {
-										sprintf(weatherPrint, "%2d", (int8_t) temperature);
-										LCD_Font(705, 40, weatherPrint, _24_Sans_Bold, 1, ORANGE);
-								}
-
-
-								for (double i = 0.0; i < 400; i++) {
-										if (temperature > i / 10) LCD_Line(747, 470 - i, 763, 470 - i, 1, GRAY);
-										else LCD_Line(747, 470 - i, 763, 470 - i, 1, 0x101010);
-								}
-						}
-				}
-
-				if (humidity != BME280_getHumidity(-1)) {
-						sprintf(weatherPrint, "%.1f", humidity);
-						if (humidity >= 10)
-								LCD_Font(605, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-						else LCD_Font(631, 40, weatherPrint, _24_Sans_Bold, 1, BLACK);
-
-						humidity = BME280_getHumidity(-1);
-
-						sprintf(weatherPrint, "%.1f", humidity);
-						if (humidity >= 10)
-								LCD_Font(605, 40, weatherPrint, _24_Sans_Bold, 1, CYAN);
-						else LCD_Font(631, 40, weatherPrint, _24_Sans_Bold, 1, CYAN);
-
-						for (double i = 0.0; i < 400; i++) {
-								if (humidity > i / 4) LCD_Line(647, 470 - i, 663, 470 - i, 1, GRAY);
-								else LCD_Line(647, 470 - i, 663, 470 - i, 1, 0x101010);
-						}
-				}
-
-				if (pressure != (uint16_t) BME280_getPressure()) {
-						if (pressure >= 1000) {
-								sprintf(weatherPrint, "PRESSURE: %02d hPa", pressure);
-								LCD_Font(2, 343, weatherPrint, _12_Sans, 1, BLACK);
-						} else {
-								sprintf(weatherPrint, "PRESSURE:  %02d hPa", pressure);
-								LCD_Font(2, 343, weatherPrint, _12_Sans, 1, BLACK);
-						}
-
-						pressure = (uint16_t) BME280_getPressure();
-
-						if (pressure >= 1000) {
-								sprintf(weatherPrint, "PRESSURE: %02d hPa", pressure);
-								LCD_Font(2, 343, weatherPrint, _12_Sans, 1, RED);
-						} else {
-								sprintf(weatherPrint, "PRESSURE:  %02d hPa", pressure);
-								LCD_Font(2, 343, weatherPrint, _12_Sans, 1, RED);
-						}
-				}
-
-				char clockPrint[5];
-
-				if (rtcSecLast != rtcSec) {
-						rtcSecLast = rtcSec;
-
-						if (rtcSec % 2 == 0) LCD_Font(106, 70, ":", _24_Sans, 2, WHITE);
-						else LCD_Font(106, 70, ":", _24_Sans, 2, BLACK);
-
-//                if (rtcSec == 58 && controlTemperature >= temperature)
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-//                else if (rtcSec == 1 && controlTemperature < temperature)
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-
-//                if (rtcSec == 59) {
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-//                    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-//                }
-
-						if (rtcMinLast != rtcMin) {
-
-								sprintf(clockPrint, "%02d", rtcMinLast);
-								LCD_Font(130, 75, clockPrint, _24_Sans, 2, BLACK);
-								sprintf(clockPrint, "%02d", rtcMin);
-								LCD_Font(130, 75, clockPrint, _24_Sans, 2, WHITE);
-								rtcMinLast = rtcMin;
-
-								if (rtcHrsLast != rtcHrs) {
-										sprintf(clockPrint, "%02d", rtcHrsLast);
-										LCD_Font(2, 75, clockPrint, _24_Sans, 2, BLACK);
-										sprintf(clockPrint, "%02d", rtcHrs);
-										LCD_Font(2, 75, clockPrint, _24_Sans, 2, WHITE);
-										rtcHrsLast = rtcHrs;
-
-										if (rtcLastDay != rtcDay) {
-												LCD_Font(2, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
-
-												sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-												LCD_Font(90, 130, clockPrint, _18_Sans, 1, BLACK);
-
-												sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-												LCD_Font(90, 130, clockPrint, _18_Sans, 1, MAGENTA);
-
-												for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
-
-												switch (rtcDay) {
-														case 1:
-																LCD_Font(2, 130, "SU' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "MO' ", _18_Sans, 1, MAGENTA);
-																break;
-
-														case 2:
-																LCD_Font(2, 130, "MO' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLUE);
-																break;
-
-														case 3:
-																LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "WE' ", _18_Sans, 1, CYAN);
-																break;
-
-														case 4:
-																LCD_Font(2, 130, "WE' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "TH' ", _18_Sans, 1, GREEN);
-																break;
-
-														case 5:
-																LCD_Font(2, 130, "TH' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "FR' ", _18_Sans, 1, YELLOW);
-																break;
-
-														case 6:
-																LCD_Font(2, 130, "FR' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "SA' ", _18_Sans, 1, ORANGE);
-																break;
-
-														case 7:
-																LCD_Font(2, 130, "SA' ", _18_Sans, 1, BLACK);
-																LCD_Font(2, 130, "SU' ", _18_Sans, 1, RED);
-																break;
-												}
-												rtcLastDay = rtcDay;
-										}
-
-										rtcDateLast = rtcDate;
-										rtcMonthLast = rtcMonth;
-										rtcYearLast = rtcYear;
-
-										//	rtcMoon = DS3231_getMoonDay();
-
-								}
-								barograph();
-
-//                    char sendHrs[2];
-//                    char sendMin[2];
-//                    char sendSec[2];
-//                    char sendDate[2];
-//                    char sendMonth[2];
-//                    char sendYear[2];
-//										char sendDay[1];
-
-//                    if (rtcHrs < 10) sprintf(sendHrs, "0%d", rtcHrs); else sprintf(sendHrs, "%d", rtcHrs);
-//                    if (rtcMin < 10) sprintf(sendMin, "0%d", rtcMin); else sprintf(sendMin, "%d", rtcMin);
-//                    if (rtcSec < 10) sprintf(sendSec, "0%d", rtcSec); else sprintf(sendSec, "%d", rtcSec);
-//                    if (rtcDate < 10) sprintf(sendDate, "0%d", rtcDate); else sprintf(sendDate, "%d", rtcDate);
-//                    if (rtcMonth < 10) sprintf(sendMonth, "0%d", rtcMonth); else sprintf(sendMonth, "%d", rtcMonth);
-//                    sprintf(sendYear, "%d", rtcYear);
-//										sprintf(sendDay, "%d", rtcDay);
-
-//                    uint8_t uartTransmitTime[16] = {0};
-//                    snprintf((char *) uartTransmitTime, sizeof uartTransmitTime, "RT%s%s%s%s%s%s%s\r\n", sendHrs, sendMin,
-//                             sendSec, sendDate, sendMonth, sendYear, sendDay);
-//                    HAL_UART_Transmit_DMA(&huart1, uartTransmitTime, sizeof(uartTransmitTime));
-						}
-				}
-//		}
-		
-    osDelay(1000);
-  }
-  /* USER CODE END StartTask03 */
-}
-
-/* USER CODE BEGIN Header_StartTask04 */
-/**
-* @brief Function implementing the myTask04 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask04 */
-void StartTask04(void *argument)
-{
-  /* USER CODE BEGIN StartTask04 */
-  /* Infinite loop */
-  for(;;)
-  {
-			
-    osDelay(1);
-  }
-  /* USER CODE END StartTask04 */
-}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
