@@ -185,7 +185,7 @@ UART_HandleTypeDef huart1;
 PCD_HandleTypeDef hpcd_USB_FS;
 
 /* USER CODE BEGIN PV */
-uint8_t rtcSet = 1, once = 0;
+uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
         rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -372,77 +372,83 @@ uint16_t byteS(uint8_t byteL, uint8_t byteH) {
 }
 
 void barograph(void) {
+	
+		for (uint16_t i = 0; i < 367; i++) {
+		barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
+		barographDaily[i] = byteS(AT24XX_Read(i * 2 + 2000), AT24XX_Read(i * 2 + 1 + 2000));
+		}
+	
     if (barographHourly[0] != rtcHrs && pressure > 300 && pressure < 1100) {
 
-        for (uint16_t i = 0; i < 367; i++) {
-            barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
-            barographDaily[i] = byteS(AT24XX_Read(i * 2 + 2000), AT24XX_Read(i * 2 + 1 + 2000));
-        }
+			barographHourly[0] = rtcHrs;
 
-        if (barographHourly[0] != rtcHrs) {
-            barographHourly[0] = rtcHrs;
+			for (uint16_t i = 1; i < 366; i++) barographHourly[i] = barographHourly[i + 1];
+			barographHourly[366] = (uint16_t) pressure;
 
-            for (uint16_t i = 1; i < 366; i++) barographHourly[i] = barographHourly[i + 1];
-            barographHourly[366] = (uint16_t) pressure;
+			for (uint16_t i = 0; i < 367; i++) {
+					AT24XX_Update(i * 2 + 1000, byteL(barographHourly[i]));
+					AT24XX_Update(i * 2 + 1 + 1000, byteH(barographHourly[i]));
+			}		
 
-            for (uint16_t i = 0; i < 367; i++) {
-                AT24XX_Update(i * 2 + 1000, byteL(barographHourly[i]));
-                AT24XX_Update(i * 2 + 1 + 1000, byteH(barographHourly[i]));
-            }
-        }
+			if (barographDaily[0] != rtcDate) {
+					barographDaily[0] = rtcDate;
 
-        if (barographDaily[0] != rtcDate) {
-            barographDaily[0] = rtcDate;
+					uint32_t barographAverageLast24Hours = 0;
+					uint16_t historyHours = 0;
+					for (uint8_t i = 0; i < 24; i++) {
+							if (barographHourly[366 - i] != 0) {
+									barographAverageLast24Hours = barographAverageLast24Hours + barographHourly[366 - i];
+									historyHours++;
+							}
+					}
+					if (historyHours != 0) barographAverageLast24Hours = barographAverageLast24Hours / historyHours;
 
-            uint32_t barographAverageLast24Hours = 0;
-            uint16_t historyHours = 0;
-            for (uint8_t i = 0; i < 24; i++) {
-                if (barographHourly[366 - i] != 0) {
-                    barographAverageLast24Hours = barographAverageLast24Hours + barographHourly[366 - i];
-                    historyHours++;
-                }
-            }
-            if (historyHours != 0) barographAverageLast24Hours = barographAverageLast24Hours / historyHours;
+					for (uint16_t i = 1; i < 366; i++) {
+							barographDaily[i] = barographDaily[i + 1];
+					}
+					barographDaily[366] = barographAverageLast24Hours;
 
-            for (uint16_t i = 1; i < 366; i++) {
-                barographDaily[i] = barographDaily[i + 1];
-            }
-            barographDaily[366] = barographAverageLast24Hours;
+					for (uint16_t i = 0; i < 367; i++) {
+							AT24XX_Update(i * 2 + 2000, byteL(barographDaily[i]));
+							AT24XX_Update(i * 2 + 1 + 2000, byteH(barographDaily[i]));
+					}
+			 }
+			barographViewed = 0;
+		 }
+		
+		 if (!barographViewed) {
+			 
+		uint32_t barographAverageLast366Days = 0;
+		uint16_t historyDays = 0;
+		for (uint16_t i = 0; i < 365; i++) {
+				if (barographDaily[366 - i] != 0) {
+						barographAverageLast366Days = barographAverageLast366Days + barographDaily[366 - i];
+						historyDays++;
+				}
+		}
+		if (historyDays != 0) barographAverage = barographAverageLast366Days / historyDays;
 
-            for (uint16_t i = 0; i < 367; i++) {
-                AT24XX_Update(i * 2 + 2000, byteL(barographDaily[i]));
-                AT24XX_Update(i * 2 + 1 + 2000, byteH(barographDaily[i]));
-            }
-        }
+		barographMinimum = barographDaily[366];
+		barographMaximum = barographDaily[366];
 
-        uint32_t barographAverageLast366Days = 0;
-        uint16_t historyDays = 0;
-        for (uint16_t i = 0; i < 365; i++) {
-            if (barographDaily[366 - i] != 0) {
-                barographAverageLast366Days = barographAverageLast366Days + barographDaily[366 - i];
-                historyDays++;
-            }
-        }
-        if (historyDays != 0) barographAverage = barographAverageLast366Days / historyDays;
-
-        barographMinimum = barographDaily[366];
-        barographMaximum = barographDaily[366];
-
-        for (uint16_t i = 1; i < 366; i++) {
-            if (barographDaily[366 - i] != 0) {
-                if (barographDaily[366 - i] < barographMinimum) barographMinimum = barographDaily[366 - i];
-                if (barographDaily[366 - i] > barographMaximum) barographMaximum = barographDaily[366 - i];
-            }
-        }
+		for (uint16_t i = 1; i < 366; i++) {
+				if (barographDaily[366 - i] != 0) {
+						if (barographDaily[366 - i] < barographMinimum) barographMinimum = barographDaily[366 - i];
+						if (barographDaily[366 - i] > barographMaximum) barographMaximum = barographDaily[366 - i];
+				}
+		}
+		barographDaily[0] = rtcDate;	
+					
+		for (uint16_t i = 0; i < 366; i++) {
+		LCD_Line(i + 3, 350, i + 3, 478, 1, 0x050505);
+		int16_t val = 0;
+		if (barographYearly) val = barographDaily[i + 1];
+		else val = barographHourly[i + 1];
+		if (val > 0) LCD_Line(i + 3, 478 - 64 - ((val) - barographAverage), i + 3, 478, 1, RED);
     }
-
-    for (uint16_t i = 0; i < 366; i++) {
-        LCD_Line(i + 3, 350, i + 3, 478, 1, 0x050505);
-        int16_t val = 0;
-        if (barographYearly) val = barographDaily[i + 1];
-        else val = barographHourly[i + 1];
-        if (val > 0) LCD_Line(i + 3, 478 - 64 - ((val) - barographAverage), i + 3, 478, 1, RED);
-    }
+			 barographViewed = 1;
+	}
+		
 
 }
 
@@ -489,7 +495,7 @@ int main(void)
     XPT2046_Init();
     BME280_Init();
 
-	if (!rtcSet) {
+	if (rtcSet) {
 			DS3231_setSec(0);
 			DS3231_setMin(58);
 			DS3231_setHrs(22);
@@ -499,32 +505,15 @@ int main(void)
 			DS3231_setYear(21);
 			rtcSet = 1;
 	}
+
+	if (clearEEPROM) {
+    for (uint16_t i = 0; i < 4096; i++) {
+        AT24XX_Update(i, 0);
+    }
+	}
 	
-			DS3231_Update();
-			rtcSec = DS3231_getSec();
-			rtcMin = DS3231_getMin();
-			rtcHrs = DS3231_getHrs();
-			rtcDay = DS3231_getDay();
-			rtcDate = DS3231_getDate();
-			rtcMonth = DS3231_getMonth();
-			rtcYear = DS3231_getYear();
-			rtcSecA1 = DS3231_getAlarm1Sec();
-			rtcMinA1 = DS3231_getAlarm1Min();
-			rtcHrsA1 = DS3231_getAlarm1Hour();
-			rtcDayA1 = DS3231_getAlarm1Day();
-			rtcDateA1 = DS3231_getAlarm1Date();
-			rtcMinA2 = DS3231_getAlarm2Min();
-			rtcHrsA2 = DS3231_getAlarm2Hour();
-			rtcDayA2 = DS3231_getAlarm2Day();
-			rtcDateA2 = DS3231_getAlarm2Date();
-
-
-    LCD_Rect_Fill(0, 0, 800, 480, BLACK);
+	  LCD_Rect_Fill(0, 0, 800, 480, BLACK);
     LCD_Rect(1, 0, 798, 479, 1, BLUE);
-
-//    for (uint16_t i = 0; i < 4096; i++) {
-//        AT24XX_Update(i, 0);
-//    }
 
 //    HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
@@ -535,11 +524,7 @@ int main(void)
 //		HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
 //    LCD_Rect_Fill(2, 349, 368, 130, BLUE);
-		LCD_Rect(0, 349, 369, 130, 1, BLUE);
-
-    double floatPart1 = AT24XX_Read(0);
-    double floatPart2 = AT24XX_Read(1);
-
+		LCD_Rect(0, 349, 370, 130, 1, BLUE);
 
     LCD_Line(400, 2, 400, 478, 1, BLUE);
     LCD_Rect(445, 70, 20, 402, 1, CYAN);
@@ -726,6 +711,7 @@ int main(void)
 			barograph();
 			rtcHrsLast = rtcHrs;
 			}
+			
 			temperature =  BME280_getTemperature(-1);
 			humidity = BME280_getHumidity(-1);
 			pressure = (uint16_t) BME280_getPressure();
