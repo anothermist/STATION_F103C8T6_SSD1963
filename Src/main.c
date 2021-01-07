@@ -53,106 +53,106 @@
 #include "ds3231.h"
 #include "at24xx.h"
 
-#include "fonts/Font_3_Tiny.h"
-#include "fonts/Font_3_PicoPixel.h"
-#include "fonts/Font_3_TomThumb_Extended.h"
-#include "fonts/Font_5_Org.h"
-#include "fonts/Font_8_Sinclair.h"
-#include "fonts/Font_8_Sinclair_Inverted.h"
-#include "fonts/Font_8_Tiny.h"
-#include "fonts/Font_8_Myke.h"
-#include "fonts/Font_8_Default.h"
-#include "fonts/Font_8_Retro.h"
-#include "fonts/Font_9_Mono.h"
-#include "fonts/Font_9_Mono_Bold.h"
-#include "fonts/Font_9_Mono_Bold_Oblique.h"
-#include "fonts/Font_9_Mono_Oblique.h"
+//#include "fonts/Font_3_Tiny.h"
+//#include "fonts/Font_3_PicoPixel.h"
+//#include "fonts/Font_3_TomThumb_Extended.h"
+//#include "fonts/Font_5_Org.h"
+//#include "fonts/Font_8_Sinclair.h"
+//#include "fonts/Font_8_Sinclair_Inverted.h"
+//#include "fonts/Font_8_Tiny.h"
+//#include "fonts/Font_8_Myke.h"
+//#include "fonts/Font_8_Default.h"
+//#include "fonts/Font_8_Retro.h"
+//#include "fonts/Font_9_Mono.h"
+//#include "fonts/Font_9_Mono_Bold.h"
+//#include "fonts/Font_9_Mono_Bold_Oblique.h"
+//#include "fonts/Font_9_Mono_Oblique.h"
 #include "fonts/Font_9_Sans.h"
-#include "fonts/Font_9_Sans_Bold.h"
-#include "fonts/Font_9_Sans_Bold_Oblique.h"
-#include "fonts/Font_9_Sans_Oblique.h"
-#include "fonts/Font_9_Serif.h"
-#include "fonts/Font_9_Serif_Bold.h"
-#include "fonts/Font_9_Serif_Bold_Italic.h"
-#include "fonts/Font_9_Serif_Italic.h"
-#include "fonts/Font_12_Mono.h"
-#include "fonts/Font_12_Mono_Bold.h"
-#include "fonts/Font_12_Mono_Bold_Oblique.h"
-#include "fonts/Font_12_Mono_Oblique.h"
+//#include "fonts/Font_9_Sans_Bold.h"
+//#include "fonts/Font_9_Sans_Bold_Oblique.h"
+//#include "fonts/Font_9_Sans_Oblique.h"
+//#include "fonts/Font_9_Serif.h"
+//#include "fonts/Font_9_Serif_Bold.h"
+//#include "fonts/Font_9_Serif_Bold_Italic.h"
+//#include "fonts/Font_9_Serif_Italic.h"
+//#include "fonts/Font_12_Mono.h"
+//#include "fonts/Font_12_Mono_Bold.h"
+//#include "fonts/Font_12_Mono_Bold_Oblique.h"
+//#include "fonts/Font_12_Mono_Oblique.h"
 #include "fonts/Font_12_Sans.h"
-#include "fonts/Font_12_Sans_Bold.h"
-#include "fonts/Font_12_Sans_Bold_Oblique.h"
-#include "fonts/Font_12_Sans_Oblique.h"
-#include "fonts/Font_12_Serif.h"
-#include "fonts/Font_12_Serif_Bold.h"
-#include "fonts/Font_12_Serif_Bold_Italic.h"
-#include "fonts/Font_12_Serif_Italic.h"
-#include "fonts/Font_16_Arial.h"
-#include "fonts/Font_16_Arial_Bold.h"
-#include "fonts/Font_16_Arial_Italic.h"
-#include "fonts/Font_16_Default.h"
-#include "fonts/Font_16_FranklinGothic.h"
-#include "fonts/Font_16_Hallfetica.h"
-#include "fonts/Font_16_Nadianne.h"
-#include "fonts/Font_16_Sinclair.h"
-#include "fonts/Font_16_Sinclair_Inverted.h"
-#include "fonts/Font_16_Swiss_Outline.h"
-#include "fonts/Font_16_Matrix_Full.h"
-#include "fonts/Font_16_Matrix_Full_Slash.h"
-#include "fonts/Font_16_Matrix_Num.h"
-#include "fonts/Font_16_Arial_Round.h"
-#include "fonts/Font_16_OCR.h"
-#include "fonts/Font_16_Segment_16_Full.h"
-#include "fonts/Font_16_Grotesk.h"
-#include "fonts/Font_16_Grotesk_Bold.h"
-#include "fonts/Font_16_Retro.h"
-#include "fonts/Font_18_Mono.h"
-#include "fonts/Font_18_Mono_Bold.h"
-#include "fonts/Font_18_Mono_Bold_Oblique.h"
-#include "fonts/Font_18_Mono_Oblique.h"
+//#include "fonts/Font_12_Sans_Bold.h"
+//#include "fonts/Font_12_Sans_Bold_Oblique.h"
+//#include "fonts/Font_12_Sans_Oblique.h"
+//#include "fonts/Font_12_Serif.h"
+//#include "fonts/Font_12_Serif_Bold.h"
+//#include "fonts/Font_12_Serif_Bold_Italic.h"
+//#include "fonts/Font_12_Serif_Italic.h"
+//#include "fonts/Font_16_Arial.h"
+//#include "fonts/Font_16_Arial_Bold.h"
+//#include "fonts/Font_16_Arial_Italic.h"
+//#include "fonts/Font_16_Default.h"
+//#include "fonts/Font_16_FranklinGothic.h"
+//#include "fonts/Font_16_Hallfetica.h"
+//#include "fonts/Font_16_Nadianne.h"
+//#include "fonts/Font_16_Sinclair.h"
+//#include "fonts/Font_16_Sinclair_Inverted.h"
+//#include "fonts/Font_16_Swiss_Outline.h"
+//#include "fonts/Font_16_Matrix_Full.h"
+//#include "fonts/Font_16_Matrix_Full_Slash.h"
+//#include "fonts/Font_16_Matrix_Num.h"
+//#include "fonts/Font_16_Arial_Round.h"
+//#include "fonts/Font_16_OCR.h"
+//#include "fonts/Font_16_Segment_16_Full.h"
+//#include "fonts/Font_16_Grotesk.h"
+//#include "fonts/Font_16_Grotesk_Bold.h"
+//#include "fonts/Font_16_Retro.h"
+//#include "fonts/Font_18_Mono.h"
+//#include "fonts/Font_18_Mono_Bold.h"
+//#include "fonts/Font_18_Mono_Bold_Oblique.h"
+//#include "fonts/Font_18_Mono_Oblique.h"
 #include "fonts/Font_18_Sans.h"
-#include "fonts/Font_18_Sans_Bold.h"
-#include "fonts/Font_18_Sans_Bold_Oblique.h"
-#include "fonts/Font_18_Sans_Oblique.h"
-#include "fonts/Font_18_Serif.h"
-#include "fonts/Font_18_Serif_Bold.h"
-#include "fonts/Font_18_Serif_Bold_Italic.h"
-#include "fonts/Font_18_Serif_Italic.h"
-#include "fonts/Font_24_Matrix_Num.h"
-#include "fonts/Font_24_Inconsola.h"
-#include "fonts/Font_24_Ubuntu.h"
-#include "fonts/Font_24_Ubuntu_Bold.h"
-#include "fonts/Font_24_Segment_16_Full.h"
-#include "fonts/Font_24_Mono.h"
-#include "fonts/Font_24_Mono_Bold.h"
-#include "fonts/Font_24_Mono_Bold_Oblique.h"
-#include "fonts/Font_24_Mono_Oblique.h"
-#include "fonts/Font_24_Grotesk.h"
-#include "fonts/Font_24_Grotesk_Bold.h"
+//#include "fonts/Font_18_Sans_Bold.h"
+//#include "fonts/Font_18_Sans_Bold_Oblique.h"
+//#include "fonts/Font_18_Sans_Oblique.h"
+//#include "fonts/Font_18_Serif.h"
+//#include "fonts/Font_18_Serif_Bold.h"
+//#include "fonts/Font_18_Serif_Bold_Italic.h"
+//#include "fonts/Font_18_Serif_Italic.h"
+//#include "fonts/Font_24_Matrix_Num.h"
+//#include "fonts/Font_24_Inconsola.h"
+//#include "fonts/Font_24_Ubuntu.h"
+//#include "fonts/Font_24_Ubuntu_Bold.h"
+//#include "fonts/Font_24_Segment_16_Full.h"
+//#include "fonts/Font_24_Mono.h"
+//#include "fonts/Font_24_Mono_Bold.h"
+//#include "fonts/Font_24_Mono_Bold_Oblique.h"
+//#include "fonts/Font_24_Mono_Oblique.h"
+//#include "fonts/Font_24_Grotesk.h"
+//#include "fonts/Font_24_Grotesk_Bold.h"
 #include "fonts/Font_24_Sans.h"
 #include "fonts/Font_24_Sans_Bold.h"
-#include "fonts/Font_24_Sans_Bold_Oblique.h"
-#include "fonts/Font_24_Sans_Oblique.h"
-#include "fonts/Font_24_Serif.h"
-#include "fonts/Font_24_Serif_Bold.h"
-#include "fonts/Font_24_Serif_Bold_Italic.h"
-#include "fonts/Font_24_SerifItalic.h"
-#include "fonts/Font_32_Dingbats.h"
-#include "fonts/Font_32_Special.h"
+//#include "fonts/Font_24_Sans_Bold_Oblique.h"
+//#include "fonts/Font_24_Sans_Oblique.h"
+//#include "fonts/Font_24_Serif.h"
+//#include "fonts/Font_24_Serif_Bold.h"
+//#include "fonts/Font_24_Serif_Bold_Italic.h"
+//#include "fonts/Font_24_SerifItalic.h"
+//#include "fonts/Font_32_Dingbats.h"
+//#include "fonts/Font_32_Special.h"
 #include "fonts/Font_32_Calibri_Bold.h"
-#include "fonts/Font_32_Arial_Num_Plus.h"
-#include "fonts/Font_32_Matrix_Num.h"
-#include "fonts/Font_32_Segment_7_Full.h"
-#include "fonts/Font_32_Segment_7_Num_Plus.h"
-#include "fonts/Font_32_Segment_16_Full.h"
-#include "fonts/Font_32_Segment_18_Full.h"
-#include "fonts/Font_32_Grotesk.h"
-#include "fonts/Font_32_Grotesk_Bold.h"
-#include "fonts/Font_40_Segment_16_Full.h"
-#include "fonts/Font_48_Battery.h"
-#include "fonts/Font_48_Segment_16_Num.h"
-#include "fonts/Font_64_Segment_16_Num.h"
-#include "fonts/Font_64_Segment_7_Num.h"
+//#include "fonts/Font_32_Arial_Num_Plus.h"
+//#include "fonts/Font_32_Matrix_Num.h"
+//#include "fonts/Font_32_Segment_7_Full.h"
+//#include "fonts/Font_32_Segment_7_Num_Plus.h"
+//#include "fonts/Font_32_Segment_16_Full.h"
+//#include "fonts/Font_32_Segment_18_Full.h"
+//#include "fonts/Font_32_Grotesk.h"
+//#include "fonts/Font_32_Grotesk_Bold.h"
+//#include "fonts/Font_40_Segment_16_Full.h"
+//#include "fonts/Font_48_Battery.h"
+//#include "fonts/Font_48_Segment_16_Num.h"
+//#include "fonts/Font_64_Segment_16_Num.h"
+//#include "fonts/Font_64_Segment_7_Num.h"
 //#include "fonts/Font_96_Segment_7_Num.h"
 //#include "fonts/Font_96_Segment_16_Num.h"
 //#include "fonts/Font_128_Segment_16_Num.h"
@@ -518,6 +518,9 @@ int main(void)
 	
 	  LCD_Rect_Fill(0, 0, 800, 480, BLACK);
     LCD_Rect(1, 0, 798, 479, 1, BLUE);
+	
+//  	LCD_Font(3, 300, "07", _32_Calibri_Bold, 3, SILVER);
+//		LCD_Font(212, 300, "29", _32_Calibri_Bold, 3, SILVER);
 
     HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
@@ -640,68 +643,68 @@ int main(void)
 			if (rtcSecLast != rtcSec) {
 					rtcSecLast = rtcSec;
 
-			if (rtcSec % 2 == 0) LCD_Font(106, 70, ":", _24_Sans, 2, WHITE);
-			else LCD_Font(106, 70, ":", _24_Sans, 2, BLACK);
+			if (rtcSec % 2 == 0) LCD_Font(183, 100, ":", _24_Sans, 3, SILVER);
+			else LCD_Font(183, 100, ":", _24_Sans, 3, BLACK);
 
 						
 			if (rtcMinLast != rtcMin) {
 
 			sprintf(clockPrint, "%02d", rtcMinLast);
-			LCD_Font(130, 75, clockPrint, _24_Sans, 2, BLACK);
+			LCD_Font(211, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
 			sprintf(clockPrint, "%02d", rtcMin);
-			LCD_Font(130, 75, clockPrint, _24_Sans, 2, WHITE);
+			LCD_Font(211, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
 
 			if (rtcHrsLast != rtcHrs) {
 			sprintf(clockPrint, "%02d", rtcHrsLast);
-			LCD_Font(2, 75, clockPrint, _24_Sans, 2, BLACK);
+			LCD_Font(3, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
 			sprintf(clockPrint, "%02d", rtcHrs);
-			LCD_Font(2, 75, clockPrint, _24_Sans, 2, WHITE);
+			LCD_Font(3, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
 
 			if (rtcLastDay != rtcDay) {
-			LCD_Font(2, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
+			LCD_Font(3, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-			LCD_Font(90, 130, clockPrint, _18_Sans, 1, BLACK);
+			LCD_Font(90, 250, clockPrint, _18_Sans, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-			LCD_Font(90, 130, clockPrint, _18_Sans, 1, MAGENTA);
+			LCD_Font(90, 250, clockPrint, _18_Sans, 1, MAGENTA);
 
 			for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
 
 				switch (rtcDay) {
 						case 1:
-								LCD_Font(2, 130, "SU' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "MO' ", _18_Sans, 1, MAGENTA);
+								LCD_Font(2, 250, "SU' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "MO' ", _18_Sans, 1, MAGENTA);
 								break;
 
 						case 2:
-								LCD_Font(2, 130, "MO' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLUE);
+								LCD_Font(2, 250, "MO' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "TU' ", _18_Sans, 1, BLUE);
 								break;
 
 						case 3:
-								LCD_Font(2, 130, "TU' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "WE' ", _18_Sans, 1, CYAN);
+								LCD_Font(2, 250, "TU' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "WE' ", _18_Sans, 1, CYAN);
 								break;
 
 						case 4:
-								LCD_Font(2, 130, "WE' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "TH' ", _18_Sans, 1, GREEN);
+								LCD_Font(2, 250, "WE' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "TH' ", _18_Sans, 1, GREEN);
 								break;
 
 						case 5:
-								LCD_Font(2, 130, "TH' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "FR' ", _18_Sans, 1, YELLOW);
+								LCD_Font(2, 250, "TH' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "FR' ", _18_Sans, 1, YELLOW);
 								break;
 
 						case 6:
-								LCD_Font(2, 130, "FR' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "SA' ", _18_Sans, 1, ORANGE);
+								LCD_Font(2, 250, "FR' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "SA' ", _18_Sans, 1, ORANGE);
 								break;
 
 						case 7:
-								LCD_Font(2, 130, "SA' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 130, "SU' ", _18_Sans, 1, RED);
+								LCD_Font(2, 250, "SA' ", _18_Sans, 1, BLACK);
+								LCD_Font(2, 250, "SU' ", _18_Sans, 1, RED);
 								break;
 				}
 				rtcLastDay = rtcDay;

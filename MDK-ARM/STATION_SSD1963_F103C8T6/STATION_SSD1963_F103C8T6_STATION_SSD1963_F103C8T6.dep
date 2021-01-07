@@ -212,7 +212,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5FF6340D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h)(0x5FF6340D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h)(0x5FF6340D)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h)(0x5FF6340D)
-F (../Src/main.c)(0x5FF6DD20)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_STATION_SSD1963_F103C8T6-IC:\Users\USER\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\USER\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6\main.o --omf_browse station_ssd1963_f103c8t6\main.crf --depend station_ssd1963_f103c8t6\main.d)
+F (../Src/main.c)(0x5FF77463)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_STATION_SSD1963_F103C8T6-IC:\Users\USER\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\USER\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6\main.o --omf_browse station_ssd1963_f103c8t6\main.crf --depend station_ssd1963_f103c8t6\main.d)
 I (../Inc/main.h)(0x5FF6DD20)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5FF6340D)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5FF6DD20)
@@ -257,106 +257,12 @@ I (../Inc/bme280.h)(0x5FF50739)
 I (../Inc/ds3231.h)(0x5FF50739)
 I (../Inc/at24xx.h)(0x5FF50739)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E8F0FB2)
-I (../Inc/fonts/Font_3_Tiny.h)(0x5FF50739)
-I (../Inc/fonts/Font_3_PicoPixel.h)(0x5FF50739)
-I (../Inc/fonts/Font_3_TomThumb_Extended.h)(0x5FF50739)
-I (../Inc/fonts/Font_5_Org.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Sinclair.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Sinclair_Inverted.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Tiny.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Myke.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Default.h)(0x5FF50739)
-I (../Inc/fonts/Font_8_Retro.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Mono.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Mono_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Mono_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Mono_Oblique.h)(0x5FF50739)
 I (../Inc/fonts/Font_9_Sans.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Sans_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Sans_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Sans_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Serif.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Serif_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Serif_Bold_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_9_Serif_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Mono.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Mono_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Mono_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Mono_Oblique.h)(0x5FF50739)
 I (../Inc/fonts/Font_12_Sans.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Sans_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Sans_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Sans_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Serif.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Serif_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Serif_Bold_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_12_Serif_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Arial.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Arial_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Arial_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Default.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_FranklinGothic.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Hallfetica.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Nadianne.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Sinclair.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Sinclair_Inverted.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Swiss_Outline.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Matrix_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Matrix_Full_Slash.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Matrix_Num.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Arial_Round.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_OCR.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Segment_16_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Grotesk.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Grotesk_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_16_Retro.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Mono.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Mono_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Mono_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Mono_Oblique.h)(0x5FF50739)
 I (../Inc/fonts/Font_18_Sans.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Sans_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Sans_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Sans_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Serif.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Serif_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Serif_Bold_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_18_Serif_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Matrix_Num.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Inconsola.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Ubuntu.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Ubuntu_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Segment_16_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Mono.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Mono_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Mono_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Mono_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Grotesk.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Grotesk_Bold.h)(0x5FF50739)
 I (../Inc/fonts/Font_24_Sans.h)(0x5FF50739)
 I (../Inc/fonts/Font_24_Sans_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Sans_Bold_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Sans_Oblique.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Serif.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Serif_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_Serif_Bold_Italic.h)(0x5FF50739)
-I (../Inc/fonts/Font_24_SerifItalic.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Dingbats.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Special.h)(0x5FF50739)
 I (../Inc/fonts/Font_32_Calibri_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Arial_Num_Plus.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Matrix_Num.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Segment_7_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Segment_7_Num_Plus.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Segment_16_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Segment_18_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Grotesk.h)(0x5FF50739)
-I (../Inc/fonts/Font_32_Grotesk_Bold.h)(0x5FF50739)
-I (../Inc/fonts/Font_40_Segment_16_Full.h)(0x5FF50739)
-I (../Inc/fonts/Font_48_Battery.h)(0x5FF50739)
-I (../Inc/fonts/Font_48_Segment_16_Num.h)(0x5FF50739)
-I (../Inc/fonts/Font_64_Segment_16_Num.h)(0x5FF50739)
-I (../Inc/fonts/Font_64_Segment_7_Num.h)(0x5FF50739)
 F (../Src/stm32f1xx_it.c)(0x5FF6DD20)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_STATION_SSD1963_F103C8T6-IC:\Users\USER\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\USER\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6\stm32f1xx_it.o --omf_browse station_ssd1963_f103c8t6\stm32f1xx_it.crf --depend station_ssd1963_f103c8t6\stm32f1xx_it.d)
 I (../Inc/main.h)(0x5FF6DD20)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5FF6340D)
