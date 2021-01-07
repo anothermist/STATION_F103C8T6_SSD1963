@@ -530,7 +530,6 @@ int main(void)
 		uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
 		HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
-    LCD_Rect_Fill(2, 349, 368, 130, BLUE);
 		LCD_Rect(0, 349, 370, 130, 1, BLUE);
 
     LCD_Line(400, 2, 400, 478, 1, BLUE);
@@ -643,16 +642,16 @@ int main(void)
 			if (rtcSecLast != rtcSec) {
 					rtcSecLast = rtcSec;
 
-			if (rtcSec % 2 == 0) LCD_Font(183, 100, ":", _24_Sans, 3, SILVER);
-			else LCD_Font(183, 100, ":", _24_Sans, 3, BLACK);
+			if (rtcSec % 2 == 0) LCD_Font(180, 100, ":", _24_Sans, 3, SILVER);
+			else LCD_Font(180, 100, ":", _24_Sans, 3, BLACK);
 
 						
 			if (rtcMinLast != rtcMin) {
 
 			sprintf(clockPrint, "%02d", rtcMinLast);
-			LCD_Font(211, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
+			LCD_Font(207, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
 			sprintf(clockPrint, "%02d", rtcMin);
-			LCD_Font(211, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
+			LCD_Font(207, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
 
 			if (rtcHrsLast != rtcHrs) {
 			sprintf(clockPrint, "%02d", rtcHrsLast);
