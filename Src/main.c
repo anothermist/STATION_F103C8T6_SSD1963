@@ -327,10 +327,10 @@ void barograph(void) {
 							AT24XX_Update(i * 2 + 2000, byteL(barographDaily[i]));
 							AT24XX_Update(i * 2 + 1 + 2000, byteH(barographDaily[i]));
 					}
-			 }
+			 }			 
 			barographViewed = 0;
 		 }
-		
+		 
 		 if (!barographViewed) {
 			 
 		uint32_t barographAverageLast366Days = 0;
@@ -355,16 +355,46 @@ void barograph(void) {
 		barographDaily[0] = rtcDate;	
 					
 		for (uint16_t i = 0; i < 366; i++) {
-		LCD_Line(i + 3, 350, i + 3, 478, 1, 0x050505);
+
+		LCD_Line(i + 3, 320, i + 3, 458, 1, 0x050505);
+			
 		int16_t val = 0;
 		if (barographYearly) val = barographDaily[i + 1];
 		else val = barographHourly[i + 1];
-		if (val > 0) LCD_Line(i + 3, 478 - 64 - ((val) - barographAverage), i + 3, 478, 1, RED);
+			
+			if (val > 0) LCD_Line(i + 3, 458 - 64 - ((val) - barographAverage), i + 3, 458, 1, RED);
     }
-			 barographViewed = 1;
-	}
 		
+		LCD_Rect_Fill(1, 461, 397, 18, BLACK);
+		
+		char string[20];
+ 
+//		if (barographAverage >= 1000) {
+				sprintf(string, "MID: %02d", barographAverage);
+				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, RED);
+//		} else {
+//				sprintf(string, "MID: 0%02d", barographAverage);
+//				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, RED);
+//		}
 
+//		if (barographMinimum >= 1000) {
+				sprintf(string, "    MIN: %02d    ", barographMinimum);
+				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, RED);
+//		} else {
+//				sprintf(string, "    MIN: 0%02d    ", barographMinimum);
+//				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, RED);
+//		}
+		
+//		if (barographMaximum >= 1000) {
+				sprintf(string, "MAX: %02d", barographMaximum);
+				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, RED);
+//		} else {
+//				sprintf(string, "MAX: 0%02d", barographMaximum);
+//				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, RED);
+//		}
+		
+		barographViewed = 1;
+	}
 }
 
 /* USER CODE END 0 */
@@ -428,10 +458,7 @@ int main(void)
 	}
 	
 	  LCD_Rect_Fill(0, 0, 800, 480, BLACK);
-    LCD_Rect(1, 0, 798, 479, 1, BLUE);
-	
-//  	LCD_Font(3, 300, "07", _32_Calibri_Bold, 3, SILVER);
-//		LCD_Font(212, 300, "29", _32_Calibri_Bold, 3, SILVER);
+    LCD_Rect(0, 0, 798, 479, 1, BLUE);
 
     HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
@@ -440,9 +467,12 @@ int main(void)
 		
 		uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
 		HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
-
-		LCD_Rect(0, 349, 370, 130, 1, BLUE);
-
+	
+		LCD_Line(1, 113, 399, 113, 1, BLUE);
+		LCD_Line(1, 288, 399, 288, 1, BLUE);
+	
+		LCD_Rect(1, 318, 369, 142, 1, BLUE);
+	
     LCD_Line(400, 2, 400, 478, 1, BLUE);
     LCD_Rect(445, 70, 20, 402, 1, CYAN);
 		
@@ -556,7 +586,7 @@ int main(void)
 			if (rtcSecLast != rtcSec) {
 					rtcSecLast = rtcSec;
 				
-			if (rtcSec % 2 == 0) { 
+			if (rtcSec % 2 != 0) { 
 				LCD_Circle(203, 30, 7, 1, 1, SILVER);
 				LCD_Circle(203, 80, 7, 1, 1, SILVER);
 			}
@@ -641,7 +671,7 @@ int main(void)
 			humidity = BME280_getHumidity(-1);
 			pressure = (uint16_t) BME280_getPressure();
 			
-						if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
+				if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
 
 				char weatherPrintT[4];
 
@@ -698,24 +728,24 @@ int main(void)
 					humidityLast = humidity;
 			}
 			
-			char weatherPrintP[4];
+			char weatherPrintP[18];
 
 			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
 				
 					if (pressure >= 1000) {
 							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
-							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 					} else {
 							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressureLast);
-							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 					}
 
 					if (pressure >= 1000) {
 							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);
-							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, RED);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, RED);
 					} else {
 							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
-							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, RED);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, RED);
 					}
 					
 					pressureLast = pressure;
