@@ -53,109 +53,24 @@
 #include "ds3231.h"
 #include "at24xx.h"
 
-//#include "fonts/Font_3_Tiny.h"
-//#include "fonts/Font_3_PicoPixel.h"
-//#include "fonts/Font_3_TomThumb_Extended.h"
-//#include "fonts/Font_5_Org.h"
-//#include "fonts/Font_8_Sinclair.h"
-//#include "fonts/Font_8_Sinclair_Inverted.h"
-//#include "fonts/Font_8_Tiny.h"
-//#include "fonts/Font_8_Myke.h"
-//#include "fonts/Font_8_Default.h"
-//#include "fonts/Font_8_Retro.h"
-//#include "fonts/Font_9_Mono.h"
-//#include "fonts/Font_9_Mono_Bold.h"
-//#include "fonts/Font_9_Mono_Bold_Oblique.h"
-//#include "fonts/Font_9_Mono_Oblique.h"
-#include "fonts/Font_9_Sans.h"
-//#include "fonts/Font_9_Sans_Bold.h"
-//#include "fonts/Font_9_Sans_Bold_Oblique.h"
-//#include "fonts/Font_9_Sans_Oblique.h"
-//#include "fonts/Font_9_Serif.h"
-//#include "fonts/Font_9_Serif_Bold.h"
-//#include "fonts/Font_9_Serif_Bold_Italic.h"
-//#include "fonts/Font_9_Serif_Italic.h"
-//#include "fonts/Font_12_Mono.h"
-//#include "fonts/Font_12_Mono_Bold.h"
-//#include "fonts/Font_12_Mono_Bold_Oblique.h"
-//#include "fonts/Font_12_Mono_Oblique.h"
-#include "fonts/Font_12_Sans.h"
-//#include "fonts/Font_12_Sans_Bold.h"
-//#include "fonts/Font_12_Sans_Bold_Oblique.h"
-//#include "fonts/Font_12_Sans_Oblique.h"
-//#include "fonts/Font_12_Serif.h"
-//#include "fonts/Font_12_Serif_Bold.h"
-//#include "fonts/Font_12_Serif_Bold_Italic.h"
-//#include "fonts/Font_12_Serif_Italic.h"
-//#include "fonts/Font_16_Arial.h"
-//#include "fonts/Font_16_Arial_Bold.h"
-//#include "fonts/Font_16_Arial_Italic.h"
-//#include "fonts/Font_16_Default.h"
-//#include "fonts/Font_16_FranklinGothic.h"
-//#include "fonts/Font_16_Hallfetica.h"
-//#include "fonts/Font_16_Nadianne.h"
-//#include "fonts/Font_16_Sinclair.h"
-//#include "fonts/Font_16_Sinclair_Inverted.h"
-//#include "fonts/Font_16_Swiss_Outline.h"
-//#include "fonts/Font_16_Matrix_Full.h"
-//#include "fonts/Font_16_Matrix_Full_Slash.h"
-//#include "fonts/Font_16_Matrix_Num.h"
-//#include "fonts/Font_16_Arial_Round.h"
-//#include "fonts/Font_16_OCR.h"
-//#include "fonts/Font_16_Segment_16_Full.h"
-//#include "fonts/Font_16_Grotesk.h"
-//#include "fonts/Font_16_Grotesk_Bold.h"
-//#include "fonts/Font_16_Retro.h"
-//#include "fonts/Font_18_Mono.h"
-//#include "fonts/Font_18_Mono_Bold.h"
-//#include "fonts/Font_18_Mono_Bold_Oblique.h"
-//#include "fonts/Font_18_Mono_Oblique.h"
-#include "fonts/Font_18_Sans.h"
-//#include "fonts/Font_18_Sans_Bold.h"
-//#include "fonts/Font_18_Sans_Bold_Oblique.h"
-//#include "fonts/Font_18_Sans_Oblique.h"
-//#include "fonts/Font_18_Serif.h"
-//#include "fonts/Font_18_Serif_Bold.h"
-//#include "fonts/Font_18_Serif_Bold_Italic.h"
-//#include "fonts/Font_18_Serif_Italic.h"
-//#include "fonts/Font_24_Matrix_Num.h"
-//#include "fonts/Font_24_Inconsola.h"
-//#include "fonts/Font_24_Ubuntu.h"
-//#include "fonts/Font_24_Ubuntu_Bold.h"
-//#include "fonts/Font_24_Segment_16_Full.h"
-//#include "fonts/Font_24_Mono.h"
-//#include "fonts/Font_24_Mono_Bold.h"
-//#include "fonts/Font_24_Mono_Bold_Oblique.h"
-//#include "fonts/Font_24_Mono_Oblique.h"
-//#include "fonts/Font_24_Grotesk.h"
-//#include "fonts/Font_24_Grotesk_Bold.h"
-#include "fonts/Font_24_Sans.h"
-#include "fonts/Font_24_Sans_Bold.h"
-//#include "fonts/Font_24_Sans_Bold_Oblique.h"
-//#include "fonts/Font_24_Sans_Oblique.h"
-//#include "fonts/Font_24_Serif.h"
-//#include "fonts/Font_24_Serif_Bold.h"
-//#include "fonts/Font_24_Serif_Bold_Italic.h"
-//#include "fonts/Font_24_SerifItalic.h"
-//#include "fonts/Font_32_Dingbats.h"
-//#include "fonts/Font_32_Special.h"
-#include "fonts/Font_32_Calibri_Bold.h"
-//#include "fonts/Font_32_Arial_Num_Plus.h"
-//#include "fonts/Font_32_Matrix_Num.h"
-//#include "fonts/Font_32_Segment_7_Full.h"
-//#include "fonts/Font_32_Segment_7_Num_Plus.h"
-//#include "fonts/Font_32_Segment_16_Full.h"
-//#include "fonts/Font_32_Segment_18_Full.h"
-//#include "fonts/Font_32_Grotesk.h"
-//#include "fonts/Font_32_Grotesk_Bold.h"
-//#include "fonts/Font_40_Segment_16_Full.h"
-//#include "fonts/Font_48_Battery.h"
-//#include "fonts/Font_48_Segment_16_Num.h"
-//#include "fonts/Font_64_Segment_16_Num.h"
-//#include "fonts/Font_64_Segment_7_Num.h"
-//#include "fonts/Font_96_Segment_7_Num.h"
-//#include "fonts/Font_96_Segment_16_Num.h"
-//#include "fonts/Font_128_Segment_16_Num.h"
+
+//#include "fonts/DejaVuSans/Font_008_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_009_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_010_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_011_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_012_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_014_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_016_DejaVuSans.h"
+#include "fonts/DejaVuSans/Font_018_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_020_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_022_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_024_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_026_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_028_DejaVuSans.h"
+#include "fonts/DejaVuSans/Font_036_DejaVuSans.h"
+//#include "fonts/DejaVuSans/Font_048_DejaVuSans.h"
+#include "fonts/DejaVuSans/Font_072_DejaVuSans.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -177,8 +92,6 @@
 I2C_HandleTypeDef hi2c2;
 
 SPI_HandleTypeDef hspi1;
-
-TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
@@ -210,9 +123,8 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_SPI1_Init(void);
-static void MX_USB_PCD_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_TIM1_Init(void);
+static void MX_USB_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -248,26 +160,26 @@ void sensorRemote() {
 
         if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -10)) {
             sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
-            LCD_Font(505, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, BLACK);
+            LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
         } else if (temperatureRemoteLast < 10 && temperatureRemoteLast > 0) {
             sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
-            LCD_Font(531, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, BLACK);
+            LCD_Font(531, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
         } else if (temperatureRemoteLast <= -10) {
             sprintf(weatherPrintRemoteT, "%2d", (int8_t) temperatureRemoteLast);
-            LCD_Font(505, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, BLACK);
+            LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
         }
 
         temperatureRemoteLast = temperatureRemote;
 
         if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -10)) {
             sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
-            LCD_Font(505, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, ORANGE);
+            LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
         } else if (temperatureRemoteLast < 10 && temperatureRemoteLast > 0) {
             sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
-            LCD_Font(531, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, ORANGE);
+            LCD_Font(531, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
         } else if (temperatureRemoteLast <= -10) {
             sprintf(weatherPrintRemoteT, "%2d", (int8_t) temperatureRemoteLast);
-            LCD_Font(505, 40, weatherPrintRemoteT, _24_Sans_Bold, 1, ORANGE);
+            LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
         }
 
         for (double i = 0.0; i < 400; i++) {
@@ -282,20 +194,20 @@ void sensorRemote() {
 
         if (humidityRemoteLast >= 10) {
             sprintf(weatherPrintRemoteH, "%.1f", humidityRemoteLast);
-            LCD_Font(405, 40, weatherPrintRemoteH, _24_Sans_Bold, 1, BLACK);
+            LCD_Font(405, 40, weatherPrintRemoteH, &DejaVu_Sans_36, 1, BLACK);
         } else if (humidityRemoteLast < 10) {
             sprintf(weatherPrintRemoteH, "%.1f", humidityRemoteLast);
-            LCD_Font(431, 40, weatherPrintRemoteH, _24_Sans_Bold, 1, BLACK);
+            LCD_Font(431, 40, weatherPrintRemoteH, &DejaVu_Sans_36, 1, BLACK);
         }
 
         humidityRemoteLast = humidityRemote;
 
         if (humidityRemoteLast >= 10) {
             sprintf(weatherPrintRemoteH, "%.1f", humidityRemoteLast);
-            LCD_Font(405, 40, weatherPrintRemoteH, _24_Sans_Bold, 1, CYAN);
+            LCD_Font(405, 40, weatherPrintRemoteH, &DejaVu_Sans_36, 1, CYAN);
         } else if (humidityRemoteLast < 10) {
             sprintf(weatherPrintRemoteH, "%.1f", humidityRemoteLast);
-            LCD_Font(431, 40, weatherPrintRemoteH, _24_Sans_Bold, 1, CYAN);
+            LCD_Font(431, 40, weatherPrintRemoteH, &DejaVu_Sans_36, 1, CYAN);
         }
 
         for (double i = 0.0; i < 400; i++) {
@@ -488,9 +400,8 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_SPI1_Init();
-  MX_USB_PCD_Init();
   MX_I2C2_Init();
-  MX_TIM1_Init();
+  MX_USB_PCD_Init();
   /* USER CODE BEGIN 2 */
 //    HAL_TIM_Base_Start(&htim1);
 //    HAL_TIM_Base_Start_IT(&htim1);
@@ -540,8 +451,8 @@ int main(void)
 		for (uint32_t i = 0; i < 41; i++) {
 				char numbers[2];
 				sprintf(numbers, "%02d", 40 - i);
-				if (i % 5 == 0) LCD_Font(711, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
-				if (i % 5 == 0 && i > 30) LCD_Font(711, 77 + i * 10, "0", _9_Sans, 1, BLACK);
+				if (i % 5 == 0) LCD_Font(710, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+				if (i % 5 == 0 && i > 30) LCD_Font(710, 77 + i * 10, "0", &DejaVu_Sans_18, 1, BLACK);
 
 				if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
 				else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
@@ -554,8 +465,8 @@ int main(void)
 				if ((uint8_t) n % 10 == 0) {
 					char numbers[2];
 					sprintf(numbers, "%02d", (uint8_t) n);
-					if (n < 100) LCD_Font(611, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
-					else LCD_Font(602, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
+					if (n < 100) LCD_Font(610, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+					else LCD_Font(601, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
 
 					LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
 
@@ -563,21 +474,21 @@ int main(void)
 					LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
 		}
 		
-		LCD_Font(611, 477, "0", _9_Sans, 1, BLACK);
+		LCD_Font(610, 477, "0", &DejaVu_Sans_18, 1, BLACK);
 
     for (uint8_t i = 0; i < 41; i++) {
         float n = (uint16_t) 100.0 - i * 2.5;
         if ((uint8_t) n % 10 == 0) {
             char numbers[2];
             sprintf(numbers, "%02d", (uint8_t) n);
-            if (n < 100) LCD_Font(411, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
-            else LCD_Font(402, 77 + i * 10, numbers, _9_Sans, 1, GREEN);
+            if (n < 100) LCD_Font(410, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+            else LCD_Font(401, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
             LCD_Line(435, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
         } else if ((uint8_t) n % 5 == 0 && i < 40)
           LCD_Line(440, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
     }
 		
-    LCD_Font(411, 477, "0", _9_Sans, 1, BLACK);
+    LCD_Font(410, 477, "0", &DejaVu_Sans_18, 1, BLACK);
 
     LCD_Rect(545, 70, 20, 402, 1, CYAN);
 
@@ -585,16 +496,19 @@ int main(void)
         char numbers[2];
         sprintf(numbers, "%02d", 40 - i);
         if (i % 10 == 0) {
-            if (40 - i >= 0) LCD_Font(511, 77 + i * 5, numbers, _9_Sans, 1, GREEN);
-            else if (40 - i < 0) LCD_Font(502, 77 + i * 5, numbers, _9_Sans, 1, GREEN);
+            if (40 - i >= 0) LCD_Font(510, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
+            else if (40 - i < 0) LCD_Font(501, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
             LCD_Line(535, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
         } else if (i % 5 == 0) LCD_Line(540, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
-        LCD_Font(511, 277, "0", _9_Sans, 1, BLACK);
+        LCD_Font(510, 277, "0", &DejaVu_Sans_18, 1, BLACK);
     }
 
     LCD_Line(500, 2, 500, 478, 1, BLUE);
     LCD_Line(600, 2, 600, 478, 1, BLUE);
     LCD_Line(700, 2, 700, 478, 1, BLUE);
+		
+		LCD_Circle(203, 30, 8, 0, 1, SILVER);
+		LCD_Circle(203, 80, 8, 0, 1, SILVER);
 		
   /* USER CODE END 2 */
 
@@ -641,69 +555,74 @@ int main(void)
 
 			if (rtcSecLast != rtcSec) {
 					rtcSecLast = rtcSec;
-
-			if (rtcSec % 2 == 0) LCD_Font(180, 100, ":", _24_Sans, 3, SILVER);
-			else LCD_Font(180, 100, ":", _24_Sans, 3, BLACK);
-
+				
+			if (rtcSec % 2 == 0) { 
+				LCD_Circle(203, 30, 7, 1, 1, SILVER);
+				LCD_Circle(203, 80, 7, 1, 1, SILVER);
+			}
+			else {
+				LCD_Circle(203, 30, 7, 1, 1, BLACK);
+				LCD_Circle(203, 80, 7, 1, 1, BLACK);
+			}
 						
 			if (rtcMinLast != rtcMin) {
 
 			sprintf(clockPrint, "%02d", rtcMinLast);
-			LCD_Font(207, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
+			LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 			sprintf(clockPrint, "%02d", rtcMin);
-			LCD_Font(207, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
+			LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, SILVER);
 
 			if (rtcHrsLast != rtcHrs) {
 			sprintf(clockPrint, "%02d", rtcHrsLast);
-			LCD_Font(3, 135, clockPrint, _32_Calibri_Bold, 3, BLACK);
+			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 			sprintf(clockPrint, "%02d", rtcHrs);
-			LCD_Font(3, 135, clockPrint, _32_Calibri_Bold, 3, SILVER);
+			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, SILVER);
 
 			if (rtcLastDay != rtcDay) {
-			LCD_Font(3, 135, rtcDateLastChar, _24_Sans_Bold, 1, BLACK);
+			LCD_Font(3, 135, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-			LCD_Font(90, 250, clockPrint, _18_Sans, 1, BLACK);
+			LCD_Font(90, 250, clockPrint, &DejaVu_Sans_36, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-			LCD_Font(90, 250, clockPrint, _18_Sans, 1, MAGENTA);
+			LCD_Font(90, 250, clockPrint, &DejaVu_Sans_36, 1, MAGENTA);
 
 			for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
 
 				switch (rtcDay) {
 						case 1:
-								LCD_Font(2, 250, "SU' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "MO' ", _18_Sans, 1, MAGENTA);
+								LCD_Font(2, 250, "SU' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "MO' ", &DejaVu_Sans_36, 1, MAGENTA);
 								break;
 
 						case 2:
-								LCD_Font(2, 250, "MO' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "TU' ", _18_Sans, 1, BLUE);
+								LCD_Font(2, 250, "MO' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "TU' ", &DejaVu_Sans_36, 1, BLUE);
 								break;
 
 						case 3:
-								LCD_Font(2, 250, "TU' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "WE' ", _18_Sans, 1, CYAN);
+								LCD_Font(2, 250, "TU' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "WE' ", &DejaVu_Sans_36, 1, CYAN);
 								break;
 
 						case 4:
-								LCD_Font(2, 250, "WE' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "TH' ", _18_Sans, 1, GREEN);
+								LCD_Font(2, 250, "WE' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "TH' ", &DejaVu_Sans_36, 1, GREEN);
 								break;
 
 						case 5:
-								LCD_Font(2, 250, "TH' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "FR' ", _18_Sans, 1, YELLOW);
+								LCD_Font(2, 250, "TH' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "FR' ", &DejaVu_Sans_36, 1, YELLOW);
 								break;
 
 						case 6:
-								LCD_Font(2, 250, "FR' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "SA' ", _18_Sans, 1, ORANGE);
+								LCD_Font(2, 250, "FR' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "SA' ", &DejaVu_Sans_36, 1, ORANGE);
 								break;
 
 						case 7:
-								LCD_Font(2, 250, "SA' ", _18_Sans, 1, BLACK);
-								LCD_Font(2, 250, "SU' ", _18_Sans, 1, RED);
+								LCD_Font(2, 250, "SA' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 250, "SU' ", &DejaVu_Sans_36, 1, RED);
 								break;
 				}
 				rtcLastDay = rtcDay;
@@ -728,24 +647,24 @@ int main(void)
 
 				if (temperatureLast >= 10 || (temperatureLast < 0 && temperatureLast > -10)) {
 						sprintf(weatherPrintT, "%.1f", temperatureLast);
-						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+						LCD_Font(705, 40, weatherPrintT, &DejaVu_Sans_36, 1, BLACK);
 				} else if (temperatureLast < 10 && temperatureLast > 0) {
 						sprintf(weatherPrintT, "%.1f", temperatureLast);
-						LCD_Font(731, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+						LCD_Font(731, 40, weatherPrintT, &DejaVu_Sans_36, 1, BLACK);
 				} else if (temperatureLast <= -10) {
 						sprintf(weatherPrintT, "%2d", (int8_t) temperatureLast);
-						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, BLACK);
+						LCD_Font(705, 40, weatherPrintT, &DejaVu_Sans_36, 1, BLACK);
 				}
 
 				if (temperature >= 10 || (temperature < 0 && temperature > -10)) {
 						sprintf(weatherPrintT, "%.1f", temperature);
-						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+						LCD_Font(705, 40, weatherPrintT, &DejaVu_Sans_36, 1, ORANGE);
 				} else if (temperature < 10 && temperature > 0) {
 						sprintf(weatherPrintT, "%.1f", temperature);
-						LCD_Font(731, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+						LCD_Font(731, 40, weatherPrintT, &DejaVu_Sans_36, 1, ORANGE);
 				} else if (temperature <= -10) {
 						sprintf(weatherPrintT, "%2d", (int8_t) temperature);
-						LCD_Font(705, 40, weatherPrintT, _24_Sans_Bold, 1, ORANGE);
+						LCD_Font(705, 40, weatherPrintT, &DejaVu_Sans_36, 1, ORANGE);
 				}
 
 				for (double i = 0.0; i < 400; i++) {
@@ -762,14 +681,14 @@ int main(void)
 				
 					sprintf(weatherPrintH, "%.1f", humidityLast);
 					if (humidityLast >= 10)
-							LCD_Font(605, 40, weatherPrintH, _24_Sans_Bold, 1, BLACK);
-					else LCD_Font(631, 40, weatherPrintH, _24_Sans_Bold, 1, BLACK);
+							LCD_Font(605, 40, weatherPrintH, &DejaVu_Sans_36, 1, BLACK);
+					else LCD_Font(631, 40, weatherPrintH, &DejaVu_Sans_36, 1, BLACK);
 
 
 					sprintf(weatherPrintH, "%.1f", humidity);
 					if (humidity >= 10)
-							LCD_Font(605, 40, weatherPrintH, _24_Sans_Bold, 1, CYAN);
-					else LCD_Font(631, 40, weatherPrintH, _24_Sans_Bold, 1, CYAN);
+							LCD_Font(605, 40, weatherPrintH, &DejaVu_Sans_36, 1, CYAN);
+					else LCD_Font(631, 40, weatherPrintH, &DejaVu_Sans_36, 1, CYAN);
 
 					for (double i = 0.0; i < 400; i++) {
 							if (humidity > i / 4) LCD_Line(647, 470 - i, 663, 470 - i, 1, GRAY);
@@ -785,18 +704,18 @@ int main(void)
 				
 					if (pressure >= 1000) {
 							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
-							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, BLACK);
+							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 					} else {
-							sprintf(weatherPrintP, "PRESSURE:  %02d hPa", pressureLast);
-							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, BLACK);
+							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressureLast);
+							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 					}
 
 					if (pressure >= 1000) {
 							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);
-							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, RED);
+							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, RED);
 					} else {
-							sprintf(weatherPrintP, "PRESSURE:  %02d hPa", pressure);
-							LCD_Font(2, 343, weatherPrintP, _12_Sans, 1, RED);
+							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
+							LCD_Font(0, 343, weatherPrintP, &DejaVu_Sans_36, 1, RED);
 					}
 					
 					pressureLast = pressure;
@@ -926,71 +845,6 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
-
-}
-
-/**
-  * @brief TIM1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM1_Init(void)
-{
-
-  /* USER CODE BEGIN TIM1_Init 0 */
-
-  /* USER CODE END TIM1_Init 0 */
-
-  TIM_SlaveConfigTypeDef sSlaveConfig = {0};
-  TIM_IC_InitTypeDef sConfigIC = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM1_Init 1 */
-
-  /* USER CODE END TIM1_Init 1 */
-  htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
-  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 65535;
-  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim1.Init.RepetitionCounter = 0;
-  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_IC_Init(&htim1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_RESET;
-  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
-  sSlaveConfig.TriggerPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
-  sSlaveConfig.TriggerPrescaler = TIM_ICPSC_DIV1;
-  sSlaveConfig.TriggerFilter = 0;
-  if (HAL_TIM_SlaveConfigSynchro(&htim1, &sSlaveConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
-  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-  sConfigIC.ICFilter = 0;
-  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
-  sConfigIC.ICSelection = TIM_ICSELECTION_INDIRECTTI;
-  if (HAL_TIM_IC_ConfigChannel(&htim1, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM1_Init 2 */
-
-  /* USER CODE END TIM1_Init 2 */
 
 }
 
