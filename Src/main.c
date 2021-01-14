@@ -369,17 +369,11 @@ void barograph(void) {
 		
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
 		
-		char string[20];
- 
-		sprintf(string, "MID: %02d", barographAverage);
-		LCD_Font(2, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
-
-		sprintf(string, "|   MIN: %02d   |", barographMinimum);
-		LCD_Font(125, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
-
-		sprintf(string, "MAX: %02d", barographMaximum);
-		LCD_Font(292, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
+		char str[35];
 		
+		sprintf(str, "HISTORY|MID:%02d|MIN:%02d|MAX:%02d", barographAverage, barographMinimum, barographMaximum);
+		LCD_Font(2, 474, str, &DejaVu_Sans_18, 1, MAGENTA);
+ 
 		barographViewed = 1;
 	}
 }
@@ -536,9 +530,6 @@ int main(void)
 	LCD_Line(500, 2, 500, 478, 1, BLUE);
 	LCD_Line(600, 2, 600, 478, 1, BLUE);
 	LCD_Line(700, 2, 700, 478, 1, BLUE);
-	
-	LCD_Circle(203, 30, 8, 0, 1, SILVER);
-	LCD_Circle(203, 80, 8, 0, 1, SILVER);
 		
   /* USER CODE END 2 */
 
@@ -590,11 +581,43 @@ int main(void)
 		char clockPrint[5];
 
 			if (rtcSecLast != rtcSec) {
-					rtcSecLast = rtcSec;
+				
+					uint32_t RGB_CLOCK = WHITE;
+				
+				switch (rtcHrs)
+				{
+					case  0: RGB_CLOCK = HUE_01; break;
+					case  1: RGB_CLOCK = HUE_01; break;
+					case  2: RGB_CLOCK = HUE_01; break;
+					case  3: RGB_CLOCK = HUE_01; break;
+					case  4: RGB_CLOCK = HUE_01; break;
+					case  5: RGB_CLOCK = HUE_01; break;
+					case  6: RGB_CLOCK = HUE_01; break;
+					case  7: RGB_CLOCK = HUE_01; break;
+					case  8: RGB_CLOCK = HUE_01; break;
+					case  9: RGB_CLOCK = HUE_01; break;
+					case 10: RGB_CLOCK = HUE_01; break;
+					case 11: RGB_CLOCK = HUE_01; break;
+					case 12: RGB_CLOCK = HUE_01; break;
+					case 13: RGB_CLOCK = HUE_01; break;
+					case 14: RGB_CLOCK = HUE_01; break;
+					case 15: RGB_CLOCK = HUE_01; break;
+					case 16: RGB_CLOCK = HUE_01; break;
+					case 17: RGB_CLOCK = HUE_01; break;
+					case 18: RGB_CLOCK = HUE_01; break;
+					case 19: RGB_CLOCK = HUE_01; break;
+					case 20: RGB_CLOCK = HUE_01; break;
+					case 21: RGB_CLOCK = HUE_01; break;
+					case 22: RGB_CLOCK = HUE_01; break;
+					case 23: RGB_CLOCK = HUE_01; break;
+				}
+				
+			LCD_Circle(203, 30, 8, 0, 1, RGB_CLOCK);
+			LCD_Circle(203, 80, 8, 0, 1, RGB_CLOCK);
 				
 			if (rtcSec % 2 != 0) { 
-				LCD_Circle(203, 30, 7, 1, 1, SILVER);
-				LCD_Circle(203, 80, 7, 1, 1, SILVER);
+				LCD_Circle(203, 30, 7, 1, 1, RGB_CLOCK);
+				LCD_Circle(203, 80, 7, 1, 1, RGB_CLOCK);
 			}
 			else {
 				LCD_Circle(203, 30, 7, 1, 1, BLACK);
@@ -606,13 +629,13 @@ int main(void)
 			sprintf(clockPrint, "%02d", rtcMinLast);
 			LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 			sprintf(clockPrint, "%02d", rtcMin);
-			LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, SILVER);
+			LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
 
 			if (rtcHrsLast != rtcHrs) {
 			sprintf(clockPrint, "%02d", rtcHrsLast);
 			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 			sprintf(clockPrint, "%02d", rtcHrs);
-			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, SILVER);
+			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
 
 			if (rtcLastDay != rtcDay) {
 			LCD_Font(3, 135, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
@@ -739,26 +762,29 @@ int main(void)
 
 			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
 				
-					if (pressure >= 1000) {
-							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-					} else {
-							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressureLast);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-					}
-
-					if (pressure >= 1000) {
-							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, MAGENTA);
-					} else {
-							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, MAGENTA);
-					}
-					
+				if (pressureLast >= 1000)
+				{
+					sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
+					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+				} else 
+				{
+					sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressureLast);
+					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+				}
+						
+				if (pressure >= 1000) {
+						sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);						
+						LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+				} else 
+				{
+					sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
+					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+				}					
 					pressureLast = pressure;
 			}
 			rtcMinLast = rtcMin;
 		}
+			rtcSecLast = rtcSec;
 	}
 }
     /* USER CODE END WHILE */
