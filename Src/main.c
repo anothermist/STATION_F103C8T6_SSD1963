@@ -355,43 +355,30 @@ void barograph(void) {
 		barographDaily[0] = rtcDate;	
 					
 		for (uint16_t i = 0; i < 366; i++) {
-
-		LCD_Line(i + 3, 320, i + 3, 458, 1, 0x050505);
 			
 		int16_t val = 0;
 		if (barographYearly) val = barographDaily[i + 1];
 		else val = barographHourly[i + 1];
 			
-			if (val > 0) LCD_Line(i + 3, 458 - 64 - ((val) - barographAverage), i + 3, 458, 1, MAGENTA);
+			if (val >= 938 && val <= 1064)
+			{
+					LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);					
+					LCD_Line(2 + i, 456, 2 + i, 330 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
+			}
     }
 		
-		LCD_Rect_Fill(1, 461, 397, 18, BLACK);
+		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
 		
 		char string[20];
  
-//		if (barographAverage >= 1000) {
-				sprintf(string, "MID: %02d", barographAverage);
-				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
-//		} else {
-//				sprintf(string, "MID: 0%02d", barographAverage);
-//				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
-//		}
+		sprintf(string, "MID: %02d", barographAverage);
+		LCD_Font(2, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
 
-//		if (barographMinimum >= 1000) {
-				sprintf(string, "    MIN: %02d    ", barographMinimum);
-				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
-//		} else {
-//				sprintf(string, "    MIN: 0%02d    ", barographMinimum);
-//				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, RED);
-//		}
-		
-//		if (barographMaximum >= 1000) {
-				sprintf(string, "MAX: %02d", barographMaximum);
-				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
-//		} else {
-//				sprintf(string, "MAX: 0%02d", barographMaximum);
-//				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
-//		}
+		sprintf(string, "|   MIN: %02d   |", barographMinimum);
+		LCD_Font(125, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
+
+		sprintf(string, "MAX: %02d", barographMaximum);
+		LCD_Font(292, 474, string, &DejaVu_Sans_18, 1, MAGENTA);
 		
 		barographViewed = 1;
 	}
@@ -469,88 +456,89 @@ int main(void)
     }
 	}
 	
-	  LCD_Rect_Fill(0, 0, 800, 480, BLACK);
-    LCD_Rect(0, 0, 798, 479, 1, BLUE);
+	LCD_Rect_Fill(0, 0, 800, 480, BLACK);
+	LCD_Rect(0, 0, 798, 479, 1, BLUE);
 
-    HAL_UART_Receive_IT(&huart1, &rx_data, 1);
+	HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
-		uint8_t uartTransmit[] = "UART OK\r\n";
-		HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
-		
-		uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
-		HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
+	uint8_t uartTransmit[] = "UART OK\r\n";
+	HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
 	
-		LCD_Line(1, 113, 399, 113, 1, BLUE);
-		LCD_Line(1, 288, 399, 288, 1, BLUE);
-	
-		LCD_Rect(1, 318, 369, 142, 1, BLUE);
-	
-    LCD_Line(400, 2, 400, 478, 1, BLUE);
-    LCD_Rect(445, 70, 20, 402, 1, CYAN);
-		
-		LCD_Rect(745, 70, 20, 402, 1, CYAN);
+	uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
+	HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
-		for (uint32_t i = 0; i < 41; i++) {
+	LCD_Line(1, 113, 399, 113, 1, BLUE);
+
+	LCD_Rect(1, 329, 368, 128, 1, BLUE);
+	
+	LCD_Line(2, 393, 368, 393, 1, GREEN_D);
+	
+	LCD_Line(2, 288, 399, 288, 1, BLUE);
+	LCD_Line(400, 2, 400, 478, 1, BLUE);
+	LCD_Rect(445, 70, 20, 402, 1, CYAN);	
+	LCD_Rect(745, 70, 20, 402, 1, CYAN);
+
+	for (uint32_t i = 0; i < 41; i++) {
+			char numbers[2];
+			sprintf(numbers, "%02d", 40 - i);
+			if (i % 5 == 0) LCD_Font(710, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+			if (i % 5 == 0 && i > 30) LCD_Font(710, 77 + i * 10, "0", &DejaVu_Sans_18, 1, BLACK);
+
+			if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
+			else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
+	}
+
+	LCD_Rect(645, 70, 20, 402, 1, CYAN);
+
+	for (uint8_t i = 0; i < 41; i++) {
+			float n = (uint16_t) 100.0 - i * 2.5;
+			if ((uint8_t) n % 10 == 0) {
 				char numbers[2];
-				sprintf(numbers, "%02d", 40 - i);
-				if (i % 5 == 0) LCD_Font(710, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
-				if (i % 5 == 0 && i > 30) LCD_Font(710, 77 + i * 10, "0", &DejaVu_Sans_18, 1, BLACK);
+				sprintf(numbers, "%02d", (uint8_t) n);
+				if (n < 100) LCD_Font(610, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+				else LCD_Font(601, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
 
-				if (i % 5 == 0) LCD_Line(735, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
-				else LCD_Line(740, 71 + i * 10, 745, 71 + i * 10, 1, CYAN);
-		}
+				LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
 
-		LCD_Rect(645, 70, 20, 402, 1, CYAN);
+			} else if ((uint8_t) n % 5 == 0 && i < 40)
+				LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
+	}
+	
+	LCD_Font(610, 477, "0", &DejaVu_Sans_18, 1, BLACK);
 
-		for (uint8_t i = 0; i < 41; i++) {
-				float n = (uint16_t) 100.0 - i * 2.5;
-				if ((uint8_t) n % 10 == 0) {
+	for (uint8_t i = 0; i < 41; i++) {
+			float n = (uint16_t) 100.0 - i * 2.5;
+			if ((uint8_t) n % 10 == 0) {
 					char numbers[2];
 					sprintf(numbers, "%02d", (uint8_t) n);
-					if (n < 100) LCD_Font(610, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
-					else LCD_Font(601, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
-
-					LCD_Line(635, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
-
-				} else if ((uint8_t) n % 5 == 0 && i < 40)
-					LCD_Line(640, 71 + i * 10, 645, 71 + i * 10, 1, CYAN);
-		}
+					if (n < 100) LCD_Font(410, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+					else LCD_Font(401, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
+					LCD_Line(435, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
+			} else if ((uint8_t) n % 5 == 0 && i < 40)
+				LCD_Line(440, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
+	}
 		
-		LCD_Font(610, 477, "0", &DejaVu_Sans_18, 1, BLACK);
+	LCD_Font(410, 477, "0", &DejaVu_Sans_18, 1, BLACK);
 
-    for (uint8_t i = 0; i < 41; i++) {
-        float n = (uint16_t) 100.0 - i * 2.5;
-        if ((uint8_t) n % 10 == 0) {
-            char numbers[2];
-            sprintf(numbers, "%02d", (uint8_t) n);
-            if (n < 100) LCD_Font(410, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
-            else LCD_Font(401, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
-            LCD_Line(435, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
-        } else if ((uint8_t) n % 5 == 0 && i < 40)
-          LCD_Line(440, 71 + i * 10, 445, 71 + i * 10, 1, CYAN);
-    }
-		
-    LCD_Font(410, 477, "0", &DejaVu_Sans_18, 1, BLACK);
+	LCD_Rect(545, 70, 20, 402, 1, CYAN);
 
-    LCD_Rect(545, 70, 20, 402, 1, CYAN);
+	for (int32_t i = 0; i < 81; i++) {
+			char numbers[2];
+			sprintf(numbers, "%02d", 40 - i);
+			if (i % 10 == 0) {
+					if (40 - i >= 0) LCD_Font(510, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
+					else if (40 - i < 0) LCD_Font(501, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
+					LCD_Line(535, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
+			} else if (i % 5 == 0) LCD_Line(540, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
+			LCD_Font(510, 277, "0", &DejaVu_Sans_18, 1, BLACK);
+	}
 
-    for (int32_t i = 0; i < 81; i++) {
-        char numbers[2];
-        sprintf(numbers, "%02d", 40 - i);
-        if (i % 10 == 0) {
-            if (40 - i >= 0) LCD_Font(510, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
-            else if (40 - i < 0) LCD_Font(501, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
-            LCD_Line(535, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
-        } else if (i % 5 == 0) LCD_Line(540, 71 + i * 5, 545, 71 + i * 5, 1, CYAN);
-        LCD_Font(510, 277, "0", &DejaVu_Sans_18, 1, BLACK);
-    }
-
-    LCD_Line(500, 2, 500, 478, 1, BLUE);
-    LCD_Line(600, 2, 600, 478, 1, BLUE);
-    LCD_Line(700, 2, 700, 478, 1, BLUE);
-		
-		LCD_Circle(203, 30, 8, 0, 1, SILVER);
-		LCD_Circle(203, 80, 8, 0, 1, SILVER);
+	LCD_Line(500, 2, 500, 478, 1, BLUE);
+	LCD_Line(600, 2, 600, 478, 1, BLUE);
+	LCD_Line(700, 2, 700, 478, 1, BLUE);
+	
+	LCD_Circle(203, 30, 8, 0, 1, SILVER);
+	LCD_Circle(203, 80, 8, 0, 1, SILVER);
 		
   /* USER CODE END 2 */
 
