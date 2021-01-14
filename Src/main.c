@@ -93,14 +93,14 @@ I2C_HandleTypeDef hi2c2;
 
 SPI_HandleTypeDef hspi1;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 
-PCD_HandleTypeDef hpcd_USB_FS;
-
 /* USER CODE BEGIN PV */
-uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0;
+uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
         rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -124,7 +124,7 @@ static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_USB_PCD_Init(void);
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -362,7 +362,7 @@ void barograph(void) {
 		if (barographYearly) val = barographDaily[i + 1];
 		else val = barographHourly[i + 1];
 			
-			if (val > 0) LCD_Line(i + 3, 458 - 64 - ((val) - barographAverage), i + 3, 458, 1, RED);
+			if (val > 0) LCD_Line(i + 3, 458 - 64 - ((val) - barographAverage), i + 3, 458, 1, MAGENTA);
     }
 		
 		LCD_Rect_Fill(1, 461, 397, 18, BLACK);
@@ -371,15 +371,15 @@ void barograph(void) {
  
 //		if (barographAverage >= 1000) {
 				sprintf(string, "MID: %02d", barographAverage);
-				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, RED);
+				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
 //		} else {
 //				sprintf(string, "MID: 0%02d", barographAverage);
-//				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, RED);
+//				LCD_Font(2, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
 //		}
 
 //		if (barographMinimum >= 1000) {
 				sprintf(string, "    MIN: %02d    ", barographMinimum);
-				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, RED);
+				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
 //		} else {
 //				sprintf(string, "    MIN: 0%02d    ", barographMinimum);
 //				LCD_Font(125, 477, string, &DejaVu_Sans_18, 1, RED);
@@ -387,15 +387,23 @@ void barograph(void) {
 		
 //		if (barographMaximum >= 1000) {
 				sprintf(string, "MAX: %02d", barographMaximum);
-				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, RED);
+				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
 //		} else {
 //				sprintf(string, "MAX: 0%02d", barographMaximum);
-//				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, RED);
+//				LCD_Font(292, 477, string, &DejaVu_Sans_18, 1, MAGENTA);
 //		}
 		
 		barographViewed = 1;
 	}
 }
+
+	void beep(void)
+	{
+			for (uint32_t i = 0; i <= 65536; i++)
+			{
+				TIM1 -> CCR1 = i;
+			}
+	}
 
 /* USER CODE END 0 */
 
@@ -431,14 +439,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   MX_I2C2_Init();
-  MX_USB_PCD_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-//    HAL_TIM_Base_Start(&htim1);
-//    HAL_TIM_Base_Start_IT(&htim1);
 
     LCD_Init();
     XPT2046_Init();
     BME280_Init();
+
+//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+//HAL_Delay(100);
+//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 
 	if (rtcSet) {
 			DS3231_setSec(0);
@@ -545,6 +557,12 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
     while (1) {
+
+			if (sound) 
+			{
+				beep();
+				sound = 0;
+			}
 			
 			if (rx_index != 0) {
 			HAL_Delay(200);
@@ -559,7 +577,7 @@ int main(void)
 			if (touchXr && touchYr && touchXr != 0x2F5 && touchYr != 0x0DB) {
 			touchX = touchXr;
 			touchY = touchYr;
-			LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
+			sound = 1;
 			}
 		}
 			
@@ -665,6 +683,7 @@ int main(void)
 	//	rtcMoon = DS3231_getMoonDay();
 			barograph();
 			rtcHrsLast = rtcHrs;
+			sound = 1;
 			}
 			
 			temperature =  BME280_getTemperature(-1);
@@ -742,10 +761,10 @@ int main(void)
 
 					if (pressure >= 1000) {
 							sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, RED);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, MAGENTA);
 					} else {
 							sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
-							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, RED);
+							LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, MAGENTA);
 					}
 					
 					pressureLast = pressure;
@@ -769,7 +788,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -795,12 +813,6 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB;
-  PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
@@ -879,6 +891,81 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 65535;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
+  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
+  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
+  sBreakDeadTimeConfig.DeadTime = 0;
+  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
+  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
+  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
+  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
+  HAL_TIM_MspPostInit(&htim1);
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -908,37 +995,6 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
-  * @brief USB Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_PCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_Init 0 */
-
-  /* USER CODE END USB_Init 0 */
-
-  /* USER CODE BEGIN USB_Init 1 */
-
-  /* USER CODE END USB_Init 1 */
-  hpcd_USB_FS.Instance = USB;
-  hpcd_USB_FS.Init.dev_endpoints = 8;
-  hpcd_USB_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_FS.Init.low_power_enable = DISABLE;
-  hpcd_USB_FS.Init.lpm_enable = DISABLE;
-  hpcd_USB_FS.Init.battery_charging_enable = DISABLE;
-  if (HAL_PCD_Init(&hpcd_USB_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_Init 2 */
-
-  /* USER CODE END USB_Init 2 */
 
 }
 

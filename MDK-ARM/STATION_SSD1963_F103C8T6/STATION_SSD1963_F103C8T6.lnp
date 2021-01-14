@@ -26,9 +26,6 @@
 "station_ssd1963_f103c8t6\stm32f1xx_hal_tim.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal_tim_ex.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal_uart.o"
-"station_ssd1963_f103c8t6\stm32f1xx_hal_pcd.o"
-"station_ssd1963_f103c8t6\stm32f1xx_hal_pcd_ex.o"
-"station_ssd1963_f103c8t6\stm32f1xx_ll_usb.o"
 "station_ssd1963_f103c8t6\system_stm32f1xx.o"
 --library_type=microlib --strict --scatter "STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
