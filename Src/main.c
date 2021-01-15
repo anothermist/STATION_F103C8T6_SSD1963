@@ -582,34 +582,34 @@ int main(void)
 
 			if (rtcSecLast != rtcSec) {
 				
-					uint32_t RGB_CLOCK = WHITE;
+					uint32_t RGB_CLOCK;
 				
 				switch (rtcHrs)
 				{
 					case  0: RGB_CLOCK = HUE_01; break;
-					case  1: RGB_CLOCK = HUE_01; break;
-					case  2: RGB_CLOCK = HUE_01; break;
-					case  3: RGB_CLOCK = HUE_01; break;
-					case  4: RGB_CLOCK = HUE_01; break;
-					case  5: RGB_CLOCK = HUE_01; break;
-					case  6: RGB_CLOCK = HUE_01; break;
-					case  7: RGB_CLOCK = HUE_01; break;
-					case  8: RGB_CLOCK = HUE_01; break;
-					case  9: RGB_CLOCK = HUE_01; break;
-					case 10: RGB_CLOCK = HUE_01; break;
-					case 11: RGB_CLOCK = HUE_01; break;
-					case 12: RGB_CLOCK = HUE_01; break;
-					case 13: RGB_CLOCK = HUE_01; break;
-					case 14: RGB_CLOCK = HUE_01; break;
-					case 15: RGB_CLOCK = HUE_01; break;
-					case 16: RGB_CLOCK = HUE_01; break;
-					case 17: RGB_CLOCK = HUE_01; break;
-					case 18: RGB_CLOCK = HUE_01; break;
-					case 19: RGB_CLOCK = HUE_01; break;
-					case 20: RGB_CLOCK = HUE_01; break;
-					case 21: RGB_CLOCK = HUE_01; break;
-					case 22: RGB_CLOCK = HUE_01; break;
-					case 23: RGB_CLOCK = HUE_01; break;
+					case  1: RGB_CLOCK = HUE_02; break;
+					case  2: RGB_CLOCK = HUE_03; break;
+					case  3: RGB_CLOCK = HUE_04; break;
+					case  4: RGB_CLOCK = HUE_05; break;
+					case  5: RGB_CLOCK = HUE_06; break;
+					case  6: RGB_CLOCK = HUE_07; break;
+					case  7: RGB_CLOCK = HUE_08; break;
+					case  8: RGB_CLOCK = HUE_09; break;
+					case  9: RGB_CLOCK = HUE_10; break;
+					case 10: RGB_CLOCK = HUE_11; break;
+					case 11: RGB_CLOCK = HUE_12; break;
+					case 12: RGB_CLOCK = HUE_13; break;
+					case 13: RGB_CLOCK = HUE_14; break;
+					case 14: RGB_CLOCK = HUE_15; break;
+					case 15: RGB_CLOCK = HUE_16; break;
+					case 16: RGB_CLOCK = HUE_17; break;
+					case 17: RGB_CLOCK = HUE_18; break;
+					case 18: RGB_CLOCK = HUE_19; break;
+					case 19: RGB_CLOCK = HUE_20; break;
+					case 20: RGB_CLOCK = HUE_21; break;
+					case 21: RGB_CLOCK = HUE_22; break;
+					case 22: RGB_CLOCK = HUE_23; break;
+					case 23: RGB_CLOCK = HUE_24; break;
 				}
 				
 			LCD_Circle(203, 30, 8, 0, 1, RGB_CLOCK);

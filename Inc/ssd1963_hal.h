@@ -167,7 +167,7 @@ typedef struct { // Data stored for FONT AS A WHOLE:
 	uint8_t   yAdvance;    // Newline distance (y axis)
 } GFXfont;
 
-uint32_t RGB(int r, int g, int b);
+uint32_t RGB(uint8_t r, uint8_t g, uint8_t b);
 
 void LCD_Init(void);
 void LCD_Orientation(uint8_t orientation);

@@ -1,8 +1,8 @@
 #include "ssd1963_hal.h"
 
-uint32_t RGB(int r, int g, int b)
+uint32_t RGB(uint8_t r, uint8_t g, uint8_t b)
 {   
-    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+    return ((r & 0xFF) << 16) + ((g & 0xFF) << 8) + (b & 0xFF);
 }
 
 inline static uint16_t H24_RGB565(uint8_t reverse, uint32_t color24)
