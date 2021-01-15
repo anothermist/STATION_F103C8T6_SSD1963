@@ -152,7 +152,6 @@
 #define HUE_23 0x7F00FF // 127, 000, 255 - 
 #define HUE_24 0x3F00FF // 063, 000, 255 - 
 
-
 typedef struct { // Data stored PER GLYPH
 	uint16_t bitmapOffset;     // Pointer into GFXfont->bitmap
 	uint8_t  width, height;    // Bitmap dimensions in pixels

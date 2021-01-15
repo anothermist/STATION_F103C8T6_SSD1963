@@ -369,10 +369,21 @@ void barograph(void) {
 		
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
 		
-		char str[35];
+		char s[10];
+
+		LCD_Font(2, 474, "HISTORY|", &DejaVu_Sans_18, 1, MAGENTA);
 		
-		sprintf(str, "HISTORY|MID:%02d|MIN:%02d|MAX:%02d", barographAverage, barographMinimum, barographMaximum);
-		LCD_Font(2, 474, str, &DejaVu_Sans_18, 1, MAGENTA);
+		if (barographAverage >= 1000) sprintf(s, "|MID:%02d", barographAverage);
+		else sprintf(s, "|MID:0%02d|", barographAverage);
+		LCD_Font(91, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
+		
+		if (barographMinimum >= 1000) sprintf(s, "|MIN:%02d|", barographMinimum);
+		else sprintf(s, "|MIN:0%02d|", barographMinimum);
+		LCD_Font(191, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
+		
+		if (barographMaximum >= 1000) sprintf(s, "|MAX:%02d", barographMaximum);
+		else sprintf(s, "|MAX:0%02d", barographMaximum);
+		LCD_Font(292, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
  
 		barographViewed = 1;
 	}
@@ -435,10 +446,10 @@ int main(void)
 
 	if (rtcSet) {
 			DS3231_setSec(0);
-			DS3231_setMin(58);
-			DS3231_setHrs(22);
-			DS3231_setDay(2);
-			DS3231_setDate(5);
+			DS3231_setMin(10);
+			DS3231_setHrs(7);
+			DS3231_setDay(5);
+			DS3231_setDate(15);
 			DS3231_setMonth(1);
 			DS3231_setYear(21);
 			rtcSet = 1;
