@@ -4,7 +4,7 @@ uint32_t RGB(uint8_t r, uint8_t g, uint8_t b)
 {   
     return ((r & 0xFF) << 16) + ((g & 0xFF) << 8) + (b & 0xFF);
 }
-
+	
 inline static uint16_t H24_RGB565(uint8_t reverse, uint32_t color24)
 {
 	uint8_t b = (color24 >> 16) & 0xFF;
@@ -541,4 +541,3 @@ void LCD_Bright(uint8_t bright)
 	LCD_Send_Dat(bright);   // PWM duty cycle  
 	LCD_Send_Dat(0x01);
 }
-

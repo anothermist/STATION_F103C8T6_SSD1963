@@ -53,22 +53,8 @@
 #include "ds3231.h"
 #include "at24xx.h"
 
-
-//#include "fonts/DejaVuSans/008_DejaVuSans.h"
-//#include "fonts/DejaVuSans/009_DejaVuSans.h"
-//#include "fonts/DejaVuSans/010_DejaVuSans.h"
-//#include "fonts/DejaVuSans/011_DejaVuSans.h"
-//#include "fonts/DejaVuSans/012_DejaVuSans.h"
-//#include "fonts/DejaVuSans/014_DejaVuSans.h"
-//#include "fonts/DejaVuSans/016_DejaVuSans.h"
 #include "fonts/DejaVuSans/018_DejaVuSans.h"
-//#include "fonts/DejaVuSans/020_DejaVuSans.h"
-//#include "fonts/DejaVuSans/022_DejaVuSans.h"
-//#include "fonts/DejaVuSans/024_DejaVuSans.h"
-//#include "fonts/DejaVuSans/026_DejaVuSans.h"
-//#include "fonts/DejaVuSans/028_DejaVuSans.h"
 #include "fonts/DejaVuSans/036_DejaVuSans.h"
-//#include "fonts/DejaVuSans/048_DejaVuSans.h"
 #include "fonts/DejaVuSans/072_DejaVuSans.h"
 
 /* USER CODE END Includes */
@@ -463,7 +449,7 @@ int main(void)
 	
 	LCD_Rect_Fill(0, 0, 800, 480, BLACK);
 	LCD_Rect(0, 0, 798, 479, 1, BLUE);
-
+	
 	HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
 	uint8_t uartTransmit[] = "UART OK\r\n";
@@ -472,13 +458,15 @@ int main(void)
 	uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
 	HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
-	LCD_Line(1, 113, 399, 113, 1, BLUE);
+//	LCD_Line(1, 113, 399, 113, 1, BLUE);
+	
+	
 
 	LCD_Rect(1, 329, 368, 128, 1, BLUE);
 	
 	LCD_Line(2, 393, 368, 393, 1, GREEN_D);
 	
-	LCD_Line(2, 288, 399, 288, 1, BLUE);
+//	LCD_Line(2, 288, 399, 288, 1, BLUE);
 	LCD_Line(400, 2, 400, 478, 1, BLUE);
 	LCD_Rect(445, 70, 20, 402, 1, CYAN);	
 	LCD_Rect(745, 70, 20, 402, 1, CYAN);
@@ -579,15 +567,15 @@ int main(void)
 		rtcDate = DS3231_getDate();
 		rtcMonth = DS3231_getMonth();
 		rtcYear = DS3231_getYear();
-		rtcSecA1 = DS3231_getAlarm1Sec();
+//		rtcSecA1 = DS3231_getAlarm1Sec();
 		rtcMinA1 = DS3231_getAlarm1Min();
 		rtcHrsA1 = DS3231_getAlarm1Hour();
-		rtcDayA1 = DS3231_getAlarm1Day();
-		rtcDateA1 = DS3231_getAlarm1Date();
-		rtcMinA2 = DS3231_getAlarm2Min();
-		rtcHrsA2 = DS3231_getAlarm2Hour();
-		rtcDayA2 = DS3231_getAlarm2Day();
-		rtcDateA2 = DS3231_getAlarm2Date();
+//		rtcDayA1 = DS3231_getAlarm1Day();
+//		rtcDateA1 = DS3231_getAlarm1Date();
+//		rtcMinA2 = DS3231_getAlarm2Min();
+//		rtcHrsA2 = DS3231_getAlarm2Hour();
+//		rtcDayA2 = DS3231_getAlarm2Day();
+//		rtcDateA2 = DS3231_getAlarm2Date();
 		
 		char clockPrint[5];
 
@@ -649,52 +637,55 @@ int main(void)
 			LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
 
 			if (rtcLastDay != rtcDay) {
-			LCD_Font(3, 135, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
+			LCD_Font(3, 250, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-			LCD_Font(90, 250, clockPrint, &DejaVu_Sans_36, 1, BLACK);
+			LCD_Font(70, 140, clockPrint, &DejaVu_Sans_36, 1, BLACK);
 
 			sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-			LCD_Font(90, 250, clockPrint, &DejaVu_Sans_36, 1, MAGENTA);
+			LCD_Font(70, 140, clockPrint, &DejaVu_Sans_36, 1, GRAY);
 
 			for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
 
 				switch (rtcDay) {
 						case 1:
-								LCD_Font(2, 250, "SU' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "MO' ", &DejaVu_Sans_36, 1, MAGENTA);
+								LCD_Font(2, 140, "SU' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "MO' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 2:
-								LCD_Font(2, 250, "MO' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "TU' ", &DejaVu_Sans_36, 1, BLUE);
+								LCD_Font(2, 140, "MO' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "TU' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 3:
-								LCD_Font(2, 250, "TU' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "WE' ", &DejaVu_Sans_36, 1, CYAN);
+								LCD_Font(2, 140, "TU' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "WE' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 4:
-								LCD_Font(2, 250, "WE' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "TH' ", &DejaVu_Sans_36, 1, GREEN);
+								LCD_Font(2, 140, "WE' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "TH' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 5:
-								LCD_Font(2, 250, "TH' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "FR' ", &DejaVu_Sans_36, 1, YELLOW);
+								LCD_Font(2, 140, "TH' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "FR' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 6:
-								LCD_Font(2, 250, "FR' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "SA' ", &DejaVu_Sans_36, 1, ORANGE);
+								LCD_Font(2, 140, "FR' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "SA' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 
 						case 7:
-								LCD_Font(2, 250, "SA' ", &DejaVu_Sans_36, 1, BLACK);
-								LCD_Font(2, 250, "SU' ", &DejaVu_Sans_36, 1, RED);
+								LCD_Font(2, 140, "SA' ", &DejaVu_Sans_36, 1, BLACK);
+								LCD_Font(2, 140, "SU' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
 				}
+				
+				
+				
 				rtcLastDay = rtcDay;
 			}
 
@@ -769,33 +760,38 @@ int main(void)
 					humidityLast = humidity;
 			}
 			
-			char weatherPrintP[18];
+			char weatherPrintP[8];
 
 			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
 				
 				if (pressureLast >= 1000)
 				{
-					sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressureLast);
-					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+					sprintf(weatherPrintP, "%02d hPa", pressureLast);
+					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 				} else 
 				{
-					sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressureLast);
-					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+					sprintf(weatherPrintP, "0%02d hPa", pressureLast);
+					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
 				}
 						
 				if (pressure >= 1000) {
-						sprintf(weatherPrintP, "PRESSURE: %02d hPa", pressure);						
-						LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+						sprintf(weatherPrintP, "%02d hPa", pressure);						
+						LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
 				} else 
 				{
-					sprintf(weatherPrintP, "PRESSURE: 0%02d hPa", pressure);
-					LCD_Font(0, 316, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+					sprintf(weatherPrintP, "0%02d hPa", pressure);
+					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
 				}					
 					pressureLast = pressure;
 			}
 			rtcMinLast = rtcMin;
 		}
-			rtcSecLast = rtcSec;
+		
+//		LCD_Rect(3, 115, 238, 10, 1, BLUE);
+//		if (!rtcSec) LCD_Rect_Fill(4, 117, 236, 7, BLACK);		
+//		LCD_Rect_Fill(4, 117, rtcSec * 4, 7, WHITE);
+	
+		rtcSecLast = rtcSec;
 	}
 }
     /* USER CODE END WHILE */
@@ -1107,27 +1103,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
- /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM4 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* USER CODE BEGIN Callback 0 */
-
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM4) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
-
-  /* USER CODE END Callback 1 */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.

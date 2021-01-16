@@ -232,7 +232,7 @@ double normalize(double v) {
     return v;
 }
 
-float DS3231_getMoonDay() {
+float DS3231_getMoonDay(void) {
     uint16_t Y = DS3231_getYear() + 2000;
     uint8_t M = DS3231_getMonth();
     uint8_t D = DS3231_getDate();

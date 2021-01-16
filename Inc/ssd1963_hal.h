@@ -167,6 +167,7 @@ typedef struct { // Data stored for FONT AS A WHOLE:
 } GFXfont;
 
 uint32_t RGB(uint8_t r, uint8_t g, uint8_t b);
+uint32_t HUE256 (uint8_t val);
 
 void LCD_Init(void);
 void LCD_Orientation(uint8_t orientation);

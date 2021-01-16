@@ -9,7 +9,6 @@
 "station_ssd1963_f103c8t6\main.o"
 "station_ssd1963_f103c8t6\stm32f1xx_it.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal_msp.o"
-"station_ssd1963_f103c8t6\stm32f1xx_hal_timebase_tim.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal_gpio_ex.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal_i2c.o"
 "station_ssd1963_f103c8t6\stm32f1xx_hal.o"
