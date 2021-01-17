@@ -57,6 +57,8 @@
 #include "fonts/DejaVuSans/036_DejaVuSans.h"
 #include "fonts/DejaVuSans/072_DejaVuSans.h"
 
+#include "fonts/Moon_Phases/028_Moon_Phases.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -549,7 +551,7 @@ DS3231_setAlarm1Min(34);
 	LCD_Line(700, 2, 700, 478, 1, BLUE);
 		
   /* USER CODE END 2 */
-
+LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_28, 1, WHITE);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
     while (1) {
