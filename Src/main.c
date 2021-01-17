@@ -86,7 +86,7 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
-uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1;
+uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 1, alarm1 = 0;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
         rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -176,7 +176,7 @@ void sensorRemote() {
 
     if (humidityRemote != humidityRemoteLast && humidityRemote > 0) {
 
-        char weatherPrintRemoteH[3];
+        char weatherPrintRemoteH[4];
 
         if (humidityRemoteLast >= 10) {
             sprintf(weatherPrintRemoteH, "%.1f", humidityRemoteLast);
@@ -382,6 +382,21 @@ void barograph(void) {
 				TIM1 -> CCR1 = i;
 			}
 	}
+	
+	void alarm(void)
+	{
+			if (rtcHrsA1 < 24 && rtcMinA1 < 60)
+			{			
+				if (printAlarm)
+				{
+			char alarm1[8];			
+			sprintf(alarm1, "%02d:%02d", rtcHrsA1, rtcMinA1);
+			LCD_Font(2, 250, alarm1, &DejaVu_Sans_36, 1, HUE_08);
+					printAlarm = 0;
+				}		
+				if (alarm1 && rtcHrsA1 == rtcHrs && rtcMinA1 == rtcMin) beep();
+			}
+	}
 
 /* USER CODE END 0 */
 
@@ -423,6 +438,9 @@ int main(void)
     LCD_Init();
     XPT2046_Init();
     BME280_Init();
+		
+DS3231_setAlarm1Hour(13);
+DS3231_setAlarm1Min(34);
 
 //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 //HAL_Delay(100);
@@ -472,7 +490,7 @@ int main(void)
 	LCD_Rect(745, 70, 20, 402, 1, CYAN);
 
 	for (uint32_t i = 0; i < 41; i++) {
-			char numbers[2];
+			char numbers[3];
 			sprintf(numbers, "%02d", 40 - i);
 			if (i % 5 == 0) LCD_Font(710, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
 			if (i % 5 == 0 && i > 30) LCD_Font(710, 77 + i * 10, "0", &DejaVu_Sans_18, 1, BLACK);
@@ -486,7 +504,7 @@ int main(void)
 	for (uint8_t i = 0; i < 41; i++) {
 			float n = (uint16_t) 100.0 - i * 2.5;
 			if ((uint8_t) n % 10 == 0) {
-				char numbers[2];
+				char numbers[3];
 				sprintf(numbers, "%02d", (uint8_t) n);
 				if (n < 100) LCD_Font(610, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
 				else LCD_Font(601, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
@@ -502,7 +520,7 @@ int main(void)
 	for (uint8_t i = 0; i < 41; i++) {
 			float n = (uint16_t) 100.0 - i * 2.5;
 			if ((uint8_t) n % 10 == 0) {
-					char numbers[2];
+					char numbers[3];
 					sprintf(numbers, "%02d", (uint8_t) n);
 					if (n < 100) LCD_Font(410, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
 					else LCD_Font(401, 77 + i * 10, numbers, &DejaVu_Sans_18, 1, GREEN);
@@ -516,7 +534,7 @@ int main(void)
 	LCD_Rect(545, 70, 20, 402, 1, CYAN);
 
 	for (int32_t i = 0; i < 81; i++) {
-			char numbers[2];
+			char numbers[3];
 			sprintf(numbers, "%02d", 40 - i);
 			if (i % 10 == 0) {
 					if (40 - i >= 0) LCD_Font(510, 77 + i * 5, numbers, &DejaVu_Sans_18, 1, GREEN);
@@ -577,7 +595,7 @@ int main(void)
 //		rtcDayA2 = DS3231_getAlarm2Day();
 //		rtcDateA2 = DS3231_getAlarm2Date();
 		
-		char clockPrint[5];
+		char clockPrint[13];
 
 			if (rtcSecLast != rtcSec) {
 				
@@ -783,15 +801,15 @@ int main(void)
 					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
 				}					
 					pressureLast = pressure;
-			}
+			}	
 			rtcMinLast = rtcMin;
 		}
 		
 //		LCD_Rect(3, 115, 238, 10, 1, BLUE);
 //		if (!rtcSec) LCD_Rect_Fill(4, 117, 236, 7, BLACK);		
 //		LCD_Rect_Fill(4, 117, rtcSec * 4, 7, WHITE);
-	
-		rtcSecLast = rtcSec;
+	alarm();
+	rtcSecLast = rtcSec;
 	}
 }
     /* USER CODE END WHILE */
