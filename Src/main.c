@@ -57,7 +57,7 @@
 #include "fonts/DejaVuSans/036_DejaVuSans.h"
 #include "fonts/DejaVuSans/072_DejaVuSans.h"
 
-#include "fonts/Moon_Phases/028_Moon_Phases.h"
+#include "fonts/Moon_Phases/026_Moon_Phases.h"
 
 /* USER CODE END Includes */
 
@@ -372,7 +372,29 @@ void barograph(void) {
 		if (barographMaximum >= 1000) sprintf(s, "|MAX:%02d", barographMaximum);
 		else sprintf(s, "|MAX:0%02d", barographMaximum);
 		LCD_Font(292, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
- 
+		
+		LCD_Rect_Fill(370, 330, 29, 127, BLACK);
+		
+		if (barographHourly[365] != barographHourly[366])
+		{
+		if (barographHourly[365] == barographHourly[366] + 1 || barographHourly[365] >= barographHourly[366] +3)
+			LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
+
+			if (barographHourly[365] >= barographHourly[366] +2)
+			{
+			LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
+			LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
+			}
+			
+			if (barographHourly[365] == barographHourly[366] - 1 || barographHourly[365] <= barographHourly[366] -3)
+			LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
+
+			if (barographHourly[365] <= barographHourly[366] -2)
+			{		
+			LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);			 		
+			LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
+			}
+		}
 		barographViewed = 1;
 	}
 }
@@ -551,7 +573,7 @@ DS3231_setAlarm1Min(34);
 	LCD_Line(700, 2, 700, 478, 1, BLUE);
 		
   /* USER CODE END 2 */
-LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_28, 1, WHITE);
+LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_26, 1, WHITE);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
     while (1) {
