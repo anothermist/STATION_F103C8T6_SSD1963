@@ -102,7 +102,6 @@ uint64_t startHistory;
 uint16_t barographHourly[367] = {25};
 uint16_t barographDaily[367];
 uint16_t barographMinimum = 0, barographMaximum = 0, barographAverage = 0;
-uint8_t barographYearly = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -341,12 +340,29 @@ void barograph(void) {
 				}
 		}
 		barographDaily[0] = rtcDate;	
+		
+		LCD_Rect(1, 201, 368, 128, 1, BLUE);
+		
+				for (uint16_t i = 0; i < 366; i++) {
+			
+		int16_t val = 0;
+
+					val = barographDaily[i + 1];
+
+			if (val >= 938 && val <= 1064)
+			{
+					LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);					
+					LCD_Line(2 + i, 328, 2 + i, 202 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
+			}
+    }
+		
+		LCD_Rect(1, 329, 368, 128, 1, BLUE);
 					
 		for (uint16_t i = 0; i < 366; i++) {
 			
 		int16_t val = 0;
-		if (barographYearly) val = barographDaily[i + 1];
-		else val = barographHourly[i + 1];
+
+			val = barographHourly[i + 1];
 			
 			if (val >= 938 && val <= 1064)
 			{
@@ -358,20 +374,22 @@ void barograph(void) {
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
 		
 		char s[10];
-
-		LCD_Font(2, 474, "HISTORY|", &DejaVu_Sans_18, 1, MAGENTA);
 		
-		if (barographAverage >= 1000) sprintf(s, "|MID:%02d", barographAverage);
-		else sprintf(s, "|MID:0%02d|", barographAverage);
-		LCD_Font(91, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
+		if (barographAverage >= 1000) sprintf(s, "Mid:%02d|", barographAverage);
+		else sprintf(s, "Mid:0%02d|", barographAverage);
+		LCD_Font(1, 474, s, &DejaVu_Sans_18, 1, GRAY);
 		
-		if (barographMinimum >= 1000) sprintf(s, "|MIN:%02d|", barographMinimum);
-		else sprintf(s, "|MIN:0%02d|", barographMinimum);
-		LCD_Font(191, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
+		if (barographMinimum >= 1000) sprintf(s, "|Min:%02d|", barographMinimum);
+		else sprintf(s, "|Min:0%02d|", barographMinimum);
+		LCD_Font(91, 474, s, &DejaVu_Sans_18, 1, GRAY);
 		
-		if (barographMaximum >= 1000) sprintf(s, "|MAX:%02d", barographMaximum);
-		else sprintf(s, "|MAX:0%02d", barographMaximum);
-		LCD_Font(292, 474, s, &DejaVu_Sans_18, 1, MAGENTA);
+		if (barographMaximum >= 1000) sprintf(s, "|Max:%02d|", barographMaximum);
+		else sprintf(s, "|Max:0%02d|", barographMaximum);
+		LCD_Font(188, 474, s, &DejaVu_Sans_18, 1, GRAY);
+		
+		if (pressure >= 1000) sprintf(s, "|Now:%02d", barographHourly[366]);
+		else sprintf(s, "|Now:0%02d", barographHourly[366]);
+		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
 		
 		LCD_Rect_Fill(370, 330, 29, 127, BLACK);
 		
@@ -408,7 +426,9 @@ void barograph(void) {
 	}
 	
 	void alarm(void)
-	{
+	{	
+//		LCD_Rect_Round_Fill(60, 295, 100, 30, 8, GRAY);
+		
 			if (rtcHrsA1 < 24 && rtcMinA1 < 60)
 			{			
 				if (printAlarm)
@@ -500,15 +520,6 @@ DS3231_setAlarm1Min(34);
 	uint8_t uartTransmitDMA[] = "UART DMA OK\r\n";
 	HAL_UART_Transmit_DMA(&huart1, uartTransmitDMA, sizeof(uartTransmitDMA));
 
-//	LCD_Line(1, 113, 399, 113, 1, BLUE);
-	
-	
-
-	LCD_Rect(1, 329, 368, 128, 1, BLUE);
-	
-	LCD_Line(2, 393, 368, 393, 1, GREEN_D);
-	
-//	LCD_Line(2, 288, 399, 288, 1, BLUE);
 	LCD_Line(400, 2, 400, 478, 1, BLUE);
 	LCD_Rect(445, 70, 20, 402, 1, CYAN);	
 	LCD_Rect(745, 70, 20, 402, 1, CYAN);
@@ -724,10 +735,7 @@ LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_26, 1, WHITE);
 								LCD_Font(2, 140, "SA' ", &DejaVu_Sans_36, 1, BLACK);
 								LCD_Font(2, 140, "SU' ", &DejaVu_Sans_36, 1, GRAY);
 								break;
-				}
-				
-				
-				
+				}			
 				rtcLastDay = rtcDay;
 			}
 
@@ -802,37 +810,37 @@ LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_26, 1, WHITE);
 					humidityLast = humidity;
 			}
 			
-			char weatherPrintP[8];
+//			char weatherPrintP[8];
 
-			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
-				
-				if (pressureLast >= 1000)
-				{
-					sprintf(weatherPrintP, "%02d hPa", pressureLast);
-					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-				} else 
-				{
-					sprintf(weatherPrintP, "0%02d hPa", pressureLast);
-					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-				}
-						
-				if (pressure >= 1000) {
-						sprintf(weatherPrintP, "%02d hPa", pressure);						
-						LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
-				} else 
-				{
-					sprintf(weatherPrintP, "0%02d hPa", pressure);
-					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
-				}					
-					pressureLast = pressure;
-			}	
+//			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
+//				
+//				if (pressureLast >= 1000)
+//				{
+//					sprintf(weatherPrintP, "%02d hPa", pressureLast);
+//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+//				} else 
+//				{
+//					sprintf(weatherPrintP, "0%02d hPa", pressureLast);
+//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
+//				}
+//						
+//				if (pressure >= 1000) {
+//						sprintf(weatherPrintP, "%02d hPa", pressure);						
+//						LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+//				} else 
+//				{
+//					sprintf(weatherPrintP, "0%02d hPa", pressure);
+//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
+//				}					
+//					pressureLast = pressure;
+//			}	
 			rtcMinLast = rtcMin;
 		}
 		
 //		LCD_Rect(3, 115, 238, 10, 1, BLUE);
 //		if (!rtcSec) LCD_Rect_Fill(4, 117, 236, 7, BLACK);		
 //		LCD_Rect_Fill(4, 117, rtcSec * 4, 7, WHITE);
-	alarm();
+//	alarm();
 	rtcSecLast = rtcSec;
 	}
 }

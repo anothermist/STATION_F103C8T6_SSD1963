@@ -1,7 +1,7 @@
 Dependencies for Project 'STATION_SSD1963_F103C8T6', Target 'STATION_SSD1963_F103C8T6': (DO NOT MODIFY !)
 CompilerVersion: 6150000::V6.15::ARMCLANG
 F (startup_stm32f103xb.s)(0x60036DCF)(--target=arm-arm-none-eabi -mcpu=cortex-m3 -masm=auto -c-gdwarf-3 -Wa,armasm,--pd,"__MICROLIB SETA 1"-I./RTE/_STATION_SSD1963_F103C8T6-IC:/Users/USER/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include-IC:/Users/USER/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.3.0/Device/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 533" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F10X_MD SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o station_ssd1963_f103c8t6/startup_stm32f103xb.o)
-F (../Src/main.c)(0x6006375D)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -Oz -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_STATION_SSD1963_F103C8T6-IC:/Users/USER/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include-IC:/Users/USER/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.3.0/Device/Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6/main.o -MD)
+F (../Src/main.c)(0x60069630)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -Oz -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_STATION_SSD1963_F103C8T6-IC:/Users/USER/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include-IC:/Users/USER/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.3.0/Device/Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6/main.o -MD)
 I (..\Inc\main.h)(0x60036DCD)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x60036B08)
 I (..\Inc\stm32f1xx_hal_conf.h)(0x60036DCD)
@@ -36,7 +36,7 @@ I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h)(0x60036B08)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h)(0x60036B08)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x5F37B1B4)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x5F37B1A0)
-I (..\Inc\ssd1963_hal.h)(0x6002AE96)
+I (..\Inc\ssd1963_hal.h)(0x60069236)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5F37B1AE)
 I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x5F37B1A4)
 I (..\Inc\xpt2046.h)(0x6002AE96)
@@ -219,7 +219,7 @@ I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h)(0x60036B08)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h)(0x60036B08)
 I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x5F37B1A0)
 F (..\Src\ssd1963_hal.c)(0x6002AE96)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m3 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -Oz -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_STATION_SSD1963_F103C8T6-IC:/Users/USER/AppData/Local/Arm/Packs/ARM/CMSIS/5.7.0/CMSIS/Core/Include-IC:/Users/USER/AppData/Local/Arm/Packs/Keil/STM32F1xx_DFP/2.3.0/Device/Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o station_ssd1963_f103c8t6/ssd1963_hal.o -MD)
-I (..\Inc\ssd1963_hal.h)(0x6002AE96)
+I (..\Inc\ssd1963_hal.h)(0x60069236)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x60036B08)
 I (..\Inc\stm32f1xx_hal_conf.h)(0x60036DCD)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h)(0x60036B08)
