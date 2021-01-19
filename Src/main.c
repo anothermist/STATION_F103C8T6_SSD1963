@@ -341,21 +341,6 @@ void barograph(void) {
 		}
 		barographDaily[0] = rtcDate;	
 		
-		LCD_Rect(1, 201, 368, 128, 1, BLUE);
-		
-				for (uint16_t i = 0; i < 366; i++) {
-			
-		int16_t val = 0;
-
-					val = barographDaily[i + 1];
-
-			if (val >= 938 && val <= 1064)
-			{
-					LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);					
-					LCD_Line(2 + i, 328, 2 + i, 202 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
-			}
-    }
-		
 		LCD_Rect(1, 329, 368, 128, 1, BLUE);
 					
 		for (uint16_t i = 0; i < 366; i++) {
@@ -368,6 +353,21 @@ void barograph(void) {
 			{
 					LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);					
 					LCD_Line(2 + i, 456, 2 + i, 330 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
+			}
+    }
+		
+				LCD_Rect(1, 201, 368, 128, 1, BLUE);
+		
+				for (uint16_t i = 0; i < 366; i++) {
+			
+		int16_t val = 0;
+
+					val = barographDaily[i + 1];
+
+			if (val >= 938 && val <= 1064)
+			{
+					LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);					
+					LCD_Line(2 + i, 328, 2 + i, 202 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
 			}
     }
 		
