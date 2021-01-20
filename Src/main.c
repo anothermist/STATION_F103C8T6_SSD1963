@@ -423,7 +423,7 @@ void barograph(void) {
 	}
 }
 
-void beep(void)
+void signal(void)
 {
 	for (uint32_t i = 0; i <= 65536; i++)
 	{
@@ -433,18 +433,45 @@ void beep(void)
 
 void alarm(void)
 {
-	//		LCD_Rect_Round_Fill(60, 295, 100, 30, 8, GRAY);
-
+	alarm1 = AT24XX_Read(4000);
 	if (rtcHrsA1 < 24 && rtcMinA1 < 60)
 	{
 		if (printAlarm)
 		{
-			char alarm1[8];
-			sprintf(alarm1, "%02d:%02d", rtcHrsA1, rtcMinA1);
-			LCD_Font(2, 250, alarm1, &DejaVu_Sans_36, 1, HUE_08);
+			char alarm1Time[8];
+			sprintf(alarm1Time, "%02d:%02d", rtcHrsA1, rtcMinA1);
+			if (alarm1) LCD_Font(70, 197, alarm1Time, &DejaVu_Sans_36, 1, RED);
+			else LCD_Font(70, 197, alarm1Time, &DejaVu_Sans_36, 1, GRAY);
+			
+			LCD_Rect_Round(2, 170, 30, 30, 2, 1, GRAY);
+			LCD_Font(8, 179, "_", &DejaVu_Sans_36, 1, GRAY);
+			LCD_Rect_Round(34, 170, 30, 30, 2, 1, GRAY);
+			LCD_Font(34, 197, "+", &DejaVu_Sans_36, 1, GRAY);
+			
+			LCD_Rect_Round(182, 170, 30, 30, 2, 1, GRAY);
+			LCD_Font(188, 179, "_", &DejaVu_Sans_36, 1, GRAY);
+			LCD_Rect_Round(214, 170, 30, 30, 2, 1, GRAY);
+			LCD_Font(214, 197, "+", &DejaVu_Sans_36, 1, GRAY);
+			
+			LCD_Rect_Round(260, 170, 130, 30, 2, 1, GRAY);
+			LCD_Rect_Round(300, 175, 50, 20, 2, 1, GRAY);
+			LCD_Font(262, 192, "OFF", &DejaVu_Sans_18, 1, GRAY);
+			LCD_Font(356, 192, "ON", &DejaVu_Sans_18, 1, GRAY);
+			
+			if (alarm1)
+			{
+				LCD_Rect_Round_Fill(329, 176, 20, 18, 1, RED);
+				LCD_Rect_Round_Fill(301, 176, 20, 18, 1, BLACK);
+			}
+			else
+			{
+				LCD_Rect_Round_Fill(301, 176, 20, 18, 1, GREEN);
+				LCD_Rect_Round_Fill(329, 176, 20, 18, 1, BLACK);
+			}
+		
 			printAlarm = 0;
 		}
-		if (alarm1 && rtcHrsA1 == rtcHrs && rtcMinA1 == rtcMin) beep();
+		if (alarm1 && rtcHrsA1 == rtcHrs && rtcMinA1 == rtcMin) signal();
 	}
 }
 
@@ -593,14 +620,14 @@ int main(void)
 	LCD_Line(700, 2, 700, 478, 1, BLUE);
 
 	/* USER CODE END 2 */
-	LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_26, 1, WHITE);
+//	LCD_Font(50, 200, "ABCDEFGH", &Moon_Phases_26, 1, WHITE);
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while (1) {
 
 		if (sound)
 		{
-			beep();
+			signal();
 			sound = 0;
 		}
 
@@ -822,38 +849,13 @@ int main(void)
 
 					humidityLast = humidity;
 				}
-
-				//			char weatherPrintP[8];
-
-				//			if (pressure != pressureLast && pressure >= 300 && pressure <= 1100) {
-				//				
-				//				if (pressureLast >= 1000)
-				//				{
-				//					sprintf(weatherPrintP, "%02d hPa", pressureLast);
-				//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-				//				} else 
-				//				{
-				//					sprintf(weatherPrintP, "0%02d hPa", pressureLast);
-				//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, BLACK);
-				//				}
-				//						
-				//				if (pressure >= 1000) {
-				//						sprintf(weatherPrintP, "%02d hPa", pressure);						
-				//						LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
-				//				} else 
-				//				{
-				//					sprintf(weatherPrintP, "0%02d hPa", pressure);
-				//					LCD_Font(224, 326, weatherPrintP, &DejaVu_Sans_36, 1, HUE_21);
-				//				}					
-				//					pressureLast = pressure;
-				//			}	
 				rtcMinLast = rtcMin;
 			}
 
 			//		LCD_Rect(3, 115, 238, 10, 1, BLUE);
 			//		if (!rtcSec) LCD_Rect_Fill(4, 117, 236, 7, BLACK);		
 			//		LCD_Rect_Fill(4, 117, rtcSec * 4, 7, WHITE);
-			//	alarm();
+			alarm();
 			rtcSecLast = rtcSec;
 		}
 	}
