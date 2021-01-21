@@ -88,7 +88,7 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
-uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 1, alarm1 = 0;
+uint8_t rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 0, alarm1 = 0;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
 rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -436,8 +436,9 @@ void alarm(void)
 	alarm1 = AT24XX_Read(4000);
 	if (rtcHrsA1 < 24 && rtcMinA1 < 60)
 	{
-		if (printAlarm)
+		if (!printAlarm)
 		{
+			LCD_Rect_Fill(71, 170, 105, 28, BLACK);
 			char alarm1Time[8];
 			sprintf(alarm1Time, "%02d:%02d", rtcHrsA1, rtcMinA1);
 			if (alarm1) LCD_Font(70, 197, alarm1Time, &DejaVu_Sans_36, 1, RED);
@@ -465,11 +466,11 @@ void alarm(void)
 			}
 			else
 			{
-				LCD_Rect_Round_Fill(301, 176, 20, 18, 1, GREEN);
+				LCD_Rect_Round_Fill(301, 176, 20, 18, 1, GRAY);
 				LCD_Rect_Round_Fill(329, 176, 20, 18, 1, BLACK);
 			}
 		
-			printAlarm = 0;
+			printAlarm = 1;
 		}
 		if (alarm1 && rtcHrsA1 == rtcHrs && rtcMinA1 == rtcMin) signal();
 	}
@@ -516,8 +517,8 @@ int main(void)
 	XPT2046_Init();
 	BME280_Init();
 
-	DS3231_setAlarm1Hour(13);
-	DS3231_setAlarm1Min(34);
+//	DS3231_setAlarm1Hour(0);
+//	DS3231_setAlarm1Min(0);
 
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 	//HAL_Delay(100);
@@ -644,7 +645,48 @@ int main(void)
 			if (touchXr && touchYr && touchXr != 0x2F5 && touchYr != 0x0DB) {
 				touchX = touchXr;
 				touchY = touchYr;
-				sound = 1;
+				
+				
+				if (touchX > 0 && touchX < 32 && touchY > 170 && touchY < 200)
+				{
+					LCD_Rect_Round(2, 170, 30, 30, 2, 1, RED);
+					LCD_Font(8, 179, "_", &DejaVu_Sans_36, 1, RED);
+					if (rtcHrsA1 > 0) rtcHrsA1 = rtcHrsA1 - 1; else rtcHrsA1 = 23;
+					DS3231_setAlarm1Hour(rtcHrsA1);
+					printAlarm = 0;
+					sound = 1;
+				} else if (touchX > 32 && touchX < 64 && touchY > 170 && touchY < 200)
+				{
+					LCD_Rect_Round(34, 170, 30, 30, 2, 1, RED);
+					LCD_Font(34, 197, "+", &DejaVu_Sans_36, 1, RED);
+					if (rtcHrsA1 < 23) rtcHrsA1 = rtcHrsA1 + 1; else rtcHrsA1 = 0;
+					DS3231_setAlarm1Hour(rtcHrsA1);
+					printAlarm = 0;
+					sound = 1;
+				} else if (touchX > 182 && touchX < 212 && touchY > 170 && touchY < 200)
+				{
+					if (rtcMinA1 > 0) rtcMinA1 = rtcMinA1 - 5; else rtcMinA1 = 55;
+					DS3231_setAlarm1Min(rtcMinA1);
+					LCD_Rect_Round(182, 170, 30, 30, 2, 1, RED);
+					LCD_Font(188, 179, "_", &DejaVu_Sans_36, 1, RED);
+					printAlarm = 0;
+					sound = 1;
+				} else if (touchX > 214 && touchX < 244 && touchY > 170 && touchY < 200)
+				{
+					if (rtcMinA1 < 55) rtcMinA1 = rtcMinA1 + 5; else rtcMinA1 = 0;
+					DS3231_setAlarm1Min(rtcMinA1);
+					LCD_Rect_Round(214, 170, 30, 30, 2, 1, RED);
+					LCD_Font(214, 197, "+", &DejaVu_Sans_36, 1, RED);
+					printAlarm = 0;
+					sound = 1;
+				} else if (touchX > 260 && touchX < 390 && touchY > 170 && touchY < 200)
+				{
+					if (AT24XX_Read(4000)) AT24XX_Update(4000, 0);
+					else AT24XX_Update(4000, 1);
+					printAlarm = 0;
+					sound = 1;
+				}
+				
 			}
 		}
 
@@ -851,10 +893,6 @@ int main(void)
 				}
 				rtcMinLast = rtcMin;
 			}
-
-			//		LCD_Rect(3, 115, 238, 10, 1, BLUE);
-			//		if (!rtcSec) LCD_Rect_Fill(4, 117, 236, 7, BLACK);		
-			//		LCD_Rect_Fill(4, 117, rtcSec * 4, 7, WHITE);
 			alarm();
 			rtcSecLast = rtcSec;
 		}
