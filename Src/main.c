@@ -393,7 +393,7 @@ void barograph(void) {
 		else sprintf(s, "|Max:0%02d|", barographMaximum);
 		LCD_Font(188, 474, s, &DejaVu_Sans_18, 1, GRAY);
 
-		if (pressure >= 1000) sprintf(s, "|Now:%02d", barographHourly[366]);
+		if (barographHourly[366] >= 1000) sprintf(s, "|Now:%02d", barographHourly[366]);
 		else sprintf(s, "|Now:0%02d", barographHourly[366]);
 		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
 
@@ -636,6 +636,7 @@ int main(void)
 			HAL_Delay(200);
 			rx_index = 0;
 			uartDecode();
+			sound = 1;
 		}
 
 		if ((HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)) {
