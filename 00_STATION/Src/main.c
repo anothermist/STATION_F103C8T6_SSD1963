@@ -145,7 +145,7 @@ void sensorRemote() {
 
 		char weatherPrintRemoteT[4];
 
-		if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -10)) {
+		if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -100)) {
 			sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
 			LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
 		}
@@ -153,24 +153,20 @@ void sensorRemote() {
 			sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
 			LCD_Font(531, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
 		}
-		else if (temperatureRemoteLast <= -10) {
+		else if (temperatureRemoteLast <= -100) {
 			sprintf(weatherPrintRemoteT, "%2d", (int8_t)temperatureRemoteLast);
 			LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, BLACK);
 		}
 
 		temperatureRemoteLast = temperatureRemote;
 
-		if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -10)) {
+		if (temperatureRemoteLast >= 10 || (temperatureRemoteLast < 0 && temperatureRemoteLast > -100)) {
 			sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
 			LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
 		}
 		else if (temperatureRemoteLast < 10 && temperatureRemoteLast > 0) {
 			sprintf(weatherPrintRemoteT, "%.1f", temperatureRemoteLast);
 			LCD_Font(531, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
-		}
-		else if (temperatureRemoteLast <= -10) {
-			sprintf(weatherPrintRemoteT, "%2d", (int8_t)temperatureRemoteLast);
-			LCD_Font(505, 40, weatherPrintRemoteT, &DejaVu_Sans_36, 1, ORANGE);
 		}
 
 		for (double i = 0.0; i < 400; i++) {
