@@ -88,7 +88,7 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
-uint8_t  clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 0, alarm1 = 0;
+uint8_t  rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 0, alarm1 = 0;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
 rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -259,7 +259,6 @@ void uartDecode() {
 		val[1] = rx_buffer[13];
 		DS3231_setYear(atoi(val));
 
-		val[0] = 0;
 		val[1] = rx_buffer[14];
 		DS3231_setDay(atoi(val));
 	}
@@ -518,6 +517,17 @@ int main(void)
 	BME280_Init();
 
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	
+		if (rtcSet) {
+		DS3231_setSec(0);
+		DS3231_setMin(10);
+		DS3231_setHrs(7);
+		DS3231_setDay(5);
+		DS3231_setDate(15);
+		DS3231_setMonth(1);
+		DS3231_setYear(21);
+		rtcSet = 1;
+	}
 
 	if (clearEEPROM) {
 		for (uint16_t i = 0; i < 4096; i++) {
