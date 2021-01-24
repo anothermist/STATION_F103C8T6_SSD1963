@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"remote_sensor\startup_stm32f103xb.o"
+"remote_sensor\main.o"
+"remote_sensor\stm32f1xx_it.o"
+"remote_sensor\stm32f1xx_hal_msp.o"
+"remote_sensor\sht3x.o"
+"remote_sensor\stm32f1xx_hal_gpio_ex.o"
+"remote_sensor\stm32f1xx_hal_i2c.o"
+"remote_sensor\stm32f1xx_hal.o"
+"remote_sensor\stm32f1xx_hal_rcc.o"
+"remote_sensor\stm32f1xx_hal_rcc_ex.o"
+"remote_sensor\stm32f1xx_hal_gpio.o"
+"remote_sensor\stm32f1xx_hal_dma.o"
+"remote_sensor\stm32f1xx_hal_cortex.o"
+"remote_sensor\stm32f1xx_hal_pwr.o"
+"remote_sensor\stm32f1xx_hal_flash.o"
+"remote_sensor\stm32f1xx_hal_flash_ex.o"
+"remote_sensor\stm32f1xx_hal_exti.o"
+"remote_sensor\stm32f1xx_hal_tim.o"
+"remote_sensor\stm32f1xx_hal_tim_ex.o"
+"remote_sensor\stm32f1xx_hal_uart.o"
+"remote_sensor\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "REMOTE_SENSOR\REMOTE_SENSOR.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "REMOTE_SENSOR.map" -o REMOTE_SENSOR\REMOTE_SENSOR.axf

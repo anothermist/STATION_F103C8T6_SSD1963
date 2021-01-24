@@ -624,7 +624,6 @@ int main(void)
 			HAL_Delay(200);
 			rx_index = 0;
 			uartDecode();
-			sound = 1;
 		}
 
 		if ((HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)) {

@@ -1,1 +1,3 @@
 RT012330251 = 1 hour, 23 minutes, 30 seconds, 2025 year, monday
+RS-123456   = -12.5 C, 45.6 % humidity
+RS0123456   =  12.5 C, 45.6 % humidity
