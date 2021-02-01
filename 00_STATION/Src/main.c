@@ -57,7 +57,7 @@
 #include "fonts/DejaVuSans/036_DejaVuSans.h"
 #include "fonts/DejaVuSans/072_DejaVuSans.h"
 
-#include "fonts/Moon_Phases/026_Moon_Phases.h"
+//#include "fonts/Moon_Phases/024_Moon_Phases.h"
 
 /* USER CODE END Includes */
 
