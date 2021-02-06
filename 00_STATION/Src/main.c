@@ -350,9 +350,8 @@ void barograph(void) {
 
 			val = barographHourly[i + 1];
 			
-			
-			if (val > barographMaximum) val = barographMaximum;
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
+			else if (val > barographMaximum) val = barographMaximum;
 
 //			if (val >= barographMaximum - 126 && val <= barographMaximum)
 //			{
@@ -369,8 +368,8 @@ void barograph(void) {
 
 			val = barographDaily[i + 1];
 			
-			if (val > barographMaximum) val = barographMaximum;
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
+			else if (val > barographMaximum) val = barographMaximum;
 
 //			if (val >= barographMaximum - 126 && val <= barographMaximum)
 //			{
