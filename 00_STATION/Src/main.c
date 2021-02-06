@@ -68,7 +68,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+//#define MAX_PRESSURE 1064
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -349,12 +349,16 @@ void barograph(void) {
 			int16_t val = 0;
 
 			val = barographHourly[i + 1];
+			
+			
+			if (val > barographMaximum) val = barographMaximum;
+			if (val < barographMaximum - 127) val = barographMaximum - 127;
 
-			if (val >= 938 && val <= 1064)
-			{
+//			if (val >= barographMaximum - 126 && val <= barographMaximum)
+//			{
 				LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
-				LCD_Line(2 + i, 456, 2 + i, 330 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
-			}
+				LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+//			}
 		}
 
 		LCD_Rect(1, 201, 368, 128, 1, BLUE);
@@ -364,12 +368,15 @@ void barograph(void) {
 			int16_t val = 0;
 
 			val = barographDaily[i + 1];
+			
+			if (val > barographMaximum) val = barographMaximum;
+			if (val < barographMaximum - 127) val = barographMaximum - 127;
 
-			if (val >= 938 && val <= 1064)
-			{
+//			if (val >= barographMaximum - 126 && val <= barographMaximum)
+//			{
 				LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
-				LCD_Line(2 + i, 328, 2 + i, 202 + (1064 - val), 1, RGB(255 - ((1064 - val) * 2), 0, 255 - (255 - ((1064 - val) * 2))));
-			}
+				LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+//			}
 		}
 
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
