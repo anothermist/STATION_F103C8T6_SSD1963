@@ -281,7 +281,7 @@ void barograph(void) {
 		barographDaily[i] = byteS(AT24XX_Read(i * 2 + 2000), AT24XX_Read(i * 2 + 1 + 2000));
 	}
 
-	if (barographHourly[0] != rtcHrs && pressure > 300 && pressure < 1100) {
+	if (barographHourly[0] != rtcHrs  && pressure > 300 && pressure < 1100) {
 
 		barographHourly[0] = rtcHrs;
 
@@ -340,42 +340,42 @@ void barograph(void) {
 				if (barographDaily[366 - i] > barographMaximum) barographMaximum = barographDaily[366 - i];
 			}
 		}
+		
+		uint16_t barographMinimumLastDay = barographHourly[366];
+		uint16_t barographMaximumLastDay = barographHourly[366];
+				
+			for (uint8_t i = 1; i < 24; i++) {
+				if (barographHourly[366 - i] != 0) {
+				if (barographHourly[366 - i] < barographMinimumLastDay) barographMinimumLastDay = barographHourly[366 - i];
+				if (barographHourly[366 - i] > barographMaximumLastDay) barographMaximumLastDay = barographHourly[366 - i];					
+				}
+			}
+		
+			if (barographMinimumLastDay < barographMinimum) barographMinimum = barographMinimumLastDay;
+			if (barographMaximumLastDay > barographMaximum) barographMaximum = barographMaximumLastDay;
+			
+			
 		barographDaily[0] = rtcDate;
 
 		LCD_Rect(1, 329, 368, 128, 1, BLUE);
 
 		for (uint16_t i = 0; i < 366; i++) {
-
 			int16_t val = 0;
-
-			val = barographHourly[i + 1];
-			
+			val = barographHourly[i + 1];			
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
-			else if (val > barographMaximum) val = barographMaximum;
-
-//			if (val >= barographMaximum - 126 && val <= barographMaximum)
-//			{
 				LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
 				LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
-//			}
 		}
 
 		LCD_Rect(1, 201, 368, 128, 1, BLUE);
 
 		for (uint16_t i = 0; i < 366; i++) {
-
 			int16_t val = 0;
-
-			val = barographDaily[i + 1];
-			
+			val = barographDaily[i + 1];			
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
-			else if (val > barographMaximum) val = barographMaximum;
 
-//			if (val >= barographMaximum - 126 && val <= barographMaximum)
-//			{
 				LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
 				LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
-//			}
 		}
 
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
@@ -816,14 +816,16 @@ int main(void)
 					rtcYearLast = rtcYear;
 
 					//	rtcMoon = DS3231_getMoonDay();
-					barograph();
+					
+					pressure = (uint16_t)BME280_getPressure();					
+					if (pressure > 300 && pressure < 1100) barograph();
+					
 					rtcHrsLast = rtcHrs;
 					sound = 1;
 				}
 
 				temperature = BME280_getTemperature(-1);
 				humidity = BME280_getHumidity(-1);
-				pressure = (uint16_t)BME280_getPressure();
 
 				if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
 
