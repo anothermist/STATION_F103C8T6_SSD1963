@@ -206,66 +206,6 @@ void sensorRemote() {
 	}
 }
 
-void uartDecode() {
-
-	if (memcmp(rx_buffer, "CL", 2) == 0) {
-		for (uint16_t i = 0; i < 4096; i++) AT24XX_Update(i, 0);
-	}
-
-	if (memcmp(rx_buffer, "RS", 2) == 0) {
-
-		char valT[4] = { 0 };
-
-		for (uint8_t i = 0; i < 4; i++) valT[i] = rx_buffer[2 + i];
-
-		temperatureRemote = atoi(valT);
-		temperatureRemote = temperatureRemote / 10;
-
-		char valH[3] = { 0 };
-
-		for (uint8_t i = 0; i < 3; i++) valH[i] = rx_buffer[6 + i];
-
-		humidityRemote = atoi(valH);
-		humidityRemote = humidityRemote / 10;
-
-		sensorRemote();
-	}
-
-	if (memcmp(rx_buffer, "RT", 2) == 0) {
-
-		char val[2];
-
-		val[0] = rx_buffer[2];
-		val[1] = rx_buffer[3];
-		DS3231_setHrs(atoi(val));
-
-		val[0] = rx_buffer[4];
-		val[1] = rx_buffer[5];
-		DS3231_setMin(atoi(val));
-
-		val[0] = rx_buffer[6];
-		val[1] = rx_buffer[7];
-		DS3231_setSec(atoi(val));
-
-		val[0] = rx_buffer[8];
-		val[1] = rx_buffer[9];
-		DS3231_setDate(atoi(val));
-
-		val[0] = rx_buffer[10];
-		val[1] = rx_buffer[11];
-		DS3231_setMonth(atoi(val));
-
-		val[0] = rx_buffer[12];
-		val[1] = rx_buffer[13];
-		DS3231_setYear(atoi(val));
-
-		val[1] = rx_buffer[14];
-		DS3231_setDay(atoi(val));
-	}
-
-	for (uint8_t i = 0; i < 255; i++) rx_buffer[i] = 0;
-}
-
 uint8_t byteL(uint16_t val) {
 	return (val & 0xFF);
 }
@@ -279,6 +219,8 @@ uint16_t byteS(uint8_t byteL, uint8_t byteH) {
 }
 
 void barograph(void) {
+	
+	pressure = (uint16_t)BME280_getPressure();
 
 	for (uint16_t i = 0; i < 367; i++) {
 		barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
@@ -398,8 +340,8 @@ void barograph(void) {
 		else sprintf(s, "|Max:0%02d|", barographMaximum);
 		LCD_Font(188, 474, s, &DejaVu_Sans_18, 1, GRAY);
 
-		if (barographHourly[366] >= 1000) sprintf(s, "|Now:%02d", barographHourly[366]);
-		else sprintf(s, "|Now:0%02d", barographHourly[366]);
+		if (pressure >= 1000) sprintf(s, "|Now:%02d", pressure);
+		else sprintf(s, "|Now:0%02d", pressure);
 		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
 
 		LCD_Rect_Fill(370, 330, 29, 127, BLACK);
@@ -426,6 +368,71 @@ void barograph(void) {
 		}
 		barographViewed = 1;
 	}
+}
+
+void uartDecode() {
+
+	if (memcmp(rx_buffer, "CL", 2) == 0) {
+		for (uint16_t i = 0; i < 4096; i++) AT24XX_Update(i, 0);
+		
+		uint8_t uartTransmit[] = "EEPROM IS CLEANED\r\n";
+		HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
+		
+		barograph();
+	}
+
+	if (memcmp(rx_buffer, "RS", 2) == 0) {
+
+		char valT[4] = { 0 };
+
+		for (uint8_t i = 0; i < 4; i++) valT[i] = rx_buffer[2 + i];
+
+		temperatureRemote = atoi(valT);
+		temperatureRemote = temperatureRemote / 10;
+
+		char valH[3] = { 0 };
+
+		for (uint8_t i = 0; i < 3; i++) valH[i] = rx_buffer[6 + i];
+
+		humidityRemote = atoi(valH);
+		humidityRemote = humidityRemote / 10;
+
+		sensorRemote();
+	}
+
+	if (memcmp(rx_buffer, "RT", 2) == 0) {
+
+		char val[2];
+
+		val[0] = rx_buffer[2];
+		val[1] = rx_buffer[3];
+		DS3231_setHrs(atoi(val));
+
+		val[0] = rx_buffer[4];
+		val[1] = rx_buffer[5];
+		DS3231_setMin(atoi(val));
+
+		val[0] = rx_buffer[6];
+		val[1] = rx_buffer[7];
+		DS3231_setSec(atoi(val));
+
+		val[0] = rx_buffer[8];
+		val[1] = rx_buffer[9];
+		DS3231_setDate(atoi(val));
+
+		val[0] = rx_buffer[10];
+		val[1] = rx_buffer[11];
+		DS3231_setMonth(atoi(val));
+
+		val[0] = rx_buffer[12];
+		val[1] = rx_buffer[13];
+		DS3231_setYear(atoi(val));
+
+		val[1] = rx_buffer[14];
+		DS3231_setDay(atoi(val));
+	}
+
+	for (uint8_t i = 0; i < 255; i++) rx_buffer[i] = 0;
 }
 
 void signal(void)
@@ -523,6 +530,10 @@ int main(void)
 	BME280_Init();
 
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	
+	temperature = BME280_getTemperature(-1);
+	humidity = BME280_getHumidity(-1);
+	pressure = (uint16_t)BME280_getPressure();
 
 	if (rtcSet) {
 		DS3231_setSec(0);
@@ -831,9 +842,10 @@ int main(void)
 					rtcHrsLast = rtcHrs;
 					sound = 1;
 				}
-
+				
 				temperature = BME280_getTemperature(-1);
 				humidity = BME280_getHumidity(-1);
+//				pressure = (uint16_t)BME280_getPressure();
 
 				if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
 
