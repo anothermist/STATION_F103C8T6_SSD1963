@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Sat Feb  6 17:12:20 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Thu Feb 11 10:31:58 2021
 <BR><P>
 <H3>Maximum Stack Usage =        400 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -696,8 +696,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24XX_Read
 </UL>
-<BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
+<BR>[Called By]<UL><LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uartDecode
+<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
 </UL>
 
 <P><STRONG><a name="[78]"></a>AT24XX_Write</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, at24xx.o(.text.AT24XX_Write), UNUSED)
@@ -1678,7 +1679,7 @@ Global Symbols
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_2
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
+<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_12
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
 </UL>
@@ -1853,7 +1854,7 @@ Global Symbols
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_4
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_3
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_20
-<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_17
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
@@ -1867,7 +1868,7 @@ Global Symbols
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm
 </UL>
 
-<P><STRONG><a name="[14e]"></a>uartDecode</STRONG> (Thumb, 272 bytes, Stack size 32 bytes, main.o(.text.uartDecode))
+<P><STRONG><a name="[14e]"></a>uartDecode</STRONG> (Thumb, 304 bytes, Stack size 32 bytes, main.o(.text.uartDecode))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = uartDecode &rArr; sensorRemote &rArr; LCD_Font &rArr; OUTLINED_FUNCTION_0 &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setYear
@@ -1879,6 +1880,7 @@ Global Symbols
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setDate
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24XX_Update
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
 </UL>
@@ -1899,7 +1901,7 @@ Global Symbols
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
-<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.barograph)
@@ -2215,20 +2217,20 @@ Local Symbols
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[123]"></a>OUTLINED_FUNCTION_18</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_18))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_18 &rArr; __2sprintf
-</UL>
-<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
-</UL>
-
-<P><STRONG><a name="[124]"></a>OUTLINED_FUNCTION_19</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_19))
-<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = OUTLINED_FUNCTION_19 &rArr; AT24XX_Update &rArr; AT24XX_Read &rArr; AT24XX_Load &rArr; HAL_I2C_Mem_Read &rArr; I2C_RequestMemoryRead &rArr; I2C_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[123]"></a>OUTLINED_FUNCTION_18</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_18))
+<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = OUTLINED_FUNCTION_18 &rArr; AT24XX_Update &rArr; AT24XX_Read &rArr; AT24XX_Load &rArr; HAL_I2C_Mem_Read &rArr; I2C_RequestMemoryRead &rArr; I2C_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AT24XX_Update
 </UL>
 <BR>[Called By]<UL><LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
+</UL>
+
+<P><STRONG><a name="[124]"></a>OUTLINED_FUNCTION_19</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_19))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_19 &rArr; __2sprintf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 </UL>
 
 <P><STRONG><a name="[125]"></a>OUTLINED_FUNCTION_2</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_2))
