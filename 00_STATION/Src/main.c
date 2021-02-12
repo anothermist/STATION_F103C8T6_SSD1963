@@ -341,11 +341,15 @@ void barograph(void) {
 		if (pressure >= 1000) sprintf(s, "|Now:%02d", pressure);
 		else sprintf(s, "|Now:0%02d", pressure);
 		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
-
-		LCD_Rect_Fill(370, 330, 29, 127, BLACK);
 		
 		if (barographHourly[365] != barographHourly[366])
 		{
+			LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLACK);
+			LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLACK);			
+			LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLACK);
+			LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, BLACK);
+			LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, BLACK);
+			LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, BLACK);
 			if (barographHourly[365] > barographHourly[366])     LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLUE);
 			if (barographHourly[365] > barographHourly[366] + 1) LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLUE);			
 			if (barographHourly[365] > barographHourly[366] + 2) LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLUE);
@@ -356,6 +360,12 @@ void barograph(void) {
 
 		if (barographDaily[365] != barographDaily[366])
 		{
+			LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLACK);
+			LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLACK);
+			LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLACK);
+			LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, BLACK);
+			LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, BLACK);
+			LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, BLACK);			
 			if (barographDaily[365] > barographDaily[366])      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
 			if (barographDaily[365] > barographDaily[366] + 1) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
 			if (barographDaily[365] > barographDaily[366] + 2) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
