@@ -379,7 +379,7 @@ void barograph(void) {
 
 void uartDecode() {
 
-	if (memcmp(rx_buffer, "CL", 2) == 0) {
+	if (memcmp(rx_buffer, "CE", 2) == 0) {
 		for (uint16_t i = 0; i < 4096; i++) AT24XX_Update(i, 0);
 		
 		uint8_t uartTransmit[] = "EEPROM IS CLEANED\r\n";
