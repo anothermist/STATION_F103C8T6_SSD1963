@@ -219,8 +219,6 @@ uint16_t byteS(uint8_t byteL, uint8_t byteH) {
 }
 
 void barograph(void) {
-	
-	pressure = (uint16_t)BME280_getPressure();
 
 	for (uint16_t i = 0; i < 367; i++) {
 		barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
@@ -303,25 +301,25 @@ void barograph(void) {
 
 		barographDaily[0] = rtcDate;
 
-		LCD_Rect(1, 329, 368, 128, 1, BLUE);
+		LCD_Rect(1, 201, 368, 128, 1, BLUE);
 
 		for (uint16_t i = 0; i < 366; i++) {
 			int16_t val = 0;
 			val = barographHourly[i + 1];
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
-			LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
-			LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+			LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
+			LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
 		}
 
-		LCD_Rect(1, 201, 368, 128, 1, BLUE);
+		LCD_Rect(1, 329, 368, 128, 1, BLUE);
 
 		for (uint16_t i = 0; i < 366; i++) {
 			int16_t val = 0;
 			val = barographDaily[i + 1];
 			if (val < barographMaximum - 127) val = barographMaximum - 127;
 
-			LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
-			LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+			LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
+			LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
 		}
 
 		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
@@ -345,26 +343,25 @@ void barograph(void) {
 		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
 
 		LCD_Rect_Fill(370, 330, 29, 127, BLACK);
-
+		
 		if (barographHourly[365] != barographHourly[366])
 		{
-			if (barographHourly[365] == barographHourly[366] + 1 || barographHourly[365] >= barographHourly[366] + 3)
-				LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
+			if (barographHourly[365] > barographHourly[366])     LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLUE);
+			if (barographHourly[365] > barographHourly[366] + 1) LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLUE);			
+			if (barographHourly[365] > barographHourly[366] + 2) LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLUE);
+			if (barographHourly[365] < barographHourly[366])     LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, RED);
+			if (barographHourly[365] < barographHourly[366] - 1) LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, RED);
+			if (barographHourly[365] < barographHourly[366] - 2) LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, RED);
+		}
 
-			if (barographHourly[365] >= barographHourly[366] + 2)
-			{
-				LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
-				LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
-			}
-
-			if (barographHourly[365] == barographHourly[366] - 1 || barographHourly[365] <= barographHourly[366] - 3)
-				LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
-
-			if (barographHourly[365] <= barographHourly[366] - 2)
-			{
-				LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
-				LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
-			}
+		if (barographDaily[365] != barographDaily[366])
+		{
+			if (barographDaily[365] > barographDaily[366])      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
+			if (barographDaily[365] > barographDaily[366] + 1) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
+			if (barographDaily[365] > barographDaily[366] + 2) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
+			if (barographDaily[365] < barographDaily[366])     	LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
+			if (barographDaily[365] < barographDaily[366] - 1) 	LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
+			if (barographDaily[365] < barographDaily[366] - 2) 	LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
 		}
 		barographViewed = 1;
 	}
