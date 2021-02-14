@@ -366,12 +366,12 @@ void barograph(void) {
 			LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, BLACK);
 			LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, BLACK);
 			LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, BLACK);			
-			if (barographDaily[365] > barographDaily[366])      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
-			if (barographDaily[365] > barographDaily[366] + 1) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
-			if (barographDaily[365] > barographDaily[366] + 2) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
-			if (barographDaily[365] < barographDaily[366])     	LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
-			if (barographDaily[365] < barographDaily[366] - 1) 	LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
-			if (barographDaily[365] < barographDaily[366] - 2) 	LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
+			if (barographDaily[365] > barographDaily[366] + 5)      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
+			if (barographDaily[365] > barographDaily[366] + 10) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
+			if (barographDaily[365] > barographDaily[366] + 15) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
+			if (barographDaily[365] < barographDaily[366] - 5)     	LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
+			if (barographDaily[365] < barographDaily[366] - 10) 	LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
+			if (barographDaily[365] < barographDaily[366] - 15) 	LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
 		}
 		barographViewed = 1;
 	}

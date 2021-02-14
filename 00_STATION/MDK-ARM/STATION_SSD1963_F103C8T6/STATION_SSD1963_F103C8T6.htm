@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Fri Feb 12 13:07:35 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Sun Feb 14 12:27:58 2021
 <BR><P>
 <H3>Maximum Stack Usage =        400 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -436,12 +436,12 @@ Global Symbols
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
 </UL>
 
-<P><STRONG><a name="[127]"></a>__aeabi_dcmplt</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmplt.o(.text))
+<P><STRONG><a name="[128]"></a>__aeabi_dcmplt</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmplt.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = __aeabi_dcmplt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_20
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 </UL>
 
 <P><STRONG><a name="[11f]"></a>__aeabi_dcmpge</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmpge.o(.text))
@@ -847,7 +847,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_0
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Master_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
+<BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_20
 </UL>
 
 <P><STRONG><a name="[8e]"></a>DS3231_setDate</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, ds3231.o(.text.DS3231_setDate))
@@ -1206,11 +1206,11 @@ Global Symbols
 
 <P><STRONG><a name="[9b]"></a>HAL_RCC_GetPCLK1Freq</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f1xx_hal_rcc.o(.text.HAL_RCC_GetPCLK1Freq))
 <BR><BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Init
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
 <P><STRONG><a name="[13a]"></a>HAL_RCC_GetPCLK2Freq</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, stm32f1xx_hal_rcc.o(.text.HAL_RCC_GetPCLK2Freq))
-<BR><BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR><BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 
 <P><STRONG><a name="[ca]"></a>HAL_RCC_GetSysClockFreq</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, stm32f1xx_hal_rcc.o(.text.HAL_RCC_GetSysClockFreq))
@@ -1571,7 +1571,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Line
 </UL>
 <BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_0
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.barograph)
 </UL>
@@ -1674,7 +1674,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[142]"></a>barograph</STRONG> (Thumb, 1948 bytes, Stack size 64 bytes, main.o(.text.barograph))
+<P><STRONG><a name="[142]"></a>barograph</STRONG> (Thumb, 1952 bytes, Stack size 64 bytes, main.o(.text.barograph))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = barograph &rArr; LCD_Triangle_Fill &rArr; LCD_Line &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Triangle_Fill
@@ -1685,8 +1685,8 @@ Global Symbols
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_17
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_16
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
-<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_0
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
+<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_0
 </UL>
 <BR>[Called By]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uartDecode
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1734,7 +1734,7 @@ Global Symbols
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Font
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setYear
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setSec
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setMonth
@@ -1800,7 +1800,7 @@ Global Symbols
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_6
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_5
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_3
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 <LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_20
 <LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_2
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
@@ -1844,7 +1844,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Line
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Font
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
@@ -1859,7 +1859,7 @@ Global Symbols
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_6
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_5
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_3
-<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_20
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
@@ -2158,16 +2158,16 @@ Local Symbols
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;X
 </UL>
 
-<P><STRONG><a name="[119]"></a>OUTLINED_FUNCTION_0</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_0))
-<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = OUTLINED_FUNCTION_0 &rArr; LCD_Triangle_Fill &rArr; LCD_Line &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
+<P><STRONG><a name="[144]"></a>OUTLINED_FUNCTION_0</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_0))
+<BR><BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
+</UL>
+
+<P><STRONG><a name="[11a]"></a>OUTLINED_FUNCTION_1</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_1))
+<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = OUTLINED_FUNCTION_1 &rArr; LCD_Triangle_Fill &rArr; LCD_Line &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Triangle_Fill
 </UL>
 <BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
-</UL>
-
-<P><STRONG><a name="[144]"></a>OUTLINED_FUNCTION_1</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_1))
-<BR><BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
 </UL>
 
 <P><STRONG><a name="[11b]"></a>OUTLINED_FUNCTION_10</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_10))
@@ -2249,21 +2249,21 @@ Local Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[126]"></a>OUTLINED_FUNCTION_20</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_20))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_20 &rArr; __aeabi_dcmplt
-</UL>
-<BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
-</UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
-<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[128]"></a>OUTLINED_FUNCTION_21</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_21))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = OUTLINED_FUNCTION_21 &rArr; DS3231_setAlarm1Min &rArr; OUTLINED_FUNCTION_0 &rArr; DS3231_Update &rArr; HAL_I2C_Master_Receive &rArr; I2C_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[126]"></a>OUTLINED_FUNCTION_20</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_20))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = OUTLINED_FUNCTION_20 &rArr; DS3231_setAlarm1Min &rArr; OUTLINED_FUNCTION_0 &rArr; DS3231_Update &rArr; HAL_I2C_Master_Receive &rArr; I2C_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS3231_setAlarm1Min
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[127]"></a>OUTLINED_FUNCTION_21</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_21))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_21 &rArr; __aeabi_dcmplt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmplt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
+<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[129]"></a>OUTLINED_FUNCTION_22</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_22))
@@ -2807,7 +2807,7 @@ Local Symbols
 <P><STRONG><a name="[100]"></a>OUTLINED_FUNCTION_0</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f1xx_hal_uart.o(.text.OUTLINED_FUNCTION_0))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = OUTLINED_FUNCTION_0 &rArr; UART_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
+<BR>[Calls]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 </UL>
@@ -2864,7 +2864,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[11a]"></a>UART_SetConfig</STRONG> (Thumb, 128 bytes, Stack size 16 bytes, stm32f1xx_hal_uart.o(.text.UART_SetConfig))
+<P><STRONG><a name="[119]"></a>UART_SetConfig</STRONG> (Thumb, 128 bytes, Stack size 16 bytes, stm32f1xx_hal_uart.o(.text.UART_SetConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = UART_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK1Freq
