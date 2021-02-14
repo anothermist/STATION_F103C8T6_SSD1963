@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STATION_SSD1963_F103C8T6\STATION_SSD1963_F103C8T6.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Sun Feb 14 12:27:58 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6150002: Last Updated: Sun Feb 14 19:50:17 2021
 <BR><P>
 <H3>Maximum Stack Usage =        400 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -61,7 +61,6 @@ Function Pointers
  <LI><a href="#[45]">LCD_Circle_Helper</a> from ssd1963_hal.o(.text.LCD_Circle_Helper) referenced from ssd1963_hal.o(.text.LCD_Rect_Round)
  <LI><a href="#[47]">LCD_Font</a> from ssd1963_hal.o(.text.LCD_Font) referenced from main.o(.text.alarm)
  <LI><a href="#[47]">LCD_Font</a> from ssd1963_hal.o(.text.LCD_Font) referenced from main.o(.text.barograph)
- <LI><a href="#[47]">LCD_Font</a> from ssd1963_hal.o(.text.LCD_Font) referenced from main.o(.text.main)
  <LI><a href="#[44]">LCD_Line</a> from ssd1963_hal.o(.text.LCD_Line) referenced from ssd1963_hal.o(.text.LCD_Rect_Round)
  <LI><a href="#[44]">LCD_Line</a> from ssd1963_hal.o(.text.LCD_Line) referenced from main.o(.text.main)
  <LI><a href="#[4c]">LCD_Rect</a> from ssd1963_hal.o(.text.LCD_Rect) referenced from main.o(.text.main)
@@ -444,7 +443,7 @@ Global Symbols
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 </UL>
 
-<P><STRONG><a name="[11f]"></a>__aeabi_dcmpge</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmpge.o(.text))
+<P><STRONG><a name="[120]"></a>__aeabi_dcmpge</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmpge.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = __aeabi_dcmpge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
@@ -452,15 +451,15 @@ Global Symbols
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_5
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_3
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
 </UL>
 
-<P><STRONG><a name="[133]"></a>__aeabi_dcmpgt</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmpgt.o(.text))
+<P><STRONG><a name="[134]"></a>__aeabi_dcmpgt</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, dcmpgt.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = __aeabi_dcmpgt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
+<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
 </UL>
 
 <P><STRONG><a name="[152]"></a>__aeabi_dcmpeq</STRONG> (Thumb, 56 bytes, Stack size 12 bytes, dcmpeq.o(.text))
@@ -1297,10 +1296,10 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_TIM_Base_Init &rArr; OUTLINED_FUNCTION_7 &rArr; TIM_Base_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_MspInit
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_25
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_47
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_25
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1314,11 +1313,11 @@ Global Symbols
 <P><STRONG><a name="[e2]"></a>HAL_TIM_ConfigClockSource</STRONG> (Thumb, 178 bytes, Stack size 16 bytes, stm32f1xx_hal_tim.o(.text.HAL_TIM_ConfigClockSource))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_TIM_ConfigClockSource &rArr; OUTLINED_FUNCTION_53 &rArr; TIM_TI1_ConfigInputStage
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_22
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TI2_ConfigInputStage
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_71
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_53
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_42
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_22
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1347,11 +1346,11 @@ Global Symbols
 <P><STRONG><a name="[f0]"></a>HAL_TIM_PWM_Init</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, stm32f1xx_hal_tim.o(.text.HAL_TIM_PWM_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_TIM_PWM_Init &rArr; OUTLINED_FUNCTION_7 &rArr; TIM_Base_SetConfig
 </UL>
-<BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_25
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
+<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_MspInit
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_47
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_25
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1363,10 +1362,10 @@ Global Symbols
 <P><STRONG><a name="[f2]"></a>HAL_TIM_PWM_Start</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, stm32f1xx_hal_tim.o(.text.HAL_TIM_PWM_Start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_TIM_PWM_Start &rArr; OUTLINED_FUNCTION_11 &rArr; TIM_CCxChannelCmd
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_24
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
+<BR>[Calls]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_24
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1494,11 +1493,10 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
 </UL>
-<BR>[Address Reference Count : 3]<UL><LI> main.o(.text.barograph)
+<BR>[Address Reference Count : 2]<UL><LI> main.o(.text.barograph)
 <LI> main.o(.text.alarm)
-<LI> main.o(.text.main)
 </UL>
 <P><STRONG><a name="[14a]"></a>LCD_Init</STRONG> (Thumb, 236 bytes, Stack size 16 bytes, ssd1963_hal.o(.text.LCD_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_Init
@@ -1518,7 +1516,7 @@ Global Symbols
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_22
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_15
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> ssd1963_hal.o(.text.LCD_Rect_Round)
 <LI> main.o(.text.main)
@@ -1684,7 +1682,7 @@ Global Symbols
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_22
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_17
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_16
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_1
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_0
 </UL>
@@ -1719,7 +1717,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[35]"></a>main</STRONG> (Thumb, 4000 bytes, Stack size 112 bytes, main.o(.text.main))
+<P><STRONG><a name="[35]"></a>main</STRONG> (Thumb, 4148 bytes, Stack size 112 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = main &rArr; BME280_getTemperature &rArr; round_nth &rArr; pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getY
@@ -1771,8 +1769,8 @@ Global Symbols
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm
 <LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fcmplt
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmple
-<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpeq
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
 <LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
@@ -1794,7 +1792,7 @@ Global Symbols
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_I2C_Init
 <LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
-<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
+<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_6
@@ -1805,10 +1803,10 @@ Global Symbols
 <LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_2
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_15
-<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
 <LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_12
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
@@ -1849,12 +1847,11 @@ Global Symbols
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmple
-<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpeq
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
-<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
-<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
+<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_7
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_6
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_5
@@ -1862,8 +1859,9 @@ Global Symbols
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_21
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_18
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
 <LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_13
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_11
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uartDecode
@@ -1908,9 +1906,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alarm
-<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_9
+<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_8
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_19
-<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_14
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OUTLINED_FUNCTION_10
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.barograph)
 </UL>
@@ -2170,16 +2168,29 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
 </UL>
 
-<P><STRONG><a name="[11b]"></a>OUTLINED_FUNCTION_10</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_10))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = OUTLINED_FUNCTION_10 &rArr; LCD_Line &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
+<P><STRONG><a name="[11b]"></a>OUTLINED_FUNCTION_10</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_10))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_10 &rArr; __2sprintf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
+<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[11c]"></a>OUTLINED_FUNCTION_11</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_11))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = OUTLINED_FUNCTION_11 &rArr; LCD_Line &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Line
 </UL>
 <BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;barograph
 </UL>
 
-<P><STRONG><a name="[11c]"></a>OUTLINED_FUNCTION_11</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_11))
-<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = OUTLINED_FUNCTION_11 &rArr; LCD_Font &rArr; OUTLINED_FUNCTION_0 &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
+<P><STRONG><a name="[14e]"></a>OUTLINED_FUNCTION_12</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_12))
+<BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[11e]"></a>OUTLINED_FUNCTION_13</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_13))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = OUTLINED_FUNCTION_13 &rArr; LCD_Font &rArr; OUTLINED_FUNCTION_0 &rArr; LCD_Rect_Fill &rArr; LCD_Send_Dat &rArr; LCD_Bus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Font
 </UL>
@@ -2187,25 +2198,13 @@ Local Symbols
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[14e]"></a>OUTLINED_FUNCTION_12</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_12))
-<BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[11f]"></a>OUTLINED_FUNCTION_14</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_14))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_14 &rArr; __aeabi_dcmpge
 </UL>
-
-<P><STRONG><a name="[11e]"></a>OUTLINED_FUNCTION_13</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_13))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_13 &rArr; __aeabi_dcmpge
-</UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[120]"></a>OUTLINED_FUNCTION_14</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_14))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_14 &rArr; __2sprintf
-</UL>
-<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[121]"></a>OUTLINED_FUNCTION_15</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_15))
@@ -2277,7 +2276,7 @@ Local Symbols
 <P><STRONG><a name="[12a]"></a>OUTLINED_FUNCTION_3</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_3 &rArr; __aeabi_dcmpge
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -2292,7 +2291,7 @@ Local Symbols
 <P><STRONG><a name="[12d]"></a>OUTLINED_FUNCTION_5</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_5))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_5 &rArr; __aeabi_dcmpge
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -2310,25 +2309,24 @@ Local Symbols
 <P><STRONG><a name="[130]"></a>OUTLINED_FUNCTION_7</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_7))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_7 &rArr; __aeabi_dcmpge
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
+<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpge
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[132]"></a>OUTLINED_FUNCTION_8</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_8))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_8 &rArr; __aeabi_dcmpgt
-</UL>
-<BR>[Calls]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
-</UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
-<LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[134]"></a>OUTLINED_FUNCTION_9</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_9))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_9 &rArr; __2sprintf
+<P><STRONG><a name="[132]"></a>OUTLINED_FUNCTION_8</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_8))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OUTLINED_FUNCTION_8 &rArr; __2sprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[133]"></a>OUTLINED_FUNCTION_9</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(.text.OUTLINED_FUNCTION_9))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = OUTLINED_FUNCTION_9 &rArr; __aeabi_dcmpgt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dcmpgt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorRemote
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main

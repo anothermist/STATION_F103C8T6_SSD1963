@@ -57,8 +57,6 @@
 #include "fonts/DejaVuSans/036_DejaVuSans.h"
 #include "fonts/DejaVuSans/072_DejaVuSans.h"
 
-//#include "fonts/Moon_Phases/024_Moon_Phases.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,7 +94,7 @@ uint8_t rtcSecLast = 61, rtcMinLast = 61, rtcHrsLast = 25, rtcLastDay, rtcDateLa
 char rtcDateLastChar[5];
 uint16_t pressure, pressureLast;
 double temperatureLast, humidityLast, temperature, humidity,
-temperatureRemote, temperatureRemoteLast, humidityRemote, humidityRemoteLast, rtcMoon;
+temperatureRemote, temperatureRemoteLast, humidityRemote, humidityRemoteLast, rtcMoon, rtcMoonLast;
 uint64_t startHistory;
 
 uint16_t barographHourly[367] = { 25 };
@@ -790,59 +788,128 @@ int main(void)
 					if (rtcLastDay != rtcDay) {
 						LCD_Font(3, 250, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
 
-						sprintf(clockPrint, "%02d / %02d / %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-						LCD_Font(70, 140, clockPrint, &DejaVu_Sans_36, 1, BLACK);
-
-						sprintf(clockPrint, "%02d / %02d / %02d", rtcDate, rtcMonth, rtcYear);
-						LCD_Font(70, 140, clockPrint, &DejaVu_Sans_36, 1, GRAY);
-
 						for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
-
+						
 						switch (rtcDay) {
 						case 1:
-							LCD_Font(2, 140, "SU' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "MO' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "SUN", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "MON", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 2:
-							LCD_Font(2, 140, "MO' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "TU' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "MON", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "TUE", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 3:
-							LCD_Font(2, 140, "TU' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "WE' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "TUE", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "WED", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 4:
-							LCD_Font(2, 140, "WE' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "TH' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "WED", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "THU", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 5:
-							LCD_Font(2, 140, "TH' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "FR' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "THU", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "FRI", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 6:
-							LCD_Font(2, 140, "FR' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "SA' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "FRI", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "SAT", &DejaVu_Sans_72, 1, GRAY);
 							break;
 
 						case 7:
-							LCD_Font(2, 140, "SA' ", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "SU' ", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(2, 165, "SAT", &DejaVu_Sans_72, 1, BLACK);
+							LCD_Font(2, 165, "SUN", &DejaVu_Sans_72, 1, GRAY);
 							break;
 						}
+						
+												switch (rtcMonth) {
+						case 1:
+							LCD_Font(170, 140, "  DECEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "  JANUARY", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 2:
+							LCD_Font(170, 140, "  JANUARY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "  FEBRUARY", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 3:
+							LCD_Font(170, 140, "  FEBRUARY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "   MARCH", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 4:
+							LCD_Font(170, 140, "   MARCH", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "   APRIL", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 5:
+							LCD_Font(170, 140, "   APRIL", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "    MAY", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 6:
+							LCD_Font(170, 140, "    MAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "   JUNE", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 7:
+							LCD_Font(170, 140, "   JUNE", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "   JULE", &DejaVu_Sans_36, 1, GRAY);
+							break;
+						
+						case 8:
+							LCD_Font(170, 140, "   JULE", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "  AUGUST", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 9:
+							LCD_Font(170, 140, "  AUGUST", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "SEPTEMBER", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 10:
+							LCD_Font(170, 140, "SEPTEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, "  OCTOBER", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 11:
+							LCD_Font(170, 140, "  OCTOBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, " NOVEMBER", &DejaVu_Sans_36, 1, GRAY);
+							break;
+
+						case 12:
+							LCD_Font(170, 140, " NOVEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(170, 140, " DECEMBER", &DejaVu_Sans_36, 1, GRAY);
+							break;
+						}
+						
+//					if (rtcMoonLast < 10) sprintf(clockPrint, "MOON DAY %01d", (uint16_t)rtcMoonLast);
+//					else sprintf(clockPrint, "MOON DAY %02d", (uint16_t)rtcMoonLast);
+//					
+//					rtcMoon = DS3231_getMoonDay();
+//					if (rtcMoon < 10) sprintf(clockPrint, "MOON DAY %01d", (uint16_t)rtcMoon);
+//					else sprintf(clockPrint, "MOON DAY %02d", (uint16_t)rtcMoon);
+//					LCD_Font(130, 168, clockPrint, &DejaVu_Sans_36, 1, GRAY);
+//					rtcMoonLast = rtcMoon;
+						
+						sprintf(clockPrint, "%02d - %02d - %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
+						LCD_Font(180, 168, clockPrint, &DejaVu_Sans_36, 1, BLACK);
+
+						sprintf(clockPrint, "%02d - %02d - %02d", rtcDate, rtcMonth, rtcYear);
+						LCD_Font(180, 168, clockPrint, &DejaVu_Sans_36, 1, GRAY);
+						
 						rtcLastDay = rtcDay;
 					}
-
 					rtcDateLast = rtcDate;
 					rtcMonthLast = rtcMonth;
 					rtcYearLast = rtcYear;
-
-					//	rtcMoon = DS3231_getMoonDay();
-
+					
 					pressure = (uint16_t)BME280_getPressure();
 					if (pressure > 300 && pressure < 1100) barograph();
 
