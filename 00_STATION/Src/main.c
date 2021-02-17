@@ -90,7 +90,7 @@ uint8_t  rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
 rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
-uint8_t rtcSecLast = 61, rtcMinLast = 61, rtcHrsLast = 25, rtcLastDay, rtcDateLast, rtcMonthLast, rtcYearLast;
+uint8_t rtcSecLast = 61, rtcMinLast = 61, rtcHrsLast = 25, rtcDayLast, rtcDateLast, rtcMonthLast, rtcYearLast;
 char rtcDateLastChar[5];
 uint16_t pressure, pressureLast;
 double temperatureLast, humidityLast, temperature, humidity,
@@ -218,160 +218,164 @@ uint16_t byteS(uint8_t byteL, uint8_t byteH) {
 
 void barograph(void) {
 
-	for (uint16_t i = 0; i < 367; i++) {
-		barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
-		barographDaily[i] = byteS(AT24XX_Read(i * 2 + 2000), AT24XX_Read(i * 2 + 1 + 2000));
-	}
-
-	if (barographHourly[0] != rtcHrs && pressure > 300 && pressure < 1100) {
-
-		barographHourly[0] = rtcHrs;
-
-		for (uint16_t i = 1; i < 366; i++) barographHourly[i] = barographHourly[i + 1];
-		barographHourly[366] = (uint16_t)pressure;
+	pressure = (uint16_t)BME280_getPressure();
+	if (pressure > 300 && pressure < 1100) {
 
 		for (uint16_t i = 0; i < 367; i++) {
-			AT24XX_Update(i * 2 + 1000, byteL(barographHourly[i]));
-			AT24XX_Update(i * 2 + 1 + 1000, byteH(barographHourly[i]));
+			barographHourly[i] = byteS(AT24XX_Read(i * 2 + 1000), AT24XX_Read(i * 2 + 1 + 1000));
+			barographDaily[i] = byteS(AT24XX_Read(i * 2 + 2000), AT24XX_Read(i * 2 + 1 + 2000));
 		}
 
-		if (barographDaily[0] != rtcDate) {
-			barographDaily[0] = rtcDate;
+		if (barographHourly[0] != rtcHrs && pressure > 300 && pressure < 1100) {
 
-			uint32_t barographAverageLast24Hours = 0;
-			uint16_t historyHours = 0;
-			for (uint8_t i = 0; i < 24; i++) {
-				if (barographHourly[366 - i] != 0) {
-					barographAverageLast24Hours = barographAverageLast24Hours + barographHourly[366 - i];
-					historyHours++;
-				}
-			}
-			if (historyHours != 0) barographAverageLast24Hours = barographAverageLast24Hours / historyHours;
+			barographHourly[0] = rtcHrs;
 
-			for (uint16_t i = 1; i < 366; i++) {
-				barographDaily[i] = barographDaily[i + 1];
-			}
-			barographDaily[366] = barographAverageLast24Hours;
+			for (uint16_t i = 1; i < 366; i++) barographHourly[i] = barographHourly[i + 1];
+			barographHourly[366] = (uint16_t)pressure;
 
 			for (uint16_t i = 0; i < 367; i++) {
-				AT24XX_Update(i * 2 + 2000, byteL(barographDaily[i]));
-				AT24XX_Update(i * 2 + 1 + 2000, byteH(barographDaily[i]));
+				AT24XX_Update(i * 2 + 1000, byteL(barographHourly[i]));
+				AT24XX_Update(i * 2 + 1 + 1000, byteH(barographHourly[i]));
 			}
-		}
-		barographViewed = 0;
-	}
 
-	if (!barographViewed) {
+			if (barographDaily[0] != rtcDate) {
+				barographDaily[0] = rtcDate;
 
-		uint32_t barographAverageLast366Days = 0;
-		uint16_t historyDays = 0;
-		for (uint16_t i = 0; i < 365; i++) {
-			if (barographDaily[366 - i] != 0) {
-				barographAverageLast366Days = barographAverageLast366Days + barographDaily[366 - i];
-				historyDays++;
+				uint32_t barographAverageLast24Hours = 0;
+				uint16_t historyHours = 0;
+				for (uint8_t i = 0; i < 24; i++) {
+					if (barographHourly[366 - i] != 0) {
+						barographAverageLast24Hours = barographAverageLast24Hours + barographHourly[366 - i];
+						historyHours++;
+					}
+				}
+				if (historyHours != 0) barographAverageLast24Hours = barographAverageLast24Hours / historyHours;
+
+				for (uint16_t i = 1; i < 366; i++) {
+					barographDaily[i] = barographDaily[i + 1];
+				}
+				barographDaily[366] = barographAverageLast24Hours;
+
+				for (uint16_t i = 0; i < 367; i++) {
+					AT24XX_Update(i * 2 + 2000, byteL(barographDaily[i]));
+					AT24XX_Update(i * 2 + 1 + 2000, byteH(barographDaily[i]));
+				}
 			}
+			barographViewed = 0;
 		}
-		if (historyDays != 0) barographAverage = barographAverageLast366Days / historyDays;
 
-		barographMinimum = barographDaily[366];
-		barographMaximum = barographDaily[366];
+		if (!barographViewed) {
 
-		for (uint16_t i = 1; i < 366; i++) {
-			if (barographDaily[366 - i] != 0) {
-				if (barographDaily[366 - i] < barographMinimum) barographMinimum = barographDaily[366 - i];
-				if (barographDaily[366 - i] > barographMaximum) barographMaximum = barographDaily[366 - i];
+			uint32_t barographAverageLast366Days = 0;
+			uint16_t historyDays = 0;
+			for (uint16_t i = 0; i < 365; i++) {
+				if (barographDaily[366 - i] != 0) {
+					barographAverageLast366Days = barographAverageLast366Days + barographDaily[366 - i];
+					historyDays++;
+				}
 			}
-		}
+			if (historyDays != 0) barographAverage = barographAverageLast366Days / historyDays;
 
-		uint16_t barographMinimumLastDay = barographHourly[366];
-		uint16_t barographMaximumLastDay = barographHourly[366];
+			barographMinimum = barographDaily[366];
+			barographMaximum = barographDaily[366];
 
-		for (uint8_t i = 1; i < 24; i++) {
-			if (barographHourly[366 - i] != 0) {
-				if (barographHourly[366 - i] < barographMinimumLastDay) barographMinimumLastDay = barographHourly[366 - i];
-				if (barographHourly[366 - i] > barographMaximumLastDay) barographMaximumLastDay = barographHourly[366 - i];
+			for (uint16_t i = 1; i < 366; i++) {
+				if (barographDaily[366 - i] != 0) {
+					if (barographDaily[366 - i] < barographMinimum) barographMinimum = barographDaily[366 - i];
+					if (barographDaily[366 - i] > barographMaximum) barographMaximum = barographDaily[366 - i];
+				}
 			}
+
+			uint16_t barographMinimumDayLast = barographHourly[366];
+			uint16_t barographMaximumDayLast = barographHourly[366];
+
+			for (uint8_t i = 1; i < 24; i++) {
+				if (barographHourly[366 - i] != 0) {
+					if (barographHourly[366 - i] < barographMinimumDayLast) barographMinimumDayLast = barographHourly[366 - i];
+					if (barographHourly[366 - i] > barographMaximumDayLast) barographMaximumDayLast = barographHourly[366 - i];
+				}
+			}
+
+			if (barographMinimumDayLast < barographMinimum) barographMinimum = barographMinimumDayLast;
+			if (barographMaximumDayLast > barographMaximum) barographMaximum = barographMaximumDayLast;
+
+
+			barographDaily[0] = rtcDate;
+
+			LCD_Rect(1, 201, 368, 128, 1, BLUE);
+
+			for (uint16_t i = 0; i < 366; i++) {
+				int16_t val = 0;
+				val = barographHourly[i + 1];
+				if (val < barographMaximum - 127) val = barographMaximum - 127;
+				LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
+				LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+			}
+
+			LCD_Rect(1, 329, 368, 128, 1, BLUE);
+
+			for (uint16_t i = 0; i < 366; i++) {
+				int16_t val = 0;
+				val = barographDaily[i + 1];
+				if (val < barographMaximum - 127) val = barographMaximum - 127;
+
+				LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
+				LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
+			}
+
+			LCD_Rect_Fill(1, 460, 397, 18, BLACK);
+
+			char s[10];
+
+			if (barographAverage >= 1000) sprintf(s, "Mid:%02d|", barographAverage);
+			else sprintf(s, "Mid:0%02d|", barographAverage);
+			LCD_Font(1, 474, s, &DejaVu_Sans_18, 1, GRAY);
+
+			if (barographMinimum >= 1000) sprintf(s, "|Min:%02d|", barographMinimum);
+			else sprintf(s, "|Min:0%02d|", barographMinimum);
+			LCD_Font(91, 474, s, &DejaVu_Sans_18, 1, GRAY);
+
+			if (barographMaximum >= 1000) sprintf(s, "|Max:%02d|", barographMaximum);
+			else sprintf(s, "|Max:0%02d|", barographMaximum);
+			LCD_Font(188, 474, s, &DejaVu_Sans_18, 1, GRAY);
+
+			if (pressure >= 1000) sprintf(s, "|Now:%02d", pressure);
+			else sprintf(s, "|Now:0%02d", pressure);
+			LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
+
+			if (barographHourly[365] != barographHourly[366])
+			{
+				LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLACK);
+				LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLACK);
+				LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLACK);
+				LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, BLACK);
+				LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, BLACK);
+				LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, BLACK);
+				if (barographHourly[365] > barographHourly[366])     LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLUE);
+				if (barographHourly[365] > barographHourly[366] + 1) LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLUE);
+				if (barographHourly[365] > barographHourly[366] + 2) LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLUE);
+				if (barographHourly[365] < barographHourly[366])     LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, RED);
+				if (barographHourly[365] < barographHourly[366] - 1) LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, RED);
+				if (barographHourly[365] < barographHourly[366] - 2) LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, RED);
+			}
+
+			if (barographDaily[365] != barographDaily[366])
+			{
+				LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLACK);
+				LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLACK);
+				LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLACK);
+				LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, BLACK);
+				LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, BLACK);
+				LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, BLACK);
+				if (barographDaily[365] > barographDaily[366] + 5)      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
+				if (barographDaily[365] > barographDaily[366] + 10) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
+				if (barographDaily[365] > barographDaily[366] + 15) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
+				if (barographDaily[365] < barographDaily[366] - 5)     	LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
+				if (barographDaily[365] < barographDaily[366] - 10) 	LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
+				if (barographDaily[365] < barographDaily[366] - 15) 	LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
+			}
+			barographViewed = 1;
 		}
-
-		if (barographMinimumLastDay < barographMinimum) barographMinimum = barographMinimumLastDay;
-		if (barographMaximumLastDay > barographMaximum) barographMaximum = barographMaximumLastDay;
-
-
-		barographDaily[0] = rtcDate;
-
-		LCD_Rect(1, 201, 368, 128, 1, BLUE);
-
-		for (uint16_t i = 0; i < 366; i++) {
-			int16_t val = 0;
-			val = barographHourly[i + 1];
-			if (val < barographMaximum - 127) val = barographMaximum - 127;
-			LCD_Line(2 + i, 328, 2 + i, 202, 1, BLACK);
-			LCD_Line(2 + i, 328, 2 + i, 202 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
-		}
-
-		LCD_Rect(1, 329, 368, 128, 1, BLUE);
-
-		for (uint16_t i = 0; i < 366; i++) {
-			int16_t val = 0;
-			val = barographDaily[i + 1];
-			if (val < barographMaximum - 127) val = barographMaximum - 127;
-
-			LCD_Line(2 + i, 456, 2 + i, 330, 1, BLACK);
-			LCD_Line(2 + i, 456, 2 + i, 330 + (barographMaximum - val), 1, RGB(255 - ((barographMaximum - val) * 2), 0, 255 - (255 - ((barographMaximum - val) * 2))));
-		}
-
-		LCD_Rect_Fill(1, 460, 397, 18, BLACK);
-
-		char s[10];
-
-		if (barographAverage >= 1000) sprintf(s, "Mid:%02d|", barographAverage);
-		else sprintf(s, "Mid:0%02d|", barographAverage);
-		LCD_Font(1, 474, s, &DejaVu_Sans_18, 1, GRAY);
-
-		if (barographMinimum >= 1000) sprintf(s, "|Min:%02d|", barographMinimum);
-		else sprintf(s, "|Min:0%02d|", barographMinimum);
-		LCD_Font(91, 474, s, &DejaVu_Sans_18, 1, GRAY);
-
-		if (barographMaximum >= 1000) sprintf(s, "|Max:%02d|", barographMaximum);
-		else sprintf(s, "|Max:0%02d|", barographMaximum);
-		LCD_Font(188, 474, s, &DejaVu_Sans_18, 1, GRAY);
-
-		if (pressure >= 1000) sprintf(s, "|Now:%02d", pressure);
-		else sprintf(s, "|Now:0%02d", pressure);
-		LCD_Font(290, 474, s, &DejaVu_Sans_18, 1, GRAY);
-		
-		if (barographHourly[365] != barographHourly[366])
-		{
-			LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLACK);
-			LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLACK);			
-			LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLACK);
-			LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, BLACK);
-			LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, BLACK);
-			LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, BLACK);
-			if (barographHourly[365] > barographHourly[366])     LCD_Triangle_Fill(370, 302, 398, 302, 384, 316, BLUE);
-			if (barographHourly[365] > barographHourly[366] + 1) LCD_Triangle_Fill(370, 262, 398, 262, 384, 272, BLUE);			
-			if (barographHourly[365] > barographHourly[366] + 2) LCD_Triangle_Fill(370, 222, 398, 222, 384, 236, BLUE);
-			if (barographHourly[365] < barographHourly[366])     LCD_Triangle_Fill(370, 316, 398, 316, 384, 302, RED);
-			if (barographHourly[365] < barographHourly[366] - 1) LCD_Triangle_Fill(370, 276, 398, 276, 384, 262, RED);
-			if (barographHourly[365] < barographHourly[366] - 2) LCD_Triangle_Fill(370, 236, 398, 236, 384, 222, RED);
-		}
-
-		if (barographDaily[365] != barographDaily[366])
-		{
-			LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLACK);
-			LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLACK);
-			LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLACK);
-			LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, BLACK);
-			LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, BLACK);
-			LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, BLACK);			
-			if (barographDaily[365] > barographDaily[366] + 5)      LCD_Triangle_Fill(370, 430, 398, 430, 384, 444, BLUE);
-			if (barographDaily[365] > barographDaily[366] + 10) 	LCD_Triangle_Fill(370, 390, 398, 390, 384, 404, BLUE);
-			if (barographDaily[365] > barographDaily[366] + 15) 	LCD_Triangle_Fill(370, 350, 398, 350, 384, 364, BLUE);
-			if (barographDaily[365] < barographDaily[366] - 5)     	LCD_Triangle_Fill(370, 444, 398, 444, 384, 430, RED);
-			if (barographDaily[365] < barographDaily[366] - 10) 	LCD_Triangle_Fill(370, 404, 398, 404, 384, 390, RED);
-			if (barographDaily[365] < barographDaily[366] - 15) 	LCD_Triangle_Fill(370, 364, 398, 364, 384, 350, RED);
-		}
-		barographViewed = 1;
 	}
 }
 
@@ -379,10 +383,10 @@ void uartDecode() {
 
 	if (memcmp(rx_buffer, "CE", 2) == 0) {
 		for (uint16_t i = 0; i < 4096; i++) AT24XX_Update(i, 0);
-		
+
 		uint8_t uartTransmit[] = "EEPROM IS CLEANED\r\n";
 		HAL_UART_Transmit(&huart1, uartTransmit, sizeof(uartTransmit), 100);
-		
+
 		barograph();
 	}
 
@@ -535,7 +539,7 @@ int main(void)
 	BME280_Init();
 
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-	
+
 	temperature = BME280_getTemperature(-1);
 	humidity = BME280_getHumidity(-1);
 	pressure = (uint16_t)BME280_getPressure();
@@ -785,141 +789,123 @@ int main(void)
 					sprintf(clockPrint, "%02d", rtcHrs);
 					LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
 
-					if (rtcLastDay != rtcDay) {
+					if (rtcDayLast != rtcDay) {
 						LCD_Font(3, 250, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
 
 						for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
-						
+
 						switch (rtcDay) {
 						case 1:
-							LCD_Font(2, 165, "SUN", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "MON", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "SUNDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "MONDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 2:
-							LCD_Font(2, 165, "MON", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "TUE", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "MONDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "TUESDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 3:
-							LCD_Font(2, 165, "TUE", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "WED", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "TUESDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "WEDNESDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 4:
-							LCD_Font(2, 165, "WED", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "THU", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "WEDNESDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "THURSTDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 5:
-							LCD_Font(2, 165, "THU", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "FRI", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "THURSTDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "FRIDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 6:
-							LCD_Font(2, 165, "FRI", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "SAT", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "FRIDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "SATURDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 7:
-							LCD_Font(2, 165, "SAT", &DejaVu_Sans_72, 1, BLACK);
-							LCD_Font(2, 165, "SUN", &DejaVu_Sans_72, 1, GRAY);
+							LCD_Font(2, 140, "SATURDAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, "SUNDAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
 						}
-						
-												switch (rtcMonth) {
+
+						switch (rtcMonth) {
 						case 1:
-							LCD_Font(170, 140, "  DECEMBER", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "  JANUARY", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "DECEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "JANUARY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 2:
-							LCD_Font(170, 140, "  JANUARY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "  FEBRUARY", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "JANUARY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "FEBRUARY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 3:
-							LCD_Font(170, 140, "  FEBRUARY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "   MARCH", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "FEBRUARY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "MARCH", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 4:
-							LCD_Font(170, 140, "   MARCH", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "   APRIL", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "MARCH", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "APRIL", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 5:
-							LCD_Font(170, 140, "   APRIL", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "    MAY", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "APRIL", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "MAY", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 6:
-							LCD_Font(170, 140, "    MAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "   JUNE", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "MAY", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "JUNE", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 7:
-							LCD_Font(170, 140, "   JUNE", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "   JULE", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "JUNE", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "JULE", &DejaVu_Sans_36, 1, GRAY);
 							break;
-						
 						case 8:
-							LCD_Font(170, 140, "   JULE", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "  AUGUST", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "JULE", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "AUGUST", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 9:
-							LCD_Font(170, 140, "  AUGUST", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "SEPTEMBER", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "AUGUST", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "SEPTEMBER", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 10:
-							LCD_Font(170, 140, "SEPTEMBER", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, "  OCTOBER", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "SEPTEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "OCTOBER", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 11:
-							LCD_Font(170, 140, "  OCTOBER", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, " NOVEMBER", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "OCTOBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "NOVEMBER", &DejaVu_Sans_36, 1, GRAY);
 							break;
-
 						case 12:
-							LCD_Font(170, 140, " NOVEMBER", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(170, 140, " DECEMBER", &DejaVu_Sans_36, 1, GRAY);
+							LCD_Font(3, 168, "NOVEMBER", &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(3, 168, "DECEMBER", &DejaVu_Sans_36, 1, GRAY);
 							break;
 						}
-						
-//					if (rtcMoonLast < 10) sprintf(clockPrint, "MOON DAY %01d", (uint16_t)rtcMoonLast);
-//					else sprintf(clockPrint, "MOON DAY %02d", (uint16_t)rtcMoonLast);
-//					
-//					rtcMoon = DS3231_getMoonDay();
-//					if (rtcMoon < 10) sprintf(clockPrint, "MOON DAY %01d", (uint16_t)rtcMoon);
-//					else sprintf(clockPrint, "MOON DAY %02d", (uint16_t)rtcMoon);
-//					LCD_Font(130, 168, clockPrint, &DejaVu_Sans_36, 1, GRAY);
-//					rtcMoonLast = rtcMoon;
-						
-						sprintf(clockPrint, "%02d - %02d - %02d", rtcDateLast, rtcMonthLast, rtcYearLast);
-						LCD_Font(180, 168, clockPrint, &DejaVu_Sans_36, 1, BLACK);
 
-						sprintf(clockPrint, "%02d - %02d - %02d", rtcDate, rtcMonth, rtcYear);
-						LCD_Font(180, 168, clockPrint, &DejaVu_Sans_36, 1, GRAY);
-						
-						rtcLastDay = rtcDay;
+						sprintf(clockPrint, "%02d-%02d-%02d", rtcDateLast, rtcMonthLast, rtcYearLast);
+						LCD_Font(230, 168, clockPrint, &DejaVu_Sans_36, 1, BLACK);
+
+						sprintf(clockPrint, "%02d-%02d-%02d", rtcDate, rtcMonth, rtcYear);
+						LCD_Font(230, 168, clockPrint, &DejaVu_Sans_36, 1, GRAY);
+
+						if (rtcMoonLast < 10) sprintf(clockPrint, "M:  %01d", (uint16_t)rtcMoonLast);
+						else sprintf(clockPrint, "M: %02d", (uint16_t)rtcMoonLast);
+						LCD_Font(297, 140, clockPrint, &DejaVu_Sans_36, 1, BLACK);
+						rtcMoon = DS3231_getMoonDay(); //rtcMoon = 30;
+						if (rtcMoon < 10) sprintf(clockPrint, "M:  %01d", (uint16_t)rtcMoon);
+						else sprintf(clockPrint, "M: %02d", (uint16_t)rtcMoon);
+						LCD_Font(297, 140, clockPrint, &DejaVu_Sans_36, 1, GRAY);
+						rtcMoonLast = rtcMoon;
+
+						rtcDayLast = rtcDay;
 					}
 					rtcDateLast = rtcDate;
 					rtcMonthLast = rtcMonth;
 					rtcYearLast = rtcYear;
-					
-					pressure = (uint16_t)BME280_getPressure();
-					if (pressure > 300 && pressure < 1100) barograph();
+
+					barograph();
 
 					rtcHrsLast = rtcHrs;
 					sound = 1;
 				}
-				
+
 				temperature = BME280_getTemperature(-1);
 				humidity = BME280_getHumidity(-1);
-//				pressure = (uint16_t)BME280_getPressure();
+				//				pressure = (uint16_t)BME280_getPressure();
 
 				if (temperature != temperatureLast && temperature >= -40 && temperature <= 40) {
 
