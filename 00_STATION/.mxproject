@@ -12,8 +12,8 @@ HeaderPath=Drivers\STM32F1xx_HAL_Driver\Inc;Drivers\STM32F1xx_HAL_Driver\Inc\Leg
 CDefines=USE_HAL_DRIVER;STM32F103xB;USE_HAL_DRIVER;USE_HAL_DRIVER;
 
 [PreviousGenFiles]
-HeaderPath=D:/GitHub/STATION_SSD1963_F103C8T6/00_STATION/Inc
+HeaderPath=D:/OneDrive/GitHub/STATION_SSD1963_F103C8T6/00_STATION/Inc
 HeaderFiles=stm32f1xx_it.h;stm32f1xx_hal_conf.h;main.h;
-SourcePath=D:/GitHub/STATION_SSD1963_F103C8T6/00_STATION/Src
+SourcePath=D:/OneDrive/GitHub/STATION_SSD1963_F103C8T6/00_STATION/Src
 SourceFiles=stm32f1xx_it.c;stm32f1xx_hal_msp.c;main.c;
 
