@@ -4,7 +4,7 @@ uint32_t RGB(uint8_t r, uint8_t g, uint8_t b)
 {   
     return ((r & 0xFF) << 16) + ((g & 0xFF) << 8) + (b & 0xFF);
 }
-	
+
 inline static uint16_t H24_RGB565(uint8_t reverse, uint32_t color24)
 {
 	uint8_t b = (color24 >> 16) & 0xFF;
@@ -419,7 +419,7 @@ static void LCD_Char(int16_t x, int16_t y, const GFXglyph *glyph, const GFXfont 
 	}
 }
 
-void LCD_Font(uint16_t x, uint16_t y, char *text, const GFXfont *p_font, uint8_t size, uint32_t color24)
+void LCD_Font(uint16_t x, uint16_t y, const char *text, const GFXfont *p_font, uint8_t size, uint32_t color24)
 {
 	int16_t cursor_x = x;
 	int16_t cursor_y = y;

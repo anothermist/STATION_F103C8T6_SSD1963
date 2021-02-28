@@ -759,39 +759,14 @@ int main(void)
 
 					if (rtcDayLast != rtcDay) {
 						LCD_Font(3, 250, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);
+						
+						static const char * days[7] = { "MONDAY", "TUESDAY", "WEDNESDAY", 
+							"THURSTDAY", "FRIDAY", "SATURDAY", "SUNDAY" };
 
 						for (uint8_t i; i < 5; i++) rtcDateLastChar[i] = clockPrint[i];
-
-						switch (rtcDay) {
-						case 1:
-							LCD_Font(2, 140, "SUNDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "MONDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 2:
-							LCD_Font(2, 140, "MONDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "TUESDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 3:
-							LCD_Font(2, 140, "TUESDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "WEDNESDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 4:
-							LCD_Font(2, 140, "WEDNESDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "THURSTDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 5:
-							LCD_Font(2, 140, "THURSTDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "FRIDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 6:
-							LCD_Font(2, 140, "FRIDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "SATURDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						case 7:
-							LCD_Font(2, 140, "SATURDAY", &DejaVu_Sans_36, 1, BLACK);
-							LCD_Font(2, 140, "SUNDAY", &DejaVu_Sans_36, 1, GRAY);
-							break;
-						}
+							
+							LCD_Font(2, 140, days[(7 + rtcDay - 2) % 7], &DejaVu_Sans_36, 1, BLACK);
+							LCD_Font(2, 140, days[(7 + rtcDay - 1) % 7], &DejaVu_Sans_36, 1, GRAY);
 
 						switch (rtcMonth) {
 						case 1:
