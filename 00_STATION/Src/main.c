@@ -727,43 +727,17 @@ int main(void)
 		char clockPrint[13];
 
 		if (rtcSecLast != rtcSec) {
+			
+			static const uint32_t hues[24] = {
+				HUE_01, HUE_02, HUE_03, HUE_04, HUE_05, HUE_06, HUE_07, HUE_08, HUE_09, HUE_10, HUE_11, HUE_12, 
+			HUE_13, HUE_14, HUE_15, HUE_16, HUE_17, HUE_18, HUE_19, HUE_20, HUE_21, HUE_22, HUE_23, HUE_24 };
 
-			uint32_t RGB_CLOCK;
-
-			switch (rtcHrs)
-			{
-			case  0: RGB_CLOCK = HUE_01; break;
-			case  1: RGB_CLOCK = HUE_02; break;
-			case  2: RGB_CLOCK = HUE_03; break;
-			case  3: RGB_CLOCK = HUE_04; break;
-			case  4: RGB_CLOCK = HUE_05; break;
-			case  5: RGB_CLOCK = HUE_06; break;
-			case  6: RGB_CLOCK = HUE_07; break;
-			case  7: RGB_CLOCK = HUE_08; break;
-			case  8: RGB_CLOCK = HUE_09; break;
-			case  9: RGB_CLOCK = HUE_10; break;
-			case 10: RGB_CLOCK = HUE_11; break;
-			case 11: RGB_CLOCK = HUE_12; break;
-			case 12: RGB_CLOCK = HUE_13; break;
-			case 13: RGB_CLOCK = HUE_14; break;
-			case 14: RGB_CLOCK = HUE_15; break;
-			case 15: RGB_CLOCK = HUE_16; break;
-			case 16: RGB_CLOCK = HUE_17; break;
-			case 17: RGB_CLOCK = HUE_18; break;
-			case 18: RGB_CLOCK = HUE_19; break;
-			case 19: RGB_CLOCK = HUE_20; break;
-			case 20: RGB_CLOCK = HUE_21; break;
-			case 21: RGB_CLOCK = HUE_22; break;
-			case 22: RGB_CLOCK = HUE_23; break;
-			case 23: RGB_CLOCK = HUE_24; break;
-			}
-
-			LCD_Circle(203, 30, 8, 0, 1, RGB_CLOCK);
-			LCD_Circle(203, 80, 8, 0, 1, RGB_CLOCK);
+			LCD_Circle(203, 30, 8, 0, 1, hues[rtcHrs]);
+			LCD_Circle(203, 80, 8, 0, 1, hues[rtcHrs]);
 
 			if (rtcSec % 2 != 0) {
-				LCD_Circle(203, 30, 7, 1, 1, RGB_CLOCK);
-				LCD_Circle(203, 80, 7, 1, 1, RGB_CLOCK);
+				LCD_Circle(203, 30, 7, 1, 1, hues[rtcHrs]);
+				LCD_Circle(203, 80, 7, 1, 1, hues[rtcHrs]);
 			}
 			else {
 				LCD_Circle(203, 30, 7, 1, 1, BLACK);
@@ -775,13 +749,13 @@ int main(void)
 				sprintf(clockPrint, "%02d", rtcMinLast);
 				LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 				sprintf(clockPrint, "%02d", rtcMin);
-				LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
+				LCD_Font(220, 110, clockPrint, &DejaVu_Sans_72, 2, hues[rtcHrs]);
 
 				if (rtcHrsLast != rtcHrs) {
 					sprintf(clockPrint, "%02d", rtcHrsLast);
 					LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, BLACK);
 					sprintf(clockPrint, "%02d", rtcHrs);
-					LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, RGB_CLOCK);
+					LCD_Font(0, 110, clockPrint, &DejaVu_Sans_72, 2, hues[rtcHrs]);
 
 					if (rtcDayLast != rtcDay) {
 						LCD_Font(3, 250, rtcDateLastChar, &DejaVu_Sans_72, 1, BLACK);

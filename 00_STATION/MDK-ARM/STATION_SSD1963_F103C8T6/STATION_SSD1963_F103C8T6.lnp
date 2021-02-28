@@ -1,4 +1,4 @@
---cpu Cortex-M3
+--cpu Cortex-M3 --lto
 "station_ssd1963_f103c8t6\startup_stm32f103xb.o"
 "station_ssd1963_f103c8t6\at24xx.o"
 "station_ssd1963_f103c8t6\bme280.o"
