@@ -579,9 +579,9 @@ int main(void)
 	}
 
 	LCD_Rect(645, 70, 20, 402, 1, CYAN);
-
-	for (uint8_t i = 0; i < 41; i++) {
-		float n = (uint16_t)100.0 - i * 2.5;
+	
+		for (uint8_t i = 0; i < 41; i++) {
+		uint16_t n = (200 - i * 5) >> 1;
 		if ((uint8_t)n % 10 == 0) {
 			char numbers[3];
 			sprintf(numbers, "%02d", (uint8_t)n);
@@ -598,7 +598,7 @@ int main(void)
 	LCD_Font(610, 477, "0", &DejaVu_Sans_18, 1, BLACK);
 
 	for (uint8_t i = 0; i < 41; i++) {
-		float n = (uint16_t)100.0 - i * 2.5;
+		uint16_t n = (200 - i * 5) >> 1;
 		if ((uint8_t)n % 10 == 0) {
 			char numbers[3];
 			sprintf(numbers, "%02d", (uint8_t)n);
@@ -656,7 +656,7 @@ int main(void)
 				touchX = touchXr;
 				touchY = touchYr;
 
-				//LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
+				LCD_Rect_Fill(touchX, touchY, 2, 2, WHITE);
 
 				if (touchX > 0 && touchX < 32 && touchY > 170 && touchY < 200)
 				{
