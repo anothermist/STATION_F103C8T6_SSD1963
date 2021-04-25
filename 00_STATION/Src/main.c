@@ -86,7 +86,7 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
-uint8_t  rtcSet = 0, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 0, alarm1 = 0;
+uint8_t  rtcSet = 1, clearEEPROM = 0, barographViewed = 0, sound = 1, printAlarm = 0, alarm1 = 0;
 uint8_t rtcSec, rtcMin, rtcHrs, rtcDay, rtcDate, rtcMonth, rtcYear,
 rtcSecA1, rtcMinA1, rtcHrsA1, rtcDayA1, rtcDateA1, rtcMinA2, rtcHrsA2, rtcDayA2, rtcDateA2;
 uint16_t touchX, touchY;
@@ -536,13 +536,13 @@ int main(void)
 	humidity = BME280_getHumidity(-1);
 	pressure = (uint16_t)BME280_getPressure();
 
-	if (rtcSet) {
+	if (!rtcSet) {
 		DS3231_setSec(0);
-		DS3231_setMin(10);
-		DS3231_setHrs(7);
-		DS3231_setDay(5);
-		DS3231_setDate(15);
-		DS3231_setMonth(1);
+		DS3231_setMin(0);
+		DS3231_setHrs(20);
+		DS3231_setDay(7);
+		DS3231_setDate(25);
+		DS3231_setMonth(4);
 		DS3231_setYear(21);
 		rtcSet = 1;
 	}
