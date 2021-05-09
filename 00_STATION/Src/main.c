@@ -780,7 +780,6 @@ int main(void)
 						else sprintf(clockPrint, "M: %02d", (uint16_t)rtcMoonLast);
 						LCD_Font(297, 140, clockPrint, &DejaVu_Sans_36, 1, BLACK);
 						rtcMoon = DS3231_getMoonDay();
-						rtcMoon++;
 						if (rtcMoon < 10) sprintf(clockPrint, "M:  %01d", (uint16_t)rtcMoon);
 						else sprintf(clockPrint, "M: %02d", (uint16_t)rtcMoon);
 						LCD_Font(297, 140, clockPrint, &DejaVu_Sans_36, 1, GRAY);
