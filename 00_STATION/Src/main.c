@@ -765,7 +765,7 @@ int main(void)
 						LCD_Font(2, 140, days[(7 + rtcDay - 1) % 7], &DejaVu_Sans_36, 1, GRAY);
 
 						static const char* months[12] = { "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY",
-						"JUNE", "JUNE", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" };
+						"JUNE", "JULE", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" };
 
 						LCD_Font(3, 168, months[(12 + rtcMonth - 2) % 12], &DejaVu_Sans_36, 1, BLACK);
 						LCD_Font(3, 168, months[(12 + rtcMonth - 1) % 12], &DejaVu_Sans_36, 1, GRAY);
